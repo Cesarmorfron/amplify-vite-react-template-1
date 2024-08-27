@@ -11,13 +11,14 @@ const CrudTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    fetchItems();
-  }, []);
+    const sub = client.models.User.observeQuery().subscribe({
+      next: ({ items }) => {
+        setItems([...items]);
+      },
+    });
 
-  const fetchItems = async () => {
-    const { data: items } = await client.models.User.list();
-    setItems(items);
-  };
+    return () => sub.unsubscribe();
+  }, []);
 
   const addItem = async () => {
     await client.models.User.create({
@@ -27,8 +28,6 @@ const CrudTable: React.FC = () => {
       birthDate: 'false',
       email: 'false',
     });
-
-    fetchItems();
   };
 
   const deleteItem = async (id: string) => {
