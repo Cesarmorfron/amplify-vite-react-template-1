@@ -8,21 +8,21 @@ import { generateClient } from "aws-amplify/data";
 const client = generateClient<Schema>();
 
 function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [todos, setTodos] = useState<Array<Schema["Thought"]["type"]>>([]);
 
   useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
+    client.models.Thought.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
     });
   }, []);
 
     
   function deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
+    client.models.Thought.delete({ id })
   }
 
   function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
+    client.models.Thought.create({ author: window.prompt("author content") , text: window.prompt("text content") });
   }
 
   return (
@@ -36,7 +36,7 @@ function App() {
         {todos.map((todo) => (
           <li 
           onClick={() => deleteTodo(todo.id)}          
-          key={todo.id}>{todo.content}</li>
+          key={todo.id}>{todo.author} - {todo.owner}</li>
         ))}
       </ul>
       <div>
