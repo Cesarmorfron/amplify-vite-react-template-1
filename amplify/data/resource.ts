@@ -21,7 +21,7 @@ const schema = a.schema({
       author: a.string(),
       text: a.string(),
     })
-    .authorization(allow => [allow.owner()]),
+    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
