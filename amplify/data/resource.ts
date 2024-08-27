@@ -15,11 +15,13 @@ specifies that any user authenticated via an API key can "create", "read",
 // });
 
 const schema = a.schema({
-  Thought: a
+  User: a
     .model({
-      // id: a.string(),
-      author: a.string(),
-      text: a.string(),
+      name: a.string(),
+      lastName: a.string(),
+      city: a.string(),
+      birthDate: a.string(),
+      email: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
