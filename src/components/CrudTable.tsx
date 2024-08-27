@@ -73,6 +73,7 @@
 // export default CrudTable;
 
 
+
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Input, Flex, Label } from '@aws-amplify/ui-react';
 import { generateClient } from "aws-amplify/data";
