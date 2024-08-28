@@ -1,83 +1,8 @@
-// // src/components/CrudTable.tsx
-// import React, { useState, useEffect } from 'react';
-// import { Table, Button, Input, Flex } from '@aws-amplify/ui-react';
-// import { generateClient } from "aws-amplify/data";
-// import type { Schema } from "../../amplify/data/resource";
-
-// const client = generateClient<Schema>();
-
-// const CrudTable: React.FC = () => {
-//   const [items, setItems] = useState<Schema["User"]["type"][]>([]);
-//   const [searchTerm, setSearchTerm] = useState<string>('');
-
-//   useEffect(() => {
-//     const sub = client.models.User.observeQuery().subscribe({
-//       next: ({ items }) => {
-//         setItems([...items]);
-//       },
-//     });
-
-//     return () => sub.unsubscribe();
-//   }, []);
-
-//   const addItem = async () => {
-//     await client.models.User.create({
-//       name: window.prompt("author content"),
-//       lastName: 'false',
-//       city: 'false',
-//       birthDate: 'false',
-//       email: 'false',
-//     });
-//   };
-
-//   const deleteItem = async (id: string) => {
-//     client.models.User.delete({ id })
-//   };
-
-//   const filteredItems = items.filter(item =>
-//     item.name!.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-
-//   return (
-//     <div>
-//       <Flex direction="row">
-//         <Input
-//           placeholder="Search"
-//           value={searchTerm}
-//           onChange={(e) => setSearchTerm(e.target.value)}
-//         />
-//         <Button onClick={addItem}>Add Item</Button>
-//       </Flex>
-//       <Table>
-//         <thead>
-//           <tr>
-//             <th>Name</th>
-//             <th>Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {filteredItems.map(item => (
-//             <tr key={item.id}>
-//               <td>{item.name}</td>
-//               <td>
-//                 <Button onClick={() => deleteItem(item.id)}>Delete</Button>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </Table>
-//     </div>
-//   );
-// };
-
-// export default CrudTable;
-
-
-
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Input, Flex, Label } from '@aws-amplify/ui-react';
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
+import './CrudTable.css'; 
 
 const client = generateClient<Schema>();
 
@@ -131,7 +56,7 @@ const CrudTable: React.FC = () => {
       email: '',
     });
 
-    // Hide form after submission
+    // Hide modal after submission
     setIsFormVisible(false);
   };
 
@@ -152,66 +77,10 @@ const CrudTable: React.FC = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button onClick={() => setIsFormVisible(!isFormVisible)}>
-            {isFormVisible ? 'Cancel' : 'Add Item'}
+          <Button onClick={() => setIsFormVisible(true)}>
+            Add Item
           </Button>
         </Flex>
-
-        {isFormVisible && (
-          <Flex as="form" direction="column" width="20rem" onSubmit={handleSubmit} gap="small">
-            <Flex direction="column" gap="small">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                type="text"
-                value={formData.name}
-                onChange={handleChange}
-                isRequired
-              />
-            </Flex>
-            <Flex direction="column" gap="small">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input
-                id="lastName"
-                type="text"
-                value={formData.lastName}
-                onChange={handleChange}
-                isRequired
-              />
-            </Flex>
-            <Flex direction="column" gap="small">
-              <Label htmlFor="city">City</Label>
-              <Input
-                id="city"
-                type="text"
-                value={formData.city}
-                onChange={handleChange}
-                isRequired
-              />
-            </Flex>
-            <Flex direction="column" gap="small">
-              <Label htmlFor="birthDate">Birth Date</Label>
-              <Input
-                id="birthDate"
-                type="date"
-                value={formData.birthDate}
-                onChange={handleChange}
-                isRequired
-              />
-            </Flex>
-            <Flex direction="column" gap="small">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                isRequired
-              />
-            </Flex>
-            <Button type="submit">Submit</Button>
-          </Flex>
-        )}
 
         <Table marginTop="small">
           <thead>
@@ -232,6 +101,62 @@ const CrudTable: React.FC = () => {
           </tbody>
         </Table>
       </Flex>
+
+      {isFormVisible && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-header">
+              <h3>Add New User</h3>
+              <button onClick={() => setIsFormVisible(false)}>&times;</button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleSubmit}>
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input
+                  id="lastName"
+                  type="text"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="city">City</Label>
+                <Input
+                  id="city"
+                  type="text"
+                  value={formData.city}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="birthDate">Birth Date</Label>
+                <Input
+                  id="birthDate"
+                  type="date"
+                  value={formData.birthDate}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Button type="submit">Submit</Button>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
