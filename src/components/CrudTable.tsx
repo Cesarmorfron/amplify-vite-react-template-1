@@ -152,10 +152,10 @@ const CrudTable: React.FC = () => {
                   isRequired
                 />
                 <Flex justifyContent="space-between" marginTop="medium">
+                  <Button type="submit">Submit</Button>
                   <Button type="button" onClick={() => setIsFormVisible(false)}>
                     Cancel
                   </Button>
-                  <Button type="submit">Submit</Button>
                 </Flex>
               </form>
             </div>
