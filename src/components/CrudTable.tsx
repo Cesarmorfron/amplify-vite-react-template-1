@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Input, Flex, Label } from '@aws-amplify/ui-react';
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
-import './CrudTable.css'; 
+import './CrudTable.css'; // Asegúrate de importar el archivo CSS
 
 const client = generateClient<Schema>();
 
@@ -69,7 +69,7 @@ const CrudTable: React.FC = () => {
   );
 
   return (
-    <div>
+    <div className="crud-container">
       <Flex direction="column" gap="small">
         <Flex direction="row" gap="small" marginBottom="small">
           <Input
@@ -82,24 +82,26 @@ const CrudTable: React.FC = () => {
           </Button>
         </Flex>
 
-        <Table marginTop="small">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredItems.map(item => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>
-                  <Button onClick={() => deleteItem(item.id)}>Delete</Button>
-                </td>
+        <div className="table-container">
+          <Table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {filteredItems.map(item => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>
+                    <Button onClick={() => deleteItem(item.id)}>Delete</Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </Flex>
 
       {isFormVisible && (
@@ -152,10 +154,10 @@ const CrudTable: React.FC = () => {
                   isRequired
                 />
                 <Flex justifyContent="space-between" marginTop="medium">
-                  <Button type="submit">Submit</Button>
                   <Button type="button" onClick={() => setIsFormVisible(false)}>
                     Cancel
                   </Button>
+                  <Button type="submit">Submit</Button>
                 </Flex>
               </form>
             </div>

@@ -1,5 +1,19 @@
-/* CrudTable.css */
-.modal-overlay {
+.crud-container {
+    padding: 1rem;
+    max-height: calc(100vh - 60px); /* Ajusta el valor 60px dependiendo del alto de tu header */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .table-container {
+    overflow-y: auto;
+    max-height: 60vh; /* Ajusta según la altura que quieras para la tabla */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;

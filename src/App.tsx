@@ -29,19 +29,26 @@ function App() {
   // function createTodo() {
   //   client.models.Thought.create({ author: window.prompt("author content") , text: window.prompt("text content") });
   // }
-
+  
   return (
     <Authenticator>
       <Router>
         <Header title="My Amplify App" />
         <Navigation />
-        <Routes>
-          <Route path="/page1" element={<CrudTable />} />
-          <Route path="/page2" element={<CrudTable />} />
-        </Routes>
+        <div style={{ position: 'fixed', top: '0', width: '100%', zIndex: '100', backgroundColor: 'white' }}>
+          <Header title="My Amplify App" />
+          <Navigation />
+        </div>
+        <div style={{ marginTop: '60px' }}>
+          <Routes>
+            <Route path="/page1" element={<CrudTable />} />
+            <Route path="/page2" element={<CrudTable />} />
+          </Routes>
+        </div>
       </Router>
     </Authenticator>
   );
+  
 }
 
 export default App;
