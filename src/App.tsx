@@ -33,13 +33,11 @@ function App() {
   return (
     <Authenticator>
       <Router>
-        <Header title="My Amplify App" />
-        <Navigation />
-        <div style={{ position: 'fixed', top: '0', width: '100%', zIndex: '100', backgroundColor: 'white' }}>
+        <div className="header-container">
           <Header title="My Amplify App" />
           <Navigation />
         </div>
-        <div style={{ marginTop: '60px' }}>
+        <div className="content-container">
           <Routes>
             <Route path="/page1" element={<CrudTable />} />
             <Route path="/page2" element={<CrudTable />} />
