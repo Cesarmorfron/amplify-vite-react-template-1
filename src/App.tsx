@@ -1,5 +1,5 @@
 
-import { Authenticator } from '@aws-amplify/ui-react'
+import { Authenticator, Tabs } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
 // import { useEffect, useState } from "react";
 // import type { Schema } from "../amplify/data/resource";
@@ -44,6 +44,15 @@ function App() {
           </Routes>
         </div>
       </Router>
+      <Tabs
+        justifyContent="flex-start"
+        defaultValue='Tab 1'
+        items={[
+          { label: 'Tab 1', value: 'Tab 1', content: <CrudTable /> },
+          { label: 'Tab 2', value: 'Tab 2', content: 'Tab content #2' },
+          { label: 'Disabled tab', value: 'Tab 3', content: 'Tab content #3', isDisabled: true },
+        ]}
+      />
     </Authenticator>
   );
   

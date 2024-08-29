@@ -17,6 +17,9 @@
   left: 0;
   right: 0;
   z-index: 1000;
+  display: flex; /* Añadido para alinear elementos en fila */
+  align-items: center;
+  justify-content: space-between;
 }
 
 /* Estilos del título */
@@ -29,12 +32,10 @@
 /* Estilos de la navegación */
 .header-container nav {
   display: flex;
-  justify-content: center;
-  margin-top: 1rem;
+  gap: 2rem; /* Espacio entre los enlaces */
 }
 
 .header-container nav a {
-  margin: 0 1rem;
   text-decoration: none;
   color: #333;
   font-size: 1.2rem;
@@ -46,7 +47,7 @@
 
 /* Contenedor del contenido principal */
 .content-container {
-  margin-top: 160px; /* Ajusta este valor según la altura de tu header */
+  margin-top: 100px; /* Ajusta este valor según la altura de tu header */
   padding: 2rem;
 }
 
