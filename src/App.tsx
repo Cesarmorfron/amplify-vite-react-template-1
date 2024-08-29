@@ -6,14 +6,14 @@ import '@aws-amplify/ui-react/styles.css'
 // import { generateClient } from "aws-amplify/data";
 // import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import CrudTable from './components/CrudTable';
 // import Navigation from './components/Navigation';
 // import CrudTable from './components/CrudTable';
-
+import { BrowserRouter as Router } from 'react-router-dom';
+import CrudTable from './components/CrudTable';
 
 // const client = generateClient<Schema>();
 
-function App() {
+// function App() {
   // const [todos, setTodos] = useState<Array<Schema["Thought"]["type"]>>([]);
 
   // useEffect(() => {
@@ -30,24 +30,24 @@ function App() {
   // function createTodo() {
   //   client.models.Thought.create({ author: window.prompt("author content") , text: window.prompt("text content") });
   // }
-  
-  return (
-    <Authenticator>
-        <div className="header-container">
-          <Header title="My Amplify App" />
-        </div>
-
-      <Tabs
-        justifyContent="flex-start"
-        defaultValue='Tab 1'
-        items={[
-          { label: 'Tab 1', value: 'Tab 1', content: <CrudTable /> },
-          { label: 'Tab 2', value: 'Tab 2', content: 'Tab content #2' },
-        ]}
-      />
-    </Authenticator>
-  );
-  
+  const App: React.FC = () => {
+    return (
+      <Authenticator>
+        <Router>
+          <div className="app-container">
+            <Header title="My Amplify App" />
+            <Tabs
+              justifyContent="flex-start"
+              defaultValue="Tab 2"
+              items={[
+                { label: 'Tab 1', value: 'Tab 1', content: <CrudTable /> },
+                { label: 'Tab 2', value: 'Tab 2', content: <div>Tab content #2</div> },
+              ]}
+            />
+          </div>
+        </Router>
+      </Authenticator>
+    );
 }
 
 export default App;
