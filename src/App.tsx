@@ -38,7 +38,7 @@ import CrudTable from './components/CrudTable';
             <Header title="My Amplify App" />
             <Tabs
               justifyContent="flex-start"
-              defaultValue="Tab 2"
+              defaultValue="Tab 1"
               items={[
                 { label: 'Tab 1', value: 'Tab 1', content: <CrudTable /> },
                 { label: 'Tab 2', value: 'Tab 2', content: <div>Tab content #2</div> },
