@@ -87,6 +87,10 @@ const CrudTable: React.FC = () => {
             <thead>
               <tr>
                 <th>Name</th>
+                <th>Last Name</th>
+                <th>city</th>
+                <th>birthDate</th>
+                <th>email</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -94,6 +98,10 @@ const CrudTable: React.FC = () => {
               {filteredItems.map(item => (
                 <tr key={item.id}>
                   <td>{item.name}</td>
+                  <td>{item.lastName}</td>
+                  <td>{item.city}</td>
+                  <td>{item.birthDate}</td>
+                  <td>{item.email}</td>
                   <td>
                     <Button onClick={() => deleteItem(item.id)}>Delete</Button>
                   </td>
