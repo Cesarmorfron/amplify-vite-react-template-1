@@ -104,6 +104,7 @@ const CrudTable: React.FC = () => {
                   <td>{item.email}</td>
                   <td>
                     <Button onClick={() => deleteItem(item.id)}>Delete</Button>
+                    <Button onClick={() => deleteItem(item.id)}>Notificar defuncion</Button>
                   </td>
                 </tr>
               ))}
