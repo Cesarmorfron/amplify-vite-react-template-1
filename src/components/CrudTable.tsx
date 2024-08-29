@@ -65,7 +65,7 @@ const CrudTable: React.FC = () => {
   };
 
   const filteredItems = items.filter(item =>
-    item.name!.toLowerCase().includes(searchTerm.toLowerCase())
+    item.email!.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -73,7 +73,7 @@ const CrudTable: React.FC = () => {
       <Flex direction="column" gap="small">
         <Flex direction="row" gap="small" marginBottom="small">
           <Input
-            placeholder="Search"
+            placeholder="Search by email"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
