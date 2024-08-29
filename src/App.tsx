@@ -4,10 +4,11 @@ import '@aws-amplify/ui-react/styles.css'
 // import { useEffect, useState } from "react";
 // import type { Schema } from "../amplify/data/resource";
 // import { generateClient } from "aws-amplify/data";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import Navigation from './components/Navigation';
 import CrudTable from './components/CrudTable';
+// import Navigation from './components/Navigation';
+// import CrudTable from './components/CrudTable';
 
 
 // const client = generateClient<Schema>();
@@ -32,25 +33,16 @@ function App() {
   
   return (
     <Authenticator>
-      <Router>
         <div className="header-container">
           <Header title="My Amplify App" />
-          <Navigation />
         </div>
-        <div className="content-container">
-          <Routes>
-            <Route path="/page1" element={<CrudTable />} />
-            <Route path="/page2" element={<CrudTable />} />
-          </Routes>
-        </div>
-      </Router>
+
       <Tabs
         justifyContent="flex-start"
         defaultValue='Tab 1'
         items={[
           { label: 'Tab 1', value: 'Tab 1', content: <CrudTable /> },
           { label: 'Tab 2', value: 'Tab 2', content: 'Tab content #2' },
-          { label: 'Disabled tab', value: 'Tab 3', content: 'Tab content #3', isDisabled: true },
         ]}
       />
     </Authenticator>
