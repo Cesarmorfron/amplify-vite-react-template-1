@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flex, Input, Button } from '@aws-amplify/ui-react';
+import { Flex, Input, Button, Grid } from '@aws-amplify/ui-react';
 import { useNavigate } from 'react-router-dom';
 import type { Schema } from "../../amplify/data/resource";
 
@@ -34,58 +34,68 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleBackToTable = () => {
-    navigate('/');  // Navegar de vuelta a la tabla sin guardar cambios
+    navigate('/');  
   };
 
   return (
-    <Flex direction="column" gap="small" as="form" onSubmit={handleSubmit}>
-      <Input
-        id="id"
-        value={formData.id}
-        onChange={handleChange}
-        isRequired
-      />
-      <Input
-        id="name"
-        value={formData.name}
-        onChange={handleChange}
-        isRequired
-      />
-      <Input
-        id="lastName"
-        value={formData.lastName}
-        onChange={handleChange}
-        isRequired
-      />
-      <Input
-        id="city"
-        value={formData.city}
-        onChange={handleChange}
-        isRequired
-      />
-      <Input
-        id="birthDate"
-        type="date"
-        value={formData.birthDate}
-        onChange={handleChange}
-        isRequired
-      />
-      <Input
-        id="email"
-        type="email"
-        value={formData.email}
-        onChange={handleChange}
-        isRequired
-      />
-      <Button type="submit">Update</Button>
+    <form onSubmit={handleSubmit}>
+      <Grid
+        templateColumns="repeat(3, 1fr)"
+        gap="small"
+      >
+        <label htmlFor="id">ID</label>
+        <Input
+          id="id"
+          value={formData.id}
+          onChange={handleChange}
+          isRequired
+        />
+        <label htmlFor="name">Name</label>
+        <Input
+          id="name"
+          value={formData.name}
+          onChange={handleChange}
+          isRequired
+        />
+        <label htmlFor="lastName">Last Name</label>
+        <Input
+          id="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+          isRequired
+        />
+        <label htmlFor="city">City</label>        
+        <Input
+          id="city"
+          value={formData.city}
+          onChange={handleChange}
+          isRequired
+        />
+        <label htmlFor="birthDate">Birth Date</label>        
+        <Input
+          id="birthDate"
+          type="date"
+          value={formData.birthDate}
+          onChange={handleChange}
+          isRequired
+        />
+        <label htmlFor="email">Email</label>        
+        <Input
+          id="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          isRequired
+        />
+      </Grid>
 
-      <Flex direction="row" gap="small" justifyContent="space-between">
+      <Flex direction="row" gap="small" justifyContent="space-between" marginTop="small">
         <Button type="submit">Update</Button>
         <Button onClick={handleBackToTable} variation="link">
           Back to Home
         </Button>
       </Flex>
-    </Flex>
+    </form>
   );
 };
 
