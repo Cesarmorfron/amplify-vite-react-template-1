@@ -8,8 +8,11 @@ import '@aws-amplify/ui-react/styles.css'
 import Header from './components/Header';
 // import Navigation from './components/Navigation';
 // import CrudTable from './components/CrudTable';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import CrudTable from './components/CrudTable';
+import { useState } from 'react';
+import { Schema } from '../amplify/data/resource';
+import UserDetailsForm from './components/UserDetailsForm';
 
 // const client = generateClient<Schema>();
 
@@ -30,24 +33,29 @@ import CrudTable from './components/CrudTable';
   // function createTodo() {
   //   client.models.Thought.create({ author: window.prompt("author content") , text: window.prompt("text content") });
   // }
+
   const App: React.FC = () => {
-    return (
-      <Authenticator>
-        <Router>
-          <div className="app-container">
-            <Header title="My Amplify App" />
-            <Tabs
-              justifyContent="flex-start"
-              defaultValue="Tab 1"
-              items={[
-                { label: 'Tab 1', value: 'Tab 1', content: <CrudTable /> },
-                { label: 'Tab 2', value: 'Tab 2', content: <div>Tab content #2</div> },
-              ]}
+  const [selectedUser, setSelectedUser] = useState<Schema["User"]["type"] | null>(null);
+
+  return (
+    <Authenticator>
+      <Router>
+        <div className="app-container">
+          <Header title="My Amplify App" />
+          <Routes>
+            <Route
+              path="/"
+              element={<CrudTable onRowClick={setSelectedUser} />}
             />
-          </div>
-        </Router>
-      </Authenticator>
-    );
+            <Route
+              path="/edit"
+              element={<UserDetailsForm user={selectedUser} />}
+            />
+          </Routes>
+        </div>
+      </Router>
+    </Authenticator>
+  );
 }
 
 export default App;

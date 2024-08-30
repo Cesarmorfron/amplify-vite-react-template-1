@@ -3,10 +3,16 @@ import { Table, Button, Input, Flex, Label } from '@aws-amplify/ui-react';
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
 import './CrudTable.css'; // Asegúrate de importar el archivo CSS
+import { useNavigate } from 'react-router-dom';
+
+interface CrudTableProps {
+  onRowClick: (user: Schema["User"]["type"]) => void;
+}
 
 const client = generateClient<Schema>();
 
-const CrudTable: React.FC = () => {
+const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
+  const navigate = useNavigate();
   const [items, setItems] = useState<Schema["User"]["type"][]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [formData, setFormData] = useState({
@@ -17,6 +23,12 @@ const CrudTable: React.FC = () => {
     email: '',
   });
   const [isFormVisible, setIsFormVisible] = useState(false);
+
+  
+  const handleRowClick = (item: Schema["User"]["type"]) => {
+    onRowClick(item);
+    navigate('/edit');
+  };
 
   useEffect(() => {
     const sub = client.models.User.observeQuery().subscribe({
@@ -96,7 +108,7 @@ const CrudTable: React.FC = () => {
             </thead>
             <tbody>
               {filteredItems.map(item => (
-                <tr key={item.id}>
+                <tr key={item.id}  onClick={() => handleRowClick(item)}>
                   <td>{item.name}</td>
                   <td>{item.lastName}</td>
                   <td>{item.city}</td>
