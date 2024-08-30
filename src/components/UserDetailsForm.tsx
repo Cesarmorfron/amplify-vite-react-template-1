@@ -43,51 +43,84 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         templateColumns="repeat(3, 1fr)"
         gap="small"
       >
-        <label htmlFor="id" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>ID</label>
+    <div style={{ marginBottom: '16px' }}>
+        <div style={{ marginBottom: '8px' }}>
+        <label htmlFor="id" style={{ fontSize: '14px', display: 'inline-block', width: '100px' }}>ID</label>
         <Input
-          id="id"
-          value={formData.id}
-          onChange={handleChange}
-          isRequired
+            id="id"
+            value={formData.id}
+            onChange={handleChange}
+            size="small"
+            isRequired
+            style={{ width: 'calc(100% - 110px)' }}
         />
-        <label htmlFor="name" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>Name</label>
+        </div>
+
+        <div style={{ marginBottom: '8px' }}>
+        <label htmlFor="name" style={{ fontSize: '14px', display: 'inline-block', width: '100px' }}>Name</label>
         <Input
-          id="name"
-          value={formData.name}
-          onChange={handleChange}
-          isRequired
+            id="name"
+            value={formData.name}
+            onChange={handleChange}
+            size="small"
+            isRequired
+            style={{ width: 'calc(100% - 110px)' }}
         />
-        <label htmlFor="lastName" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>Last Name</label>
+        </div>
+
+        <div style={{ marginBottom: '8px' }}>
+        <label htmlFor="lastName" style={{ fontSize: '14px', display: 'inline-block', width: '100px' }}>Last Name</label>
         <Input
-          id="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          isRequired
+            id="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            size="small"
+            isRequired
+            style={{ width: 'calc(100% - 110px)' }}
         />
-        <label htmlFor="city" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>City</label>        
+        </div>
+    </div>
+
+    <div style={{ marginBottom: '16px' }}>
+        <div style={{ marginBottom: '8px' }}>
+        <label htmlFor="city" style={{ fontSize: '14px', display: 'inline-block', width: '100px' }}>City</label>
         <Input
-          id="city"
-          value={formData.city}
-          onChange={handleChange}
-          isRequired
+            id="city"
+            value={formData.city}
+            onChange={handleChange}
+            size="small"
+            isRequired
+            style={{ width: 'calc(100% - 110px)' }}
         />
-        <label htmlFor="birthDate" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>Birth Date</label>        
+        </div>
+
+        <div style={{ marginBottom: '8px' }}>
+        <label htmlFor="birthDate" style={{ fontSize: '14px', display: 'inline-block', width: '100px' }}>Birth Date</label>
         <Input
-          id="birthDate"
-          type="date"
-          value={formData.birthDate}
-          onChange={handleChange}
-          isRequired
+            id="birthDate"
+            type="date"
+            value={formData.birthDate}
+            onChange={handleChange}
+            size="small"
+            isRequired
+            style={{ width: 'calc(100% - 110px)' }}
         />
-        <label htmlFor="email" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>Email</label>        
+        </div>
+
+        <div style={{ marginBottom: '8px' }}>
+        <label htmlFor="email" style={{ fontSize: '14px', display: 'inline-block', width: '100px' }}>Email</label>
         <Input
-          id="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          isRequired
+            id="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            size="small"
+            isRequired
+            style={{ width: 'calc(100% - 110px)' }}
         />
-      </Grid>
+        </div>
+    </div>
+    </Grid>
 
       <Flex direction="row" gap="small" justifyContent="space-between" marginTop="small">
         <Button type="submit">Update</Button>
