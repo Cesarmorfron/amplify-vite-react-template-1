@@ -11,6 +11,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    id: user?.id || '',
     name: user?.name || '',
     lastName: user?.lastName || '',
     city: user?.city || '',
@@ -38,6 +39,12 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   return (
     <Flex direction="column" gap="small" as="form" onSubmit={handleSubmit}>
+      <Input
+        id="id"
+        value={formData.id}
+        onChange={handleChange}
+        isRequired
+      />
       <Input
         id="name"
         value={formData.name}
