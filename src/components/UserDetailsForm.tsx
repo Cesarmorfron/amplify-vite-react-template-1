@@ -43,35 +43,35 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         templateColumns="repeat(3, 1fr)"
         gap="small"
       >
-        <label htmlFor="id">ID</label>
+        <label htmlFor="id" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>ID</label>
         <Input
           id="id"
           value={formData.id}
           onChange={handleChange}
           isRequired
         />
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>Name</label>
         <Input
           id="name"
           value={formData.name}
           onChange={handleChange}
           isRequired
         />
-        <label htmlFor="lastName">Last Name</label>
+        <label htmlFor="lastName" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>Last Name</label>
         <Input
           id="lastName"
           value={formData.lastName}
           onChange={handleChange}
           isRequired
         />
-        <label htmlFor="city">City</label>        
+        <label htmlFor="city" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>City</label>        
         <Input
           id="city"
           value={formData.city}
           onChange={handleChange}
           isRequired
         />
-        <label htmlFor="birthDate">Birth Date</label>        
+        <label htmlFor="birthDate" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>Birth Date</label>        
         <Input
           id="birthDate"
           type="date"
@@ -79,7 +79,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           onChange={handleChange}
           isRequired
         />
-        <label htmlFor="email">Email</label>        
+        <label htmlFor="email" style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>Email</label>        
         <Input
           id="email"
           type="email"
