@@ -36,28 +36,24 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     <Flex direction="column" gap="small" as="form" onSubmit={handleSubmit}>
       <Input
         id="name"
-        label="Name"
         value={formData.name}
         onChange={handleChange}
         isRequired
       />
       <Input
         id="lastName"
-        label="Last Name"
         value={formData.lastName}
         onChange={handleChange}
         isRequired
       />
       <Input
         id="city"
-        label="City"
         value={formData.city}
         onChange={handleChange}
         isRequired
       />
       <Input
         id="birthDate"
-        label="Birth Date"
         type="date"
         value={formData.birthDate}
         onChange={handleChange}
@@ -65,7 +61,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       />
       <Input
         id="email"
-        label="Email"
         type="email"
         value={formData.email}
         onChange={handleChange}

@@ -1,5 +1,5 @@
 
-import { Authenticator, Tabs } from '@aws-amplify/ui-react'
+import { Authenticator } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
 // import { useEffect, useState } from "react";
 // import type { Schema } from "../amplify/data/resource";
