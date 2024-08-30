@@ -1,3 +1,3 @@
 export const handler = async () => {
-    return "Hello from my first !";
-  };
+  return 'Hello from my first !';
+};

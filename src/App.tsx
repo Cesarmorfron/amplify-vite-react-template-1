@@ -1,6 +1,5 @@
-
-import { Authenticator } from '@aws-amplify/ui-react'
-import '@aws-amplify/ui-react/styles.css'
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 // import { useEffect, useState } from "react";
 // import type { Schema } from "../amplify/data/resource";
 // import { generateClient } from "aws-amplify/data";
@@ -17,25 +16,26 @@ import UserDetailsForm from './components/UserDetailsForm';
 // const client = generateClient<Schema>();
 
 // function App() {
-  // const [todos, setTodos] = useState<Array<Schema["Thought"]["type"]>>([]);
+// const [todos, setTodos] = useState<Array<Schema["Thought"]["type"]>>([]);
 
-  // useEffect(() => {
-  //   client.models.Thought.observeQuery().subscribe({
-  //     next: (data) => setTodos([...data.items]),
-  //   });
-  // }, []);
+// useEffect(() => {
+//   client.models.Thought.observeQuery().subscribe({
+//     next: (data) => setTodos([...data.items]),
+//   });
+// }, []);
 
-    
-  // function deleteTodo(id: string) {
-  //   client.models.Thought.delete({ id })
-  // }
+// function deleteTodo(id: string) {
+//   client.models.Thought.delete({ id })
+// }
 
-  // function createTodo() {
-  //   client.models.Thought.create({ author: window.prompt("author content") , text: window.prompt("text content") });
-  // }
+// function createTodo() {
+//   client.models.Thought.create({ author: window.prompt("author content") , text: window.prompt("text content") });
+// }
 
-  const App: React.FC = () => {
-  const [selectedUser, setSelectedUser] = useState<Schema["User"]["type"] | null>(null);
+const App: React.FC = () => {
+  const [selectedUser, setSelectedUser] = useState<
+    Schema['User']['type'] | null
+  >(null);
 
   return (
     <Authenticator>
@@ -56,10 +56,9 @@ import UserDetailsForm from './components/UserDetailsForm';
       </Router>
     </Authenticator>
   );
-}
+};
 
 export default App;
-
 
 /*
 

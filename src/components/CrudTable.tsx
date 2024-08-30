@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Input, Flex, Label } from '@aws-amplify/ui-react';
-import { generateClient } from "aws-amplify/data";
-import type { Schema } from "../../amplify/data/resource";
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from '../../amplify/data/resource';
 import './CrudTable.css'; // Asegúrate de importar el archivo CSS
 import { useNavigate } from 'react-router-dom';
 
 interface CrudTableProps {
-  onRowClick: (user: Schema["User"]["type"]) => void;
+  onRowClick: (user: Schema['User']['type']) => void;
 }
 
 const client = generateClient<Schema>();
 
 const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   const navigate = useNavigate();
-  const [items, setItems] = useState<Schema["User"]["type"][]>([]);
+  const [items, setItems] = useState<Schema['User']['type'][]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [formData, setFormData] = useState({
     name: '',
@@ -24,8 +24,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   });
   const [isFormVisible, setIsFormVisible] = useState(false);
 
-  
-  const handleRowClick = (item: Schema["User"]["type"]) => {
+  const handleRowClick = (item: Schema['User']['type']) => {
     onRowClick(item);
     navigate('/edit');
   };
@@ -76,7 +75,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     await client.models.User.delete({ id });
   };
 
-  const filteredItems = items.filter(item =>
+  const filteredItems = items.filter((item) =>
     item.email!.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -89,9 +88,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button onClick={() => setIsFormVisible(true)}>
-            Add Item
-          </Button>
+          <Button onClick={() => setIsFormVisible(true)}>Add Item</Button>
         </Flex>
 
         <div className="table-container">
@@ -107,8 +104,8 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredItems.map(item => (
-                <tr key={item.id}  onClick={() => handleRowClick(item)}>
+              {filteredItems.map((item) => (
+                <tr key={item.id} onClick={() => handleRowClick(item)}>
                   <td>{item.name}</td>
                   <td>{item.lastName}</td>
                   <td>{item.city}</td>
@@ -116,7 +113,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   <td>{item.email}</td>
                   <td>
                     <Button onClick={() => deleteItem(item.id)}>Delete</Button>
-                    <Button onClick={() => deleteItem(item.id)}>Notificar defuncion</Button>
+                    <Button onClick={() => deleteItem(item.id)}>
+                      Notificar defuncion
+                    </Button>
                   </td>
                 </tr>
               ))}

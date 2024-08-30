@@ -1,60 +1,61 @@
 .crud-container {
-    padding: 1rem;
-    max-height: calc(100vh - 60px); /* Ajusta el valor 60px dependiendo del alto de tu header */
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .table-container {
-    overflow-y: auto;
-    max-height: 60vh; /* Ajusta según la altura que quieras para la tabla */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-  }
-  
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .modal {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .modal-header h3 {
-    margin: 0;
-  }
-  
-  .modal-header button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  
-  .modal-body {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
+  padding: 1rem;
+  max-height: calc(
+    100vh - 60px
+  ); /* Ajusta el valor 60px dependiendo del alto de tu header */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-container {
+  overflow-y: auto;
+  max-height: 60vh; /* Ajusta según la altura que quieras para la tabla */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.modal-header h3 {
+  margin: 0;
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
