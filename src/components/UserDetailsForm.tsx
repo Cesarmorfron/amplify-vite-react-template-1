@@ -32,6 +32,10 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     navigate('/');  // Volver a la tabla después de guardar los cambios
   };
 
+  const handleBackToTable = () => {
+    navigate('/');  // Navegar de vuelta a la tabla sin guardar cambios
+  };
+
   return (
     <Flex direction="column" gap="small" as="form" onSubmit={handleSubmit}>
       <Input
@@ -67,6 +71,13 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         isRequired
       />
       <Button type="submit">Update</Button>
+
+      <Flex direction="row" gap="small" justifyContent="space-between">
+        <Button type="submit">Update</Button>
+        <Button onClick={handleBackToTable} variation="link">
+          Back to Home
+        </Button>
+      </Flex>
     </Flex>
   );
 };
