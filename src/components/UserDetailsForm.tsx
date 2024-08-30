@@ -124,7 +124,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
       <Flex direction="row" gap="small" justifyContent="space-between" marginTop="small">
         <Button type="submit">Update</Button>
-        <Button onClick={handleBackToTable} variation="link">
+        <Button onClick={handleBackToTable}>
           Back to Home
         </Button>
       </Flex>
