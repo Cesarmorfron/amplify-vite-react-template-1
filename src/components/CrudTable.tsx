@@ -112,9 +112,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   <td>{item.birthDate}</td>
                   <td>{item.email}</td>
                   <td>
-                    <Button onClick={() => deleteItem(item.id)}>Borrar</Button>
+                    <Button onClick={() => deleteItem(item.id)}>Eliminar usuario</Button>
                     <Button onClick={() => handleRowClick(item)}>
-                      Configuracion
+                      Perfil
                     </Button>
                   </td>
                 </tr>
