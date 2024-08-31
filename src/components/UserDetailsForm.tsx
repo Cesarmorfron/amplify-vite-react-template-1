@@ -9,7 +9,6 @@ interface UserDetailsFormProps {
 }
 
 const client = generateClient<Schema>();
-  
 
 const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const navigate = useNavigate();
@@ -28,7 +27,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   const [contactFormData, setContactFormData] = useState({
-    emailContact:'',
+    emailContact: '',
     aka: '',
   });
 
@@ -83,7 +82,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const handleConfirm = () => {
     // Aquí va la lógica para notificar el fallecimiento
-    console.log("Fallecimiento notificado");
+    console.log('Fallecimiento notificado');
     setIsDialogOpen(false);
     // Aquí puedes añadir cualquier otra lógica después de la confirmación
   };
@@ -112,34 +111,39 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         justifyContent="space-between"
         marginTop="small"
       >
-      <Button onClick={handleNotifyClick}>Notificar fallecimiento</Button>
-      <Button onClick={handleBackToTable}>Volver al inicio</Button>
+        <Button onClick={handleBackToTable}>Volver al inicio</Button>
+        <Button onClick={handleNotifyClick}>Notificar fallecimiento</Button>
       </Flex>
 
       {isDialogOpen && (
-          <div className="modal-overlay">
-            <div className="modal">
-              <div className="modal-header">
-                <h3>¿Estás seguro de que deseas notificar el fallecimiento de esta persona?</h3>
-                <h1>Todos los contactos de este usuario recibiran una notificacion de que este usuario ha fallecido</h1>
-                <button onClick={() => setIsDialogOpen(false)}>&times;</button>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={handleSubmit}>
-                  <Flex justifyContent="space-between" marginTop="medium">
-                    <Button
-                      type="button"
-                      onClick={() => handleConfirm()}
-                    >
-                      Sí, estoy seguro
-                    </Button>
-                    <Button onClick={handleCancel} variation="link">Cancelar</Button>
-                  </Flex>
-                </form>
-              </div>
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-header">
+              <h3>
+                ¿Estás seguro de que deseas notificar el fallecimiento de esta
+                persona?
+              </h3>
+              <h5>
+                Todos los contactos de este usuario recibiran una notificacion
+                de que este usuario ha fallecido
+              </h5>
+              <button onClick={() => setIsDialogOpen(false)}>&times;</button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleSubmit}>
+                <Flex justifyContent="space-between" marginTop="medium">
+                  <Button type="button" onClick={() => handleConfirm()}>
+                    Sí, estoy seguro
+                  </Button>
+                  <Button type="button" onClick={handleCancel}>
+                    Cancelar
+                  </Button>
+                </Flex>
+              </form>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit}>
         <Grid templateColumns="repeat(3, 1fr)" gap="small">
@@ -283,7 +287,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           marginTop="small"
         >
           <Button type="submit">Update</Button>
-          <Button onClick={handleBackToTable}>Back to Home</Button>
         </Flex>
       </form>
 
@@ -308,7 +311,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               </thead>
               <tbody>
                 {filteredItems.map((item) => (
-                //   <tr key={item.id} onClick={() => handleRowClick(item)}>
+                  //   <tr key={item.id} onClick={() => handleRowClick(item)}>
                   <tr key={item.id}>
                     <td>{item.emailContact}</td>
                     <td>{item.aka}</td>

@@ -31,7 +31,7 @@ const schema = a.schema({
       aka: a.string(),
       idUser: a.string(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),    
+    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
