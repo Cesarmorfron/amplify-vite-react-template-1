@@ -95,26 +95,26 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
           <Table>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Last Name</th>
-                <th>city</th>
-                <th>birthDate</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>ciudad</th>
+                <th>Fecha nacimiento</th>
                 <th>email</th>
-                <th>Actions</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
               {filteredItems.map((item) => (
-                <tr key={item.id} onClick={() => handleRowClick(item)}>
+                <tr key={item.id}>
                   <td>{item.name}</td>
                   <td>{item.lastName}</td>
                   <td>{item.city}</td>
                   <td>{item.birthDate}</td>
                   <td>{item.email}</td>
                   <td>
-                    <Button onClick={() => deleteItem(item.id)}>Delete</Button>
-                    <Button onClick={() => deleteItem(item.id)}>
-                      Notificar defuncion
+                    <Button onClick={() => deleteItem(item.id)}>Borrar</Button>
+                    <Button onClick={() => handleRowClick(item)}>
+                      Configuracion
                     </Button>
                   </td>
                 </tr>
