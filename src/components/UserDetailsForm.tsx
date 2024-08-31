@@ -16,6 +16,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [items, setItems] = useState<Schema['Contact']['type'][]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     id: user?.id || '',
@@ -76,6 +77,21 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setIsFormVisible(false);
   };
 
+  const handleNotifyClick = () => {
+    setIsDialogOpen(true);
+  };
+
+  const handleConfirm = () => {
+    // Aquí va la lógica para notificar el fallecimiento
+    console.log("Fallecimiento notificado");
+    setIsDialogOpen(false);
+    // Aquí puedes añadir cualquier otra lógica después de la confirmación
+  };
+
+  const handleCancel = () => {
+    setIsDialogOpen(false);
+  };
+
   const handleBackToTable = () => {
     navigate('/');
   };
@@ -90,6 +106,41 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   return (
     <div>
+      <Flex
+        direction="row"
+        gap="small"
+        justifyContent="space-between"
+        marginTop="small"
+      >
+      <Button onClick={handleNotifyClick}>Notificar fallecimiento</Button>
+      <Button onClick={handleBackToTable}>Volver al inicio</Button>
+      </Flex>
+
+      {isDialogOpen && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <div className="modal-header">
+                <h3>¿Estás seguro de que deseas notificar el fallecimiento de esta persona?</h3>
+                <h1>Todos los contactos de este usuario recibiran una notificacion de que este usuario ha fallecido</h1>
+                <button onClick={() => setIsDialogOpen(false)}>&times;</button>
+              </div>
+              <div className="modal-body">
+                <form onSubmit={handleSubmit}>
+                  <Flex justifyContent="space-between" marginTop="medium">
+                    <Button
+                      type="button"
+                      onClick={() => handleConfirm()}
+                    >
+                      Sí, estoy seguro
+                    </Button>
+                    <Button onClick={handleCancel} variation="link">Cancelar</Button>
+                  </Flex>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+
       <form onSubmit={handleSubmit}>
         <Grid templateColumns="repeat(3, 1fr)" gap="small">
           <div style={{ marginBottom: '16px' }}>
