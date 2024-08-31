@@ -122,7 +122,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               <h3>
                 ¿Notificar el fallecimiento?
               </h3>
-                Todos los contactos de este usuario recibiran una notificacion de que ha fallecido
+              <p>Todos los contactos de este usuario recibirán una notificación de que ha fallecido.</p>
               <button onClick={() => setIsDialogOpen(false)}>&times;</button>
             </div>
             <div className="modal-body">
