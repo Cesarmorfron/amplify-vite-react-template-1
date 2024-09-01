@@ -99,7 +99,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
           />
-          <Button onClick={() => setIsFormVisible(true)} className="add-button">Add Item</Button>
+          <Button onClick={() => setIsFormVisible(true)} className="add-button">Crear Usuario</Button>
         </Flex>
 
 
