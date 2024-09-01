@@ -30,13 +30,23 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   useEffect(() => {
-    const sub = client.models.User.observeQuery().subscribe({
-      next: ({ items }) => {
-        setItems([...items]);
-      },
-    });
+    // todo: remove bc testing propose
+    const user = {
+      name: 'name',
+      lastName: 'name',
+      city: 'name',
+      birthDate: 'name',
+      email: 'name',
+    };
+    setItems([user, user, user, user, user]);
 
-    return () => sub.unsubscribe();
+    // const sub = client.models.User.observeQuery().subscribe({
+    //   next: ({ items }) => {
+    //     setItems([...items]);
+    //   },
+    // });
+
+    // return () => sub.unsubscribe();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,10 +122,10 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   <td>{item.birthDate}</td>
                   <td>{item.email}</td>
                   <td>
-                    <Button onClick={() => handleRowClick(item)}>
-                      Perfil
+                    <Button onClick={() => handleRowClick(item)}>Perfil</Button>
+                    <Button onClick={() => deleteItem(item.id)}>
+                      Eliminar
                     </Button>
-                    <Button onClick={() => deleteItem(item.id)}>Eliminar usuario</Button>
                   </td>
                 </tr>
               ))}

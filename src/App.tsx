@@ -12,6 +12,7 @@ import CrudTable from './components/CrudTable';
 import { useState } from 'react';
 import { Schema } from '../amplify/data/resource';
 import UserDetailsForm from './components/UserDetailsForm';
+import './app.css';
 
 // const client = generateClient<Schema>();
 
@@ -40,8 +41,11 @@ const App: React.FC = () => {
   return (
     <Authenticator>
       <Router>
+        <div className="header-title">
+          <Header title="Esquela Electrónica" />
+        </div>
+        <div className="header-separator"></div>
         <div className="app-container">
-          <Header title="My Amplify App" />
           <Routes>
             <Route
               path="/"
