@@ -1,3 +1,19 @@
+.search-container {
+  display: flex;
+  align-items: center; /* Alinea verticalmente al centro */
+  gap: 0; /* Elimina el espacio entre los elementos */
+  max-width: 600px; /* Ajusta el ancho máximo del contenedor */
+  margin: 0 auto; /* Centra el contenedor horizontalmente */
+}
+
+.search-input {
+  margin-right: 0; /* Elimina el margen a la derecha */
+}
+
+.add-button {
+  margin-left: 0; /* Elimina el margen a la izquierda para estar pegado al Input */
+}
+
 .crud-container {
   padding: 1rem;
   max-height: calc(

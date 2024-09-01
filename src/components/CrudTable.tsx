@@ -31,22 +31,22 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
   useEffect(() => {
     // todo: remove bc testing propose
-    // const user = {
-    //   name: 'name',
-    //   lastName: 'name',
-    //   city: 'name',
-    //   birthDate: 'name',
-    //   email: 'name',
-    // };
-    // setItems([user, user, user, user, user]);
+    const user = {
+      name: 'name',
+      lastName: 'name',
+      city: 'name',
+      birthDate: 'name',
+      email: 'name',
+    };
+    setItems([user, user, user, user, user]);
 
-    const sub = client.models.User.observeQuery().subscribe({
-      next: ({ items }) => {
-        setItems([...items]);
-      },
-    });
+    // const sub = client.models.User.observeQuery().subscribe({
+    //   next: ({ items }) => {
+    //     setItems([...items]);
+    //   },
+    // });
 
-    return () => sub.unsubscribe();
+    // return () => sub.unsubscribe();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,14 +92,16 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   return (
     <div className="crud-container">
       <Flex direction="column" gap="small">
-        <Flex direction="row" gap="small" marginBottom="small">
+        <Flex className="search-container">
           <Input
             placeholder="Search by email"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
           />
-          <Button onClick={() => setIsFormVisible(true)}>Add Item</Button>
+          <Button onClick={() => setIsFormVisible(true)} className="add-button">Add Item</Button>
         </Flex>
+
 
         <div className="table-container">
           <Table>
