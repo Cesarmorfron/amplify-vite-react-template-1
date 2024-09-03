@@ -12,7 +12,7 @@ import CrudTable from './components/CrudTable';
 import { useState } from 'react';
 import { Schema } from '../amplify/data/resource';
 import UserDetailsForm from './components/UserDetailsForm';
-import './App.css'
+import './App.css';
 // const client = generateClient<Schema>();
 
 // function App() {

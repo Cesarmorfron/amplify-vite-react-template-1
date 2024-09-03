@@ -3,7 +3,7 @@ import { Table, Button, Input, Flex, Label } from '@aws-amplify/ui-react';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
 import { useNavigate } from 'react-router-dom';
-import './CrudTable.css'
+import './CrudTable.css';
 interface CrudTableProps {
   onRowClick: (user: Schema['User']['type']) => void;
 }
@@ -29,7 +29,6 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   useEffect(() => {
-    // todo: remove bc testing propose
     // const user = {
     //   name: 'name',
     //   lastName: 'name',
@@ -109,9 +108,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
               <tr>
                 <th>Nombre</th>
                 <th>Apellidos</th>
-                <th>ciudad</th>
+                <th>Ciudad</th>
                 <th>Fecha nacimiento</th>
-                <th>email</th>
+                <th>Email</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -144,12 +143,12 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header">
-              <h3>Add New User</h3>
-              <button onClick={() => setIsFormVisible(false)}>&times;</button>
+              <h3>Añadir nuevo usuario</h3>
+              <button className="close-button" onClick={() => setIsFormVisible(false)}>&times;</button>
             </div>
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">Nombre</Label>
                 <Input
                   id="name"
                   type="text"
@@ -157,7 +156,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   onChange={handleChange}
                   isRequired
                 />
-                <Label htmlFor="lastName">Last Name</Label>
+                <Label htmlFor="lastName">Apellidos</Label>
                 <Input
                   id="lastName"
                   type="text"
@@ -165,7 +164,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   onChange={handleChange}
                   isRequired
                 />
-                <Label htmlFor="city">City</Label>
+                <Label htmlFor="city">Ciudad</Label>
                 <Input
                   id="city"
                   type="text"
@@ -173,7 +172,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   onChange={handleChange}
                   isRequired
                 />
-                <Label htmlFor="birthDate">Birth Date</Label>
+                <Label htmlFor="birthDate">Fecha de nacimiento</Label>
                 <Input
                   id="birthDate"
                   type="date"
