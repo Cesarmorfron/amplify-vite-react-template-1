@@ -1,17 +1,23 @@
 .search-container {
   display: flex;
-  align-items: center; /* Alinea verticalmente al centro */
+  align-items: flex-start; /* Alinea verticalmente al centro */
   gap: 0; /* Elimina el espacio entre los elementos */
   max-width: 600px; /* Ajusta el ancho máximo del contenedor */
-  margin: 0 auto; /* Centra el contenedor horizontalmente */
+  margin: 0; /* Centra el contenedor horizontalmente */
 }
 
 .search-input {
-  margin-right: 0; /* Elimina el margen a la derecha */
+  flex: 1; /* Hace que el input ocupe el espacio restante */
+  padding: 10px; /* Ajusta el padding para aumentar la altura del input */
+  font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor apariencia */
+  border: 1px solid #ccc; /* Opcional: Ajusta el borde del input */
+  margin-left: 10px;
 }
 
 .add-button {
-  margin-left: 0; /* Elimina el margen a la izquierda para estar pegado al Input */
+  flex-shrink: 0; /* Evita que el botón se reduzca de tamaño */
+  padding: 10px 20px; /* Ajusta el tamaño del botón */
+  background-color: rgb(218, 255, 207)
 }
 
 .crud-container {
@@ -29,7 +35,54 @@
   max-height: 60vh; /* Ajusta según la altura que quieras para la tabla */
   border: 1px solid #ddd;
   border-radius: 8px;
+  margin: 0 ; /* Centra el contenedor si es necesario */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra suave */
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse; /* Elimina el espacio entre las celdas */
+}
+
+th, td {
+  padding: 12px 15px; /* Espacio interno para celdas */
+  text-align: left; /* Alinea el texto a la izquierda */
+  border-bottom: 1px solid #ddd; /* Línea de separación entre filas */
+}
+
+th {
+  background-color: #f4f4f4; /* Color de fondo para los encabezados */
+  font-weight: bold; /* Negrita para los encabezados */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Color alternativo para filas pares */
+}
+
+tr:hover {
+  background-color: #f1f1f1; /* Color de fondo al pasar el ratón sobre una fila */
+}
+
+.buttonsActions {
+  display: flex; /* Usa flexbox para alinear los botones en línea */
+  gap: 10px; /* Espacio entre los botones (ajusta según sea necesario) */
+  /* Otros estilos opcionales */
+}
+
+.buttonsActions button {
+  border: none; /* Elimina el borde por defecto del botón */
+  border-radius: 4px; /* Bordes redondeados para el botón */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  padding: 8px 12px; /* Ajusta el tamaño del botón */
+  font-size: 14px; /* Tamaño de la fuente del botón */
+  background-color: rgb(218, 255, 207); /* Color de fondo del botón */
+}
+
+
+button:hover {
+  background-color: #93c08e; /* Color de fondo del botón al pasar el ratón sobre él */
+}
+
 
 .modal-overlay {
   position: fixed;

@@ -6,7 +6,7 @@
 
 .header-separator {
   height: 2px; /* Grosor de la línea */
-  background-color: green; /* Color de la línea */
+  background-color: rgb(5, 170, 5); /* Color de la línea */
   margin: 20px 0; /* Espaciado ajustable arriba y abajo */
 }
 
@@ -16,7 +16,7 @@
 }
 
 .header-title .amplify-heading {
-  color: green !important;
+  color: rgb(5, 170, 5) !important;
   font-weight: bold !important;
 }
 
