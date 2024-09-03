@@ -92,15 +92,16 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     <div className="crud-container">
       <Flex direction="column" gap="small">
         <Flex className="search-container">
-        <Button onClick={() => setIsFormVisible(true)} className="add-button">Crear Usuario</Button>
-        <Input
+          <Button onClick={() => setIsFormVisible(true)} className="add-button">
+            Crear Usuario
+          </Button>
+          <Input
             placeholder="Busqueda por email"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
           />
         </Flex>
-
 
         <div className="table-container">
           <Table>
@@ -123,8 +124,10 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   <td>{item.birthDate}</td>
                   <td>{item.email}</td>
                   <td>
-                    <div className='buttonsActions'>
-                      <Button onClick={() => handleRowClick(item)}>Perfil</Button>
+                    <div className="buttonsActions">
+                      <Button onClick={() => handleRowClick(item)}>
+                        Perfil
+                      </Button>
                       <Button onClick={() => deleteItem(item.id)}>
                         Eliminar
                       </Button>

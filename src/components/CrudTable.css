@@ -17,7 +17,7 @@
 .add-button {
   flex-shrink: 0; /* Evita que el botón se reduzca de tamaño */
   padding: 10px 20px; /* Ajusta el tamaño del botón */
-  background-color: rgb(218, 255, 207)
+  background-color: rgb(218, 255, 207);
 }
 
 .crud-container {
@@ -35,7 +35,7 @@
   max-height: 60vh; /* Ajusta según la altura que quieras para la tabla */
   border: 1px solid #ddd;
   border-radius: 8px;
-  margin: 0 ; /* Centra el contenedor si es necesario */
+  margin: 0; /* Centra el contenedor si es necesario */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra suave */
 }
 
@@ -44,7 +44,8 @@ table {
   border-collapse: collapse; /* Elimina el espacio entre las celdas */
 }
 
-th, td {
+th,
+td {
   padding: 12px 15px; /* Espacio interno para celdas */
   text-align: left; /* Alinea el texto a la izquierda */
   border-bottom: 1px solid #ddd; /* Línea de separación entre filas */
@@ -78,11 +79,9 @@ tr:hover {
   background-color: rgb(218, 255, 207); /* Color de fondo del botón */
 }
 
-
 button:hover {
   background-color: #93c08e; /* Color de fondo del botón al pasar el ratón sobre él */
 }
-
 
 .modal-overlay {
   position: fixed;
