@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Table, Button, Input, Flex, Label } from '@aws-amplify/ui-react';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
-import './CrudTable.css'; // Asegúrate de importar el archivo CSS
 import { useNavigate } from 'react-router-dom';
 
 interface CrudTableProps {
