@@ -3,7 +3,7 @@ import { Table, Button, Input, Flex, Label } from '@aws-amplify/ui-react';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
 import { useNavigate } from 'react-router-dom';
-
+import './CrudTable.css'
 interface CrudTableProps {
   onRowClick: (user: Schema['User']['type']) => void;
 }
@@ -30,22 +30,22 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
   useEffect(() => {
     // todo: remove bc testing propose
-    // const user = {
-    //   name: 'name',
-    //   lastName: 'name',
-    //   city: 'name',
-    //   birthDate: 'name',
-    //   email: 'name',
-    // };
-    // setItems([user, user, user, user, user]);
+    const user = {
+      name: 'name',
+      lastName: 'name',
+      city: 'name',
+      birthDate: 'name',
+      email: 'name',
+    };
+    setItems([user, user, user, user, user]);
 
-    const sub = client.models.User.observeQuery().subscribe({
-      next: ({ items }) => {
-        setItems([...items]);
-      },
-    });
+    // const sub = client.models.User.observeQuery().subscribe({
+    //   next: ({ items }) => {
+    //     setItems([...items]);
+    //   },
+    // });
 
-    return () => sub.unsubscribe();
+    // return () => sub.unsubscribe();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
