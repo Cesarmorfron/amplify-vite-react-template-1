@@ -126,6 +126,42 @@ button:hover {
   align-items: center;
 }
 
+.modal-header-confirmation {
+  padding: 8px 16px;
+  background: #f1f1f1;
+  display: flex;
+  flex-direction: column; /* Mantiene el contenido en una columna */
+  align-items: center; /* Centra el contenido horizontalmente */
+  position: relative; /* Permite la posición absoluta del botón */
+  text-align: center;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido dentro de header-content */
+  margin-top: 20px; /* Añade margen superior para mover el contenido hacia abajo */
+}
+
+.header-content h3 {
+  margin: 0; /* Elimina márgenes por defecto para evitar espacio adicional */
+}
+
+.header-content p {
+  margin: 0; /* Elimina márgenes por defecto para evitar espacio adicional */
+}
+
+button {
+  position: absolute; /* Permite la posición absoluta dentro del contenedor modal */
+  top: 8px; /* Ajusta la distancia desde la parte superior */
+  right: 16px; /* Ajusta la distancia desde la parte derecha */
+  background: none; /* Elimina el fondo del botón si es necesario */
+  border: none; /* Elimina el borde del botón si es necesario */
+  font-size: 24px; /* Ajusta el tamaño de la fuente del botón */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+}
+
+
 .modal-body {
   padding: 16px;
   overflow-y: auto;

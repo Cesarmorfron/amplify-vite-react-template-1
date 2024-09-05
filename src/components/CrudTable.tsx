@@ -22,6 +22,8 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     email: '',
   });
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isDeleteUserDialogOpen, setIsDeleteUserDialogOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState('');
 
   const handleRowClick = (item: Schema['User']['type']) => {
     onRowClick(item);
@@ -79,8 +81,20 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     setIsFormVisible(false);
   };
 
-  const deleteItem = async (id: string) => {
+  const handleNotifyDeleteUserClick = (id: string) => {
+    setUserToDelete(id);
+    setIsDeleteUserDialogOpen(true);
+  };
+
+  // TODO: probar: borrado y como se pone a cero luego el id
+  const handleDeleteUserConfirm = async (id: string) => {
+    console.log('Fallecimiento notificado');
     await client.models.User.delete({ id });
+    setIsDeleteUserDialogOpen(false);
+  };
+
+  const handleDeleteUserCancel = () => {
+    setIsDeleteUserDialogOpen(false);
   };
 
   const filteredItems = items.filter((item) =>
@@ -127,7 +141,8 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                       <Button onClick={() => handleRowClick(item)}>
                         Perfil
                       </Button>
-                      <Button onClick={() => deleteItem(item.id)}>
+                      {/* <Button onClick={() => deleteItem(item.id)}> */}
+                      <Button onClick={() => handleNotifyDeleteUserClick(item.id)}>
                         Eliminar
                       </Button>
                     </div>
@@ -138,6 +153,39 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
           </Table>
         </div>
       </Flex>
+
+      {isDeleteUserDialogOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+          <div className="modal-header-confirmation">
+            <div className="header-content">
+              <h3>¿Eliminar usuario?</h3>
+              <p>El usuario será eliminado del sistema</p>
+            </div>
+            <button onClick={() => setIsDeleteUserDialogOpen(false)}>&times;</button>
+          </div>
+            <div className="modal-body">
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                handleDeleteUserConfirm(userToDelete); // Usa userToDelete aquí
+              }}>
+                <Flex justifyContent="space-between" marginTop="medium">
+                  <Button type="button" onClick={() => handleDeleteUserConfirm(userToDelete)}>
+                    Sí, estoy seguro
+                  </Button>
+                  <Button type="button" onClick={() => {
+                    handleDeleteUserCancel();
+                    setUserToDelete(''); // Limpia el ID cuando se cancela
+                  }}>
+                    Cancelar
+                  </Button>
+                </Flex>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
 
       {isFormVisible && (
         <div className="modal-overlay">
