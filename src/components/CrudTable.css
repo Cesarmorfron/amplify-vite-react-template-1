@@ -45,7 +45,7 @@ table {
 }
 
 td.table-ellipsis {
-  max-width: 150px; 
+  max-width: 150px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -98,7 +98,7 @@ button:hover {
 }
 
 .close-button:hover {
-  background-color: rgb(204, 199, 199); 
+  background-color: rgb(204, 199, 199);
 }
 
 .modal-overlay {
@@ -167,7 +167,6 @@ button {
   font-size: 24px; /* Ajusta el tamaño de la fuente del botón */
   cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
 }
-
 
 .modal-body {
   padding: 16px;

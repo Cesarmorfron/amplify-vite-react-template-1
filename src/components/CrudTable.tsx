@@ -137,13 +137,15 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                       </Button>
                     </div>
                   </td>
-                  <td className='table-ellipsis'>{item.email}</td>
-                  <td className='table-ellipsis'>{item.name}</td>
-                  <td className='table-ellipsis'>{item.lastName}</td>
+                  <td className="table-ellipsis">{item.email}</td>
+                  <td className="table-ellipsis">{item.name}</td>
+                  <td className="table-ellipsis">{item.lastName}</td>
                   <td>
                     <div className="buttonsActions">
                       {/* <Button onClick={() => deleteItem(item.id)}> */}
-                      <Button onClick={() => handleNotifyDeleteUserClick(item.id)}>
+                      <Button
+                        onClick={() => handleNotifyDeleteUserClick(item.id)}
+                      >
                         &#x1F5D1;
                       </Button>
                     </div>
@@ -158,26 +160,36 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       {isDeleteUserDialogOpen && (
         <div className="modal-overlay">
           <div className="modal">
-          <div className="modal-header-confirmation">
-            <div className="header-content">
-              <h3>¿Eliminar usuario?</h3>
-              <p>El usuario será eliminado del sistema</p>
+            <div className="modal-header-confirmation">
+              <div className="header-content">
+                <h3>¿Eliminar usuario?</h3>
+                <p>El usuario será eliminado del sistema</p>
+              </div>
+              <button onClick={() => setIsDeleteUserDialogOpen(false)}>
+                &times;
+              </button>
             </div>
-            <button onClick={() => setIsDeleteUserDialogOpen(false)}>&times;</button>
-          </div>
             <div className="modal-body">
-              <form onSubmit={(e) => {
-                e.preventDefault();
-                handleDeleteUserConfirm(userToDelete); // Usa userToDelete aquí
-              }}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleDeleteUserConfirm(userToDelete); // Usa userToDelete aquí
+                }}
+              >
                 <Flex justifyContent="space-between" marginTop="medium">
-                  <Button type="button" onClick={() => handleDeleteUserConfirm(userToDelete)}>
+                  <Button
+                    type="button"
+                    onClick={() => handleDeleteUserConfirm(userToDelete)}
+                  >
                     Sí, estoy seguro
                   </Button>
-                  <Button type="button" onClick={() => {
-                    handleDeleteUserCancel();
-                    setUserToDelete(''); // Limpia el ID cuando se cancela
-                  }}>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      handleDeleteUserCancel();
+                      setUserToDelete(''); // Limpia el ID cuando se cancela
+                    }}
+                  >
                     Cancelar
                   </Button>
                 </Flex>
@@ -187,13 +199,17 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
         </div>
       )}
 
-
       {isFormVisible && (
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header">
               <h3>Añadir nuevo usuario</h3>
-              <button className="close-button" onClick={() => setIsFormVisible(false)}>&times;</button>
+              <button
+                className="close-button"
+                onClick={() => setIsFormVisible(false)}
+              >
+                &times;
+              </button>
             </div>
             <div className="modal-body">
               <form onSubmit={handleSubmit}>

@@ -16,6 +16,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [items, setItems] = useState<Schema['Contact']['type'][]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDeleteContactDialogOpen, setIsDeleteContactDialogOpen] = useState(false);
+  const [contactToDelete, setContactToDelete] = useState('');
 
   const [formData, setFormData] = useState({
     id: user?.id || '',
@@ -32,14 +34,39 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   useEffect(() => {
-    const sub = client.models.Contact.observeQuery().subscribe({
-      next: ({ items }) => {
-        setItems([...items]);
-      },
-    });
+    const contact = {
+      id: 'name',
+      emailContact: 'name',
+      aka: 'name',
+      idUser: 'name',
+    };
+    setItems([contact, contact, contact, contact, contact]);
 
-    return () => sub.unsubscribe();
+    // const sub = client.models.Contact.observeQuery().subscribe({
+    //   next: ({ items }) => {
+    //     setItems([...items]);
+    //   },
+    // });
+
+    // return () => sub.unsubscribe();
   }, []);
+
+  const handleNotifyDeleteContactClick = (id: string) => {
+    setContactToDelete(id);
+    setIsDeleteContactDialogOpen(true);
+  };
+
+  const handleDeleteContactCancel = () => {
+    setIsDeleteContactDialogOpen(false);
+  };
+
+    // TODO: probar: borrado y como se pone a cero luego el id
+    const handleDeleteContactConfirm = async (id: string) => {
+      console.log('Fallecimiento notificado');
+      await client.models.User.delete({ id });
+      setIsDeleteContactDialogOpen(false);
+    };
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -289,32 +316,38 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
       <div className="crud-container">
         <Flex direction="column" gap="small">
-          <Flex direction="row" gap="small" marginBottom="small">
+          <Flex className="search-container">
+            <Button
+              onClick={() => setIsFormVisible(true)}
+              className="add-button"
+            >
+              Añadir contacto
+            </Button>
             <Input
-              placeholder="Search by email"
+              placeholder="Busqueda por email"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
             />
-            <Button onClick={() => setIsFormVisible(true)}>Add Item</Button>
           </Flex>
 
           <div className="table-container">
             <Table>
               <thead>
                 <tr>
-                  <th>Email contact</th>
-                  <th>Alias</th>
+                  <th>Email</th>
+                  <th>Eliminar</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredItems.map((item) => (
                   //   <tr key={item.id} onClick={() => handleRowClick(item)}>
                   <tr key={item.id}>
-                    <td>{item.emailContact}</td>
-                    <td>{item.aka}</td>
+                    <td className="table-ellipsis">{item.emailContact}</td>
                     <td>
-                      <Button onClick={() => deleteItem(item.id!)}>
-                        Delete
+                      {/* <Button onClick={() => deleteItem(item.id!)}> */}
+                      <Button onClick={() => handleNotifyDeleteContactClick(item.id!)}>
+                        &#x1F5D1;
                       </Button>
                     </td>
                   </tr>
@@ -323,6 +356,48 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             </Table>
           </div>
         </Flex>
+
+        {isDeleteContactDialogOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-header-confirmation">
+              <div className="header-content">
+                <h3>¿Eliminar contacto?</h3>
+                <p>El contacto será eliminado del sistema</p>
+              </div>
+              <button onClick={() => setIsDeleteContactDialogOpen(false)}>
+                &times;
+              </button>
+            </div>
+            <div className="modal-body">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleDeleteContactConfirm(contactToDelete); // Usa userToDelete aquí
+                }}
+              >
+                <Flex justifyContent="space-between" marginTop="medium">
+                  <Button
+                    type="button"
+                    onClick={() => handleDeleteContactConfirm(contactToDelete)}
+                  >
+                    Sí, estoy seguro
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      handleDeleteContactCancel();
+                      setContactToDelete(''); // Limpia el ID cuando se cancela
+                    }}
+                  >
+                    Cancelar
+                  </Button>
+                </Flex>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
         {isFormVisible && (
           <div className="modal-overlay">
