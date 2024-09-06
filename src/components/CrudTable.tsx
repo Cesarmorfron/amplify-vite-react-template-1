@@ -137,9 +137,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                       </Button>
                     </div>
                   </td>
-                  <td>{item.email}</td>
-                  <td>{item.name}</td>
-                  <td>{item.lastName}</td>
+                  <td className='table-ellipsis'>{item.email}</td>
+                  <td className='table-ellipsis'>{item.name}</td>
+                  <td className='table-ellipsis'>{item.lastName}</td>
                   <td>
                     <div className="buttonsActions">
                       {/* <Button onClick={() => deleteItem(item.id)}> */}

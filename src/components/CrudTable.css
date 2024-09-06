@@ -44,6 +44,13 @@ table {
   border-collapse: collapse; /* Elimina el espacio entre las celdas */
 }
 
+td.table-ellipsis {
+  max-width: 150px; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 th,
 td {
   padding: 12px 15px; /* Espacio interno para celdas */
