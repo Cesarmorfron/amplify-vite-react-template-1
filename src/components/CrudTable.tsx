@@ -129,7 +129,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
             </thead>
             <tbody>
               {filteredItems.map((item) => (
-                <tr key={item.id}>
+                <tr key={item.id} onClick={() => handleRowClick(item)}>
                   <td>
                     <div className="buttonsActions">
                       <Button onClick={() => handleRowClick(item)}>
