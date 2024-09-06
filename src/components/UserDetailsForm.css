@@ -1,0 +1,96 @@
+.notification-container {
+  display: flex;
+  justify-content: center; /* Centra el botón de notificación horizontalmente */
+  align-items: center; /* Alinea el contenido verticalmente */
+  margin: 50px 0; /* Margen arriba y abajo */
+  position: relative; /* Para permitir la posición absoluta de la flecha */
+}
+
+.back-button {
+  position: absolute;
+  left: 10px; /* Alinea el botón de flecha a la izquierda */
+  background: none; /* Elimina el fondo del botón */
+  border: none; /* Elimina el borde */
+  font-size: 24px; /* Tamaño más grande para la flecha */
+  cursor: pointer; /* Cambia el cursor al estilo de pointer */
+}
+
+.notify-button {
+    background-color: #f83737; /* Color rojo llamativo */
+    color: #fff; /* Color de texto blanco */
+    padding: 16px 24px; /* Tamaño más grande del botón */
+    font-size: 18px; /* Tamaño de fuente más grande */
+    font-weight: bold; /* Negrita */
+    border: none; /* Elimina el borde */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al estilo de pointer */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+  }
+  
+  .notify-button:hover {
+    background-color: #ff4d4d; /* Color más oscuro al pasar el ratón */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave al pasar el ratón */
+  }
+  
+
+ton:hover {
+  background-color: #0056b3; /* Color más oscuro en hover */
+}
+ton:hover {
+  background-color: #0056b3; /* Color más oscuro en hover */
+}
+
+.user-form {
+  background-color: #f9f9f9; /* Fondo claro */
+  padding: 24px; 
+  border-radius: 8px; 
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px; /* Espacio entre los campos */
+}
+
+.form-group {
+  margin-bottom: 16px; /* Espacio entre grupos */
+}
+
+.form-label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333; /* Color del texto */
+}
+
+.form-input {
+  width: 100%; /* Asegura que el input ocupe todo el ancho disponible */
+  padding: 10px; /* Espaciado interno */
+  border: 1px solid #ddd; /* Borde claro */
+  border-radius: 4px; /* Bordes redondeados */
+  font-size: 14px;
+}
+
+.form-input:focus {
+  border-color: #007bff; /* Color del borde en foco */
+  outline: none; /* Elimina el borde azul por defecto */
+}
+
+.submit-button {
+  background-color: #007bff; /* Color azul llamativo */
+  color: #fff; /* Texto blanco */
+  padding: 10px 20px; /* Tamaño del botón */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.submit-button:hover {
+  background-color: #0056b3; /* Color más oscuro en hover */
+}
+mit-button:hover {
+    background-color: #0056b3; /* Color más oscuro en hover */
+  }
+  

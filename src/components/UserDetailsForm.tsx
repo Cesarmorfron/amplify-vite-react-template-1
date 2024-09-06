@@ -3,7 +3,7 @@ import { Flex, Input, Button, Grid, Table, Label } from '@aws-amplify/ui-react';
 import { useNavigate } from 'react-router-dom';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
-
+import './UserDetailsForm.css';
 interface UserDetailsFormProps {
   user: Schema['User']['type'] | null;
 }
@@ -15,8 +15,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [items, setItems] = useState<Schema['Contact']['type'][]>([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isDeleteContactDialogOpen, setIsDeleteContactDialogOpen] = useState(false);
+  const [isDialogDeadOpen, setIsDialogDeadOpen] = useState(false);
+  const [isDeleteContactDialogOpen, setIsDeleteContactDialogOpen] =
+    useState(false);
   const [contactToDelete, setContactToDelete] = useState('');
 
   const [formData, setFormData] = useState({
@@ -30,25 +31,27 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const [contactFormData, setContactFormData] = useState({
     emailContact: '',
-    aka: '',
+    name: '',
+    lastName: '',
   });
 
   useEffect(() => {
-    const contact = {
-      id: 'name',
-      emailContact: 'name',
-      aka: 'name',
-      idUser: 'name',
-    };
-    setItems([contact, contact, contact, contact, contact]);
+    // const contact = {
+    //   id: 'name',
+    //   emailContact: 'name',
+    //   name: 'name',
+    //   lastName: 'name',
+    //   idUser: 'name',
+    // };
+    // setItems([contact, contact, contact, contact, contact]);
 
-    // const sub = client.models.Contact.observeQuery().subscribe({
-    //   next: ({ items }) => {
-    //     setItems([...items]);
-    //   },
-    // });
+    const sub = client.models.Contact.observeQuery().subscribe({
+      next: ({ items }) => {
+        setItems([...items]);
+      },
+    });
 
-    // return () => sub.unsubscribe();
+    return () => sub.unsubscribe();
   }, []);
 
   const handleNotifyDeleteContactClick = (id: string) => {
@@ -60,13 +63,12 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setIsDeleteContactDialogOpen(false);
   };
 
-    // TODO: probar: borrado y como se pone a cero luego el id
-    const handleDeleteContactConfirm = async (id: string) => {
-      console.log('Fallecimiento notificado');
-      await client.models.User.delete({ id });
-      setIsDeleteContactDialogOpen(false);
-    };
-  
+  // TODO: probar: borrado y como se pone a cero luego el id
+  const handleDeleteContactConfirm = async (id: string) => {
+    console.log('Fallecimiento notificado');
+    await client.models.User.delete({ id });
+    setIsDeleteContactDialogOpen(false);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -89,14 +91,16 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
     await client.models.Contact.create({
       emailContact: contactFormData.emailContact,
-      aka: contactFormData.aka,
+      name: contactFormData.name,
+      lastName: contactFormData.lastName,
       idUser: user?.id,
     });
 
     // Clear form data
     setContactFormData({
       emailContact: '',
-      aka: '',
+      name: '',
+      lastName: '',
     });
 
     // Hide modal after submission
@@ -104,27 +108,27 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleNotifyClick = () => {
-    setIsDialogOpen(true);
+    setIsDialogDeadOpen(true);
   };
 
   const handleConfirm = () => {
     // Aquí va la lógica para notificar el fallecimiento
     console.log('Fallecimiento notificado');
-    setIsDialogOpen(false);
+    setIsDialogDeadOpen(false);
     // Aquí puedes añadir cualquier otra lógica después de la confirmación
   };
 
   const handleCancel = () => {
-    setIsDialogOpen(false);
+    setIsDialogDeadOpen(false);
   };
 
   const handleBackToTable = () => {
     navigate('/');
   };
 
-  const deleteItem = async (id: string) => {
-    await client.models.Contact.delete({ id });
-  };
+  // const deleteItem = async (id: string) => {
+  //   await client.models.Contact.delete({ id });
+  // };
 
   const filteredItems = items.filter((item) =>
     item.emailContact!.toLowerCase().includes(searchTerm.toLowerCase())
@@ -132,27 +136,32 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   return (
     <div>
-      <Flex
-        direction="row"
-        gap="small"
-        justifyContent="space-between"
-        marginTop="small"
-      >
-        <Button onClick={handleBackToTable}>Volver al inicio</Button>
-        <Button onClick={handleNotifyClick}>Notificar fallecimiento</Button>
+      <Flex className="notification-container">
+        <Button onClick={handleBackToTable} className="back-button">
+          &#x2190; {/* Flecha hacia la izquierda */}
+        </Button>
+
+        <Button onClick={handleNotifyClick} className="notify-button">
+          Notificar fallecimiento
+        </Button>
       </Flex>
 
-      {isDialogOpen && (
+      {isDialogDeadOpen && (
         <div className="modal-overlay">
           <div className="modal">
-            <div className="modal-header">
-              <h3>¿Notificar el fallecimiento?</h3>
-              <p>
-                Todos los contactos de este usuario recibirán una notificación
-                de que ha fallecido.
-              </p>
-              <button onClick={() => setIsDialogOpen(false)}>&times;</button>
+            <div className="modal-header-confirmation">
+              <div className="header-content">
+                <h3>¿Notificar fallecimiento?</h3>
+                <p>
+                  Todos los contactos de este usuario recibirán una
+                  notificación.
+                </p>
+                <button onClick={() => setIsDialogDeadOpen(false)}>
+                  &times;
+                </button>
+              </div>
             </div>
+
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
                 <Flex justifyContent="space-between" marginTop="medium">
@@ -169,148 +178,89 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
-        <Grid templateColumns="repeat(3, 1fr)" gap="small">
-          <div style={{ marginBottom: '16px' }}>
-            <div style={{ marginBottom: '8px' }}>
-              <label
-                htmlFor="id"
-                style={{
-                  fontSize: '14px',
-                  display: 'inline-block',
-                  width: '100px',
-                }}
-              >
-                ID
-              </label>
-              <Input
-                id="id"
-                value={formData.id}
-                onChange={handleChange}
-                size="small"
-                isRequired
-                style={{ width: 'calc(100% - 110px)' }}
-              />
-            </div>
-
-            <div style={{ marginBottom: '8px' }}>
-              <label
-                htmlFor="name"
-                style={{
-                  fontSize: '14px',
-                  display: 'inline-block',
-                  width: '100px',
-                }}
-              >
-                Name
-              </label>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                size="small"
-                isRequired
-                style={{ width: 'calc(100% - 110px)' }}
-              />
-            </div>
-
-            <div style={{ marginBottom: '8px' }}>
-              <label
-                htmlFor="lastName"
-                style={{
-                  fontSize: '14px',
-                  display: 'inline-block',
-                  width: '100px',
-                }}
-              >
-                Last Name
-              </label>
-              <Input
-                id="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                size="small"
-                isRequired
-                style={{ width: 'calc(100% - 110px)' }}
-              />
-            </div>
+      <form onSubmit={handleSubmit} className="user-form">
+        <Grid
+          templateColumns="repeat(3, 1fr)"
+          gap="small"
+          className="grid-container"
+        >
+          <div className="form-group">
+            <label htmlFor="name" className="form-label">
+              Name
+            </label>
+            <Input
+              id="name"
+              value={formData.name}
+              onChange={handleChange}
+              size="small"
+              isRequired
+              className="form-input"
+            />
           </div>
 
-          <div style={{ marginBottom: '16px' }}>
-            <div style={{ marginBottom: '8px' }}>
-              <label
-                htmlFor="city"
-                style={{
-                  fontSize: '14px',
-                  display: 'inline-block',
-                  width: '100px',
-                }}
-              >
-                City
-              </label>
-              <Input
-                id="city"
-                value={formData.city}
-                onChange={handleChange}
-                size="small"
-                isRequired
-                style={{ width: 'calc(100% - 110px)' }}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="lastName" className="form-label">
+              Last Name
+            </label>
+            <Input
+              id="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              size="small"
+              isRequired
+              className="form-input"
+            />
+          </div>
 
-            <div style={{ marginBottom: '8px' }}>
-              <label
-                htmlFor="birthDate"
-                style={{
-                  fontSize: '14px',
-                  display: 'inline-block',
-                  width: '100px',
-                }}
-              >
-                Birth Date
-              </label>
-              <Input
-                id="birthDate"
-                type="date"
-                value={formData.birthDate}
-                onChange={handleChange}
-                size="small"
-                isRequired
-                style={{ width: 'calc(100% - 110px)' }}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="city" className="form-label">
+              City
+            </label>
+            <Input
+              id="city"
+              value={formData.city}
+              onChange={handleChange}
+              size="small"
+              isRequired
+              className="form-input"
+            />
+          </div>
 
-            <div style={{ marginBottom: '8px' }}>
-              <label
-                htmlFor="email"
-                style={{
-                  fontSize: '14px',
-                  display: 'inline-block',
-                  width: '100px',
-                }}
-              >
-                Email
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                size="small"
-                isRequired
-                style={{ width: 'calc(100% - 110px)' }}
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="birthDate" className="form-label">
+              Birth Date
+            </label>
+            <Input
+              id="birthDate"
+              type="date"
+              value={formData.birthDate}
+              onChange={handleChange}
+              size="small"
+              isRequired
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <Input
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              size="small"
+              isRequired
+              className="form-input"
+            />
           </div>
         </Grid>
 
-        <Flex
-          direction="row"
-          gap="small"
-          justifyContent="space-between"
-          marginTop="small"
-        >
-          <Button type="submit">Update</Button>
+        <Flex justifyContent="center" marginTop="small">
+          <Button type="submit" className="add-button">
+            Actualizar
+          </Button>
         </Flex>
       </form>
 
@@ -336,6 +286,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               <thead>
                 <tr>
                   <th>Email</th>
+                  <th>Nombre</th>
+                  <th>Apellidos</th>
                   <th>Eliminar</th>
                 </tr>
               </thead>
@@ -344,11 +296,19 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   //   <tr key={item.id} onClick={() => handleRowClick(item)}>
                   <tr key={item.id}>
                     <td className="table-ellipsis">{item.emailContact}</td>
+                    <td className="table-ellipsis">{item.name}</td>
+                    <td className="table-ellipsis">{item.lastName}</td>
                     <td>
-                      {/* <Button onClick={() => deleteItem(item.id!)}> */}
-                      <Button onClick={() => handleNotifyDeleteContactClick(item.id!)}>
-                        &#x1F5D1;
-                      </Button>
+                      <div className="buttonsActions">
+                        {/* <Button onClick={() => deleteItem(item.id!)}> */}
+                        <Button
+                          onClick={() =>
+                            handleNotifyDeleteContactClick(item.id!)
+                          }
+                        >
+                          &#x1F5D1;
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -358,46 +318,48 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         </Flex>
 
         {isDeleteContactDialogOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <div className="modal-header-confirmation">
-              <div className="header-content">
-                <h3>¿Eliminar contacto?</h3>
-                <p>El contacto será eliminado del sistema</p>
+          <div className="modal-overlay">
+            <div className="modal">
+              <div className="modal-header-confirmation">
+                <div className="header-content">
+                  <h3>¿Eliminar contacto?</h3>
+                  <p>El contacto será eliminado del sistema</p>
+                </div>
+                <button onClick={() => setIsDeleteContactDialogOpen(false)}>
+                  &times;
+                </button>
               </div>
-              <button onClick={() => setIsDeleteContactDialogOpen(false)}>
-                &times;
-              </button>
-            </div>
-            <div className="modal-body">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleDeleteContactConfirm(contactToDelete); // Usa userToDelete aquí
-                }}
-              >
-                <Flex justifyContent="space-between" marginTop="medium">
-                  <Button
-                    type="button"
-                    onClick={() => handleDeleteContactConfirm(contactToDelete)}
-                  >
-                    Sí, estoy seguro
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      handleDeleteContactCancel();
-                      setContactToDelete(''); // Limpia el ID cuando se cancela
-                    }}
-                  >
-                    Cancelar
-                  </Button>
-                </Flex>
-              </form>
+              <div className="modal-body">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleDeleteContactConfirm(contactToDelete); // Usa userToDelete aquí
+                  }}
+                >
+                  <Flex justifyContent="space-between" marginTop="medium">
+                    <Button
+                      type="button"
+                      onClick={() =>
+                        handleDeleteContactConfirm(contactToDelete)
+                      }
+                    >
+                      Sí, estoy seguro
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        handleDeleteContactCancel();
+                        setContactToDelete(''); // Limpia el ID cuando se cancela
+                      }}
+                    >
+                      Cancelar
+                    </Button>
+                  </Flex>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
         {isFormVisible && (
           <div className="modal-overlay">
@@ -416,11 +378,19 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     onChange={contactHandleChange}
                     isRequired
                   />
-                  <Label htmlFor="aka">Alias</Label>
+                  <Label htmlFor="name">Nombre</Label>
                   <Input
-                    id="aka"
+                    id="name"
                     type="text"
-                    value={contactFormData.aka}
+                    value={contactFormData.name}
+                    onChange={contactHandleChange}
+                    isRequired
+                  />
+                  <Label htmlFor="lastName">Apellidos</Label>
+                  <Input
+                    id="lastName"
+                    type="text"
+                    value={contactFormData.lastName}
                     onChange={contactHandleChange}
                     isRequired
                   />
@@ -431,7 +401,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     >
                       Cancel
                     </Button>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Guardar</Button>
                   </Flex>
                 </form>
               </div>

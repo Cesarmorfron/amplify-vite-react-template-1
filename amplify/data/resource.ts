@@ -28,7 +28,8 @@ const schema = a.schema({
     .model({
       id: a.string(),
       emailContact: a.string(),
-      aka: a.string(),
+      name: a.string(),
+      lastName: a.string(),
       idUser: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
