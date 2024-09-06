@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 import './UserDetailsForm.css';
+import { StorageManager } from '@aws-amplify/ui-react-storage';
+
 interface UserDetailsFormProps {
   user: Schema['User']['type'] | null;
 }
@@ -14,6 +16,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isFormStorageManagerVisible, setIsFormStorageManagerVisible] =
+    useState(false);
   const [items, setItems] = useState<Schema['Contact']['type'][]>([]);
   const [isDialogDeadOpen, setIsDialogDeadOpen] = useState(false);
   const [isDeleteContactDialogOpen, setIsDeleteContactDialogOpen] =
@@ -36,22 +40,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   useEffect(() => {
-    // const contact = {
-    //   id: 'name',
-    //   emailContact: 'name',
-    //   name: 'name',
-    //   lastName: 'name',
-    //   idUser: 'name',
-    // };
-    // setItems([contact, contact, contact, contact, contact]);
+    // const contact = {id: 'name',emailContact: 'name',name: 'name',lastName: 'name',idUser: 'name',}; setItems([contact, contact, contact, contact, contact]);
 
-    const sub = client.models.Contact.observeQuery().subscribe({
-      next: ({ items }) => {
-        setItems([...items]);
-      },
-    });
-
-    return () => sub.unsubscribe();
+    const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
   }, []);
 
   const handleNotifyDeleteContactClick = (id: string) => {
@@ -279,6 +270,12 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
             />
+            <Button
+              onClick={() => setIsFormStorageManagerVisible(true)}
+              className="add-button"
+            >
+              Importar archivo
+            </Button>
           </Flex>
 
           <div className="table-container">
@@ -316,6 +313,39 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             </Table>
           </div>
         </Flex>
+
+        {isFormStorageManagerVisible && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <div className="modal-header-confirmation">
+                <div className="header-content">
+                  <h3>Importar contactos</h3>
+                  <p>
+                    Suba un archivo csv. Ponga como titulo de la columna nombre,
+                    apellidos y email
+                  </p>
+                </div>
+                <button onClick={() => setIsFormStorageManagerVisible(false)}>
+                  &times;
+                </button>
+              </div>
+              <div className="modal-body">
+                <StorageManager
+                  acceptedFileTypes={['.csv']}
+                  path="public/"
+                  autoUpload={false}
+                  maxFileCount={1}
+                  isResumable
+                  displayText={{
+                    // some text are plain strings
+                    dropFilesText: 'Suelta los archivos .csv aqui',
+                    browseFilesText: 'Selecciona el archivo',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        )}
 
         {isDeleteContactDialogOpen && (
           <div className="modal-overlay">
@@ -364,9 +394,13 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         {isFormVisible && (
           <div className="modal-overlay">
             <div className="modal">
-              <div className="modal-header">
-                <h3>Añadir nuevo contacto</h3>
-                <button onClick={() => setIsFormVisible(false)}>&times;</button>
+              <div className="modal-header-confirmation">
+                <div className="modal-header">
+                  <h3>Añadir nuevo contacto</h3>
+                  <button onClick={() => setIsFormVisible(false)}>
+                    &times;
+                  </button>
+                </div>
               </div>
               <div className="modal-body">
                 <form onSubmit={handleSubmit}>
@@ -399,7 +433,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                       type="button"
                       onClick={() => setIsFormVisible(false)}
                     >
-                      Cancel
+                      Cancelar
                     </Button>
                     <Button type="submit">Guardar</Button>
                   </Flex>

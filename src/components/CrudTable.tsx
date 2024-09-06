@@ -31,22 +31,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   useEffect(() => {
-    // const user = {
-    //   name: 'name',
-    //   lastName: 'name',
-    //   city: 'name',
-    //   birthDate: 'name',
-    //   email: 'name',
-    // };
-    // setItems([user, user, user, user, user]);
+    // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name',};setItems([user, user, user, user, user]);
 
-    const sub = client.models.User.observeQuery().subscribe({
-      next: ({ items }) => {
-        setItems([...items]);
-      },
-    });
-
-    return () => sub.unsubscribe();
+    const sub = client.models.User.observeQuery().subscribe({next: ({ items }) => {setItems([...items]);},}); return () => sub.unsubscribe();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,14 +189,12 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       {isFormVisible && (
         <div className="modal-overlay">
           <div className="modal">
-            <div className="modal-header">
-              <h3>Añadir nuevo usuario</h3>
-              <button
-                className="close-button"
-                onClick={() => setIsFormVisible(false)}
-              >
-                &times;
-              </button>
+            <div className="modal-header-confirmation">
+              <div className="modal-header">
+                <h3>Añadir nuevo usuario</h3>
+
+                <button onClick={() => setIsFormVisible(false)}>&times;</button>
+              </div>
             </div>
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
@@ -255,9 +240,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                 />
                 <Flex justifyContent="space-between" marginTop="medium">
                   <Button type="button" onClick={() => setIsFormVisible(false)}>
-                    Cancel
+                    Cancelar
                   </Button>
-                  <Button type="submit">Submit</Button>
+                  <Button type="submit">Crear</Button>
                 </Flex>
               </form>
             </div>

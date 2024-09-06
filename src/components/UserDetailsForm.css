@@ -16,22 +16,23 @@
 }
 
 .notify-button {
-    background-color: #f83737; /* Color rojo llamativo */
-    color: #fff; /* Color de texto blanco */
-    padding: 16px 24px; /* Tamaño más grande del botón */
-    font-size: 18px; /* Tamaño de fuente más grande */
-    font-weight: bold; /* Negrita */
-    border: none; /* Elimina el borde */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al estilo de pointer */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
-  }
-  
-  .notify-button:hover {
-    background-color: #ff4d4d; /* Color más oscuro al pasar el ratón */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave al pasar el ratón */
-  }
-  
+  background-color: #f83737; /* Color rojo llamativo */
+  color: #fff; /* Color de texto blanco */
+  padding: 16px 24px; /* Tamaño más grande del botón */
+  font-size: 18px; /* Tamaño de fuente más grande */
+  font-weight: bold; /* Negrita */
+  border: none; /* Elimina el borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al estilo de pointer */
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease; /* Transición suave */
+}
+
+.notify-button:hover {
+  background-color: #ff4d4d; /* Color más oscuro al pasar el ratón */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave al pasar el ratón */
+}
 
 ton:hover {
   background-color: #0056b3; /* Color más oscuro en hover */
@@ -42,8 +43,8 @@ ton:hover {
 
 .user-form {
   background-color: #f9f9f9; /* Fondo claro */
-  padding: 24px; 
-  border-radius: 8px; 
+  padding: 24px;
+  border-radius: 8px;
 }
 
 .grid-container {
@@ -91,6 +92,5 @@ ton:hover {
   background-color: #0056b3; /* Color más oscuro en hover */
 }
 mit-button:hover {
-    background-color: #0056b3; /* Color más oscuro en hover */
-  }
-  
+  background-color: #0056b3; /* Color más oscuro en hover */
+}

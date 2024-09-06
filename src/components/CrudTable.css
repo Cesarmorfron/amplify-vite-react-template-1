@@ -12,6 +12,7 @@
   font-size: 16px; /* Ajusta el tamaño de la fuente para una mejor apariencia */
   border: 1px solid #ccc; /* Opcional: Ajusta el borde del input */
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .add-button {
