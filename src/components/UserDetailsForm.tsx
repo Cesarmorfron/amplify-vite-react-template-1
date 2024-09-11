@@ -51,10 +51,51 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   useEffect(() => {
-    // const contact = {id: 'name',emailContact: 'name',name: 'name',lastName: 'name',idUser: 'name',}; setItems([contact, contact, contact, contact, contact]);
-
     const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    // Función para obtener los contactos filtrados
+    const fetchContacts = async () => {
+      try {
+        const { data: contacts, errors } = await client.models.Contact.list({
+          filter: {
+            idUser: {
+              eq: user?.id
+            }
+          }
+        });
+
+        if (errors) {
+          console.error(errors);
+        } else {
+          setItems(contacts);
+        }
+      } catch (error) {
+        console.error("Error fetching contacts:", error);
+      }
+    };
+
+    // Llama a la función para obtener los contactos iniciales
+    fetchContacts();
+
+    // Suscripción a cambios en tiempo real
+    const sub = client.models.Contact.observeQuery().subscribe({
+      next: ({ items }) => {
+        setItems([...items]);
+      },
+    });
+
+    // Cleanup para la suscripción
+    return () => sub.unsubscribe();
+  }, [user?.id]);
+
+  // useEffect(() => {
+  //   // const contact = {id: 'name',emailContact: 'name',name: 'name',lastName: 'name',idUser: 'name',}; setItems([contact, contact, contact, contact, contact]);
+
+  //   const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
+    
+  // }, []);
 
   const handleNotifyDeleteContactClick = (id: string) => {
     setContactToDelete(id);
