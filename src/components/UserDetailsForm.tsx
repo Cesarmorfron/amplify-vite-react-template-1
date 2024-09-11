@@ -85,7 +85,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           (contact) => contact.idUser === user?.id
         );
         console.log(filteredItems);
-        setItems(JSON.stringify(filteredItems));
+        setItems(filteredItems);
       },
     });
 
