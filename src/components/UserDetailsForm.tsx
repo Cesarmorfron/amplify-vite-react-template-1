@@ -89,26 +89,33 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleUpdateUserInfoSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    await client.models.User.update({
-      id: user!.id,
-      name: formEditData.name,
-      lastName: formEditData.lastName,
-      city: formEditData.city,
-      birthDate: formEditData.birthDate,
-      email: formEditData.email,
-    });
-    console.log(1)
-    formData.name = formEditData.name
-    formData.lastName = formEditData.lastName
-    formData.city = formEditData.city
-    formData.birthDate = formEditData.birthDate
-    formData.email = formEditData.email
-    console.log(2)
-
-    // Hide modal after submission
-    setEditInfoFormVisible(false);
+    try {
+      console.log(1)
+      e.preventDefault();
+      console.log(2)
+  
+      await client.models.User.update({
+        id: user!.id,
+        name: formEditData.name,
+        lastName: formEditData.lastName,
+        city: formEditData.city,
+        birthDate: formEditData.birthDate,
+        email: formEditData.email,
+      });
+      console.log(3)
+      formData.name = formEditData.name
+      formData.lastName = formEditData.lastName
+      formData.city = formEditData.city
+      formData.birthDate = formEditData.birthDate
+      formData.email = formEditData.email
+      console.log(4)
+  
+      // Hide modal after submission
+      setEditInfoFormVisible(false);
+    }catch(error) {
+      console.log(error)
+      throw error
+    }
   };
 
   const closeEditInfoForm = () => {
@@ -317,7 +324,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Button type="submit">Editar</Button>
                 </Flex>
               </form>
-            </div>
+            </div>handleUpdateUserInfoSubmit
           </div>
         </div>
       )}
