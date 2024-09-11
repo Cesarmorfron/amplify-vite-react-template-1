@@ -264,8 +264,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           <div className="modal">
             <div className="modal-header-confirmation">
               <div className="modal-header">
-                <h3>Añadir nuevo usuario</h3>
-
+                <h3>Editar usuario</h3>
                 <button onClick={() => closeEditInfoForm()}>
                   &times;
                 </button>
