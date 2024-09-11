@@ -77,6 +77,19 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     });
   };
 
+  const handleUpdateUserInfoSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    await client.models.User.update({
+      id: user!.id,
+      name: formData.name,
+      lastName: formData.lastName,
+      city: formData.city,
+      birthDate: formData.birthDate,
+      email: formData.email,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -169,7 +182,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="user-form">
+      <form onSubmit={handleUpdateUserInfoSubmit} className="user-form">
         <Grid
           templateColumns="repeat(3, 1fr)"
           gap="small"
