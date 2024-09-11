@@ -99,12 +99,13 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       birthDate: formEditData.birthDate,
       email: formEditData.email,
     });
-
+    console.log(1)
     formData.name = formEditData.name
     formData.lastName = formEditData.lastName
-    formData.city = formEditData.name
+    formData.city = formEditData.city
     formData.birthDate = formEditData.birthDate
     formData.email = formEditData.email
+    console.log(2)
 
     // Hide modal after submission
     setEditInfoFormVisible(false);
@@ -113,10 +114,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const closeEditInfoForm = () => {
     formEditData.name = formData.name
     formEditData.lastName = formData.lastName
-    formEditData.city = formData.name
+    formEditData.city = formData.city
     formEditData.birthDate = formData.birthDate
     formEditData.email = formData.email
 
+    console.log(3)
     setEditInfoFormVisible(false);
   }
 
