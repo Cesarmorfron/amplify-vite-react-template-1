@@ -69,7 +69,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const handleDeleteContactConfirm = async (id: string) => {
     console.log('Fallecimiento notificado');
     console.log(id);
-    await client.models.User.delete({ id });
+    await client.models.Contact.delete({ id });
     setIsDeleteContactDialogOpen(false);
   };
 
