@@ -75,7 +75,6 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
   // TODO: probar: borrado y como se pone a cero luego el id
   const handleDeleteUserConfirm = async (id: string) => {
-    console.log('Fallecimiento notificado');
     await client.models.User.delete({ id });
     setIsDeleteUserDialogOpen(false);
   };
@@ -131,7 +130,10 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                     <div className="buttonsActions">
                       {/* <Button onClick={() => deleteItem(item.id)}> */}
                       <Button
-                        onClick={() => handleNotifyDeleteUserClick(item.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleNotifyDeleteUserClick(item.id);
+                        }}
                       >
                         &#x1F5D1;
                       </Button>
