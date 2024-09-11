@@ -65,25 +65,23 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         if (errors) {
           console.error(errors);
         } else {
-          setItems(contacts);
+          setItems([...contacts]);
         }
       } catch (error) {
         console.error("Error fetching contacts:", error);
       }
     };
 
-    // Llama a la función para obtener los contactos iniciales
     fetchContacts();
 
-    // Suscripción a cambios en tiempo real
-    const sub = client.models.Contact.observeQuery().subscribe({
-      next: ({ items }) => {
-        setItems([...items]);
-      },
-    });
+    // const sub = client.models.Contact.observeQuery().subscribe({
+    //   next: ({ items }) => {
+    //     setItems([...items]);
+    //   },
+    // });
 
-    // Cleanup para la suscripción
-    return () => sub.unsubscribe();
+    // // Cleanup para la suscripción
+    // return () => sub.unsubscribe();
   }, [user?.id]);
 
   // useEffect(() => {
