@@ -33,7 +33,12 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   useEffect(() => {
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name',};setItems([user, user, user, user, user]);
 
-    const sub = client.models.User.observeQuery().subscribe({next: ({ items }) => {setItems([...items]);},}); return () => sub.unsubscribe();
+    const sub = client.models.User.observeQuery().subscribe({
+      next: ({ items }) => {
+        setItems([...items]);
+      },
+    });
+    return () => sub.unsubscribe();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,7 +167,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  handleDeleteUserConfirm(userToDelete); 
+                  handleDeleteUserConfirm(userToDelete);
                 }}
               >
                 <Flex justifyContent="space-between" marginTop="medium">

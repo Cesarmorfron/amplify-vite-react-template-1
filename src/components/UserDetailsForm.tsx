@@ -51,44 +51,53 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   useEffect(() => {
-    // Función para obtener los contactos filtrados
+    console.log(1);
     const fetchContacts = async () => {
+      console.log(2);
       try {
         const { data: contacts, errors } = await client.models.Contact.list({
           filter: {
             idUser: {
-              eq: user?.id
-            }
-          }
+              eq: user?.id,
+            },
+          },
         });
 
         if (errors) {
           console.error(errors);
         } else {
+          console.log(JSON.stringify(contacts));
           setItems([...contacts]);
         }
       } catch (error) {
-        console.error("Error fetching contacts:", error);
+        console.error('Error fetching contacts:', error);
       }
     };
 
     fetchContacts();
 
-    // const sub = client.models.Contact.observeQuery().subscribe({
-    //   next: ({ items }) => {
-    //     setItems([...items]);
-    //   },
-    // });
+    // Suscripción a cambios en tiempo real
+    const sub = client.models.Contact.observeQuery().subscribe({
+      next: ({ items }) => {
+        console.log(3);
+        // Filtra los contactos en tiempo real según el idUser
+        const filteredItems = items.filter(
+          (contact) => contact.idUser === user?.id
+        );
+        console.log(filteredItems);
+        setItems(JSON.stringify(filteredItems));
+      },
+    });
 
-    // // Cleanup para la suscripción
-    // return () => sub.unsubscribe();
+    // Cleanup para la suscripción
+    return () => sub.unsubscribe();
   }, [user?.id]);
 
   // useEffect(() => {
   //   // const contact = {id: 'name',emailContact: 'name',name: 'name',lastName: 'name',idUser: 'name',}; setItems([contact, contact, contact, contact, contact]);
 
   //   const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
-    
+
   // }, []);
 
   const handleNotifyDeleteContactClick = (id: string) => {
@@ -127,7 +136,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const handleUpdateUserInfoSubmit = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
-  
+
       await client.models.User.update({
         id: user!.id,
         name: formEditData.name,
@@ -136,30 +145,30 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         birthDate: formEditData.birthDate,
         email: formEditData.email,
       });
-      formData.name = formEditData.name
-      formData.lastName = formEditData.lastName
-      formData.city = formEditData.city
-      formData.birthDate = formEditData.birthDate
-      formData.email = formEditData.email
-  
+      formData.name = formEditData.name;
+      formData.lastName = formEditData.lastName;
+      formData.city = formEditData.city;
+      formData.birthDate = formEditData.birthDate;
+      formData.email = formEditData.email;
+
       // Hide modal after submission
       setEditInfoFormVisible(false);
-    }catch(error) {
-      console.log(error)
-      throw error
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   };
 
   const closeEditInfoForm = () => {
-    formEditData.name = formData.name
-    formEditData.lastName = formData.lastName
-    formEditData.city = formData.city
-    formEditData.birthDate = formData.birthDate
-    formEditData.email = formData.email
+    formEditData.name = formData.name;
+    formEditData.lastName = formData.lastName;
+    formEditData.city = formData.city;
+    formEditData.birthDate = formData.birthDate;
+    formEditData.email = formData.email;
 
-    console.log(3)
+    console.log(3);
     setEditInfoFormVisible(false);
-  }
+  };
 
   const handleCreateContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -301,9 +310,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             <div className="modal-header-confirmation">
               <div className="modal-header">
                 <h3>Editar usuario</h3>
-                <button onClick={() => closeEditInfoForm()}>
-                  &times;
-                </button>
+                <button onClick={() => closeEditInfoForm()}>&times;</button>
               </div>
             </div>
             <div className="modal-body">
@@ -465,7 +472,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 </button>
               </div>
               <div className="modal-body">
-                <form 
+                <form
                   onSubmit={(e) => {
                     e.preventDefault();
                     handleDeleteContactConfirm(contactToDelete);
