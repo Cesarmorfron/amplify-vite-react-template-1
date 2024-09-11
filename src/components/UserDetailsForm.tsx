@@ -320,7 +320,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Button type="submit">Editar</Button>
                 </Flex>
               </form>
-            </div>handleUpdateUserInfoSubmit
+            </div>
           </div>
         </div>
       )}
