@@ -18,6 +18,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isFormStorageManagerVisible, setIsFormStorageManagerVisible] =
     useState(false);
+  const [isEditInfoFormVisible, setEditInfoFormVisible] = useState(false);
+
   const [items, setItems] = useState<Schema['Contact']['type'][]>([]);
   const [isDialogDeadOpen, setIsDialogDeadOpen] = useState(false);
   const [isDeleteContactDialogOpen, setIsDeleteContactDialogOpen] =
@@ -189,84 +191,106 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           className="grid-container"
         >
           <div className="form-group">
-            <label htmlFor="name" className="form-label">
-              Name
-            </label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={handleChange}
-              size="small"
-              isRequired
-              className="form-input"
-            />
+            <label className="form-label">Name</label>
+            <p className="form-input">{formData.name}</p>
           </div>
 
           <div className="form-group">
-            <label htmlFor="lastName" className="form-label">
-              Last Name
-            </label>
-            <Input
-              id="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              size="small"
-              isRequired
-              className="form-input"
-            />
+            <label className="form-label">Last Name</label>
+            <p className="form-input">{formData.lastName}</p>
           </div>
 
           <div className="form-group">
-            <label htmlFor="city" className="form-label">
-              City
-            </label>
-            <Input
-              id="city"
-              value={formData.city}
-              onChange={handleChange}
-              size="small"
-              isRequired
-              className="form-input"
-            />
+            <label className="form-label">City</label>
+            <p className="form-input">{formData.city}</p>
           </div>
 
           <div className="form-group">
-            <label htmlFor="birthDate" className="form-label">
-              Birth Date
-            </label>
-            <Input
-              id="birthDate"
-              type="date"
-              value={formData.birthDate}
-              onChange={handleChange}
-              size="small"
-              isRequired
-              className="form-input"
-            />
+            <label className="form-label">Birth Date</label>
+            <p className="form-input">{formData.birthDate}</p>
           </div>
 
           <div className="form-group">
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              size="small"
-              isRequired
-              className="form-input"
-            />
+            <label className="form-label">Email</label>
+            <p className="form-input">{formData.email}</p>
           </div>
         </Grid>
 
         <Flex justifyContent="center" marginTop="small">
-          <Button onClick={() => handleUpdateUserInfoSubmit} type="submit" className="add-button">
-            Actualizar
+          <Button
+            onClick={() => setEditInfoFormVisible(true)}
+            className="add-button"
+          >
+            Editar informacion
           </Button>
         </Flex>
       </form>
+
+      {isEditInfoFormVisible && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className="modal-header-confirmation">
+              <div className="modal-header">
+                <h3>Añadir nuevo usuario</h3>
+
+                <button onClick={() => setEditInfoFormVisible(false)}>
+                  &times;
+                </button>
+              </div>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={handleUpdateUserInfoSubmit}>
+                <Label htmlFor="name">Nombre</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="lastName">Apellidos</Label>
+                <Input
+                  id="lastName"
+                  type="text"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="city">Ciudad</Label>
+                <Input
+                  id="city"
+                  type="text"
+                  value={formData.city}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="birthDate">Fecha de nacimiento</Label>
+                <Input
+                  id="birthDate"
+                  type="date"
+                  value={formData.birthDate}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Flex justifyContent="space-between" marginTop="medium">
+                  <Button type="button" onClick={() => setEditInfoFormVisible(false)}>
+                    Cancelar
+                  </Button>
+                  <Button type="submit">Editar</Button>
+                </Flex>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="crud-container">
         <Flex direction="column" gap="small">
