@@ -51,10 +51,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   useEffect(() => {
-    const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
-  }, []);
-
-  useEffect(() => {
     // Función para obtener los contactos filtrados
     const fetchContacts = async () => {
       try {
