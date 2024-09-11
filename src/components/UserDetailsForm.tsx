@@ -261,7 +261,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               <div className="modal-header">
                 <h3>Añadir nuevo usuario</h3>
 
-                <button onClick={() => closeEditInfoForm}>
+                <button onClick={() => closeEditInfoForm()}>
                   &times;
                 </button>
               </div>
@@ -309,7 +309,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   isRequired
                 />
                 <Flex justifyContent="space-between" marginTop="medium">
-                  <Button type="button" onClick={() => closeEditInfoForm}>
+                  <Button type="button" onClick={() => closeEditInfoForm()}>
                     Cancelar
                   </Button>
                   <Button type="submit">Editar</Button>
