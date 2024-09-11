@@ -68,6 +68,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   // TODO: probar: borrado y como se pone a cero luego el id
   const handleDeleteContactConfirm = async (id: string) => {
     console.log('Fallecimiento notificado');
+    console.log(id);
     await client.models.User.delete({ id });
     setIsDeleteContactDialogOpen(false);
   };
@@ -125,7 +126,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setEditInfoFormVisible(false);
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleCreateContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     await client.models.Contact.create({
@@ -202,7 +203,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             </div>
 
             <div className="modal-body">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleCreateContactSubmit}>
                 <Flex justifyContent="space-between" marginTop="medium">
                   <Button type="button" onClick={() => handleConfirm()}>
                     Sí, estoy seguro
@@ -429,10 +430,10 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 </button>
               </div>
               <div className="modal-body">
-                <form
+                <form 
                   onSubmit={(e) => {
                     e.preventDefault();
-                    handleDeleteContactConfirm(contactToDelete); // Usa userToDelete aquí
+                    handleDeleteContactConfirm(contactToDelete);
                   }}
                 >
                   <Flex justifyContent="space-between" marginTop="medium">
@@ -472,7 +473,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 </div>
               </div>
               <div className="modal-body">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleCreateContactSubmit}>
                   <Label htmlFor="emailContact">Email de contacto</Label>
                   <Input
                     id="emailContact"

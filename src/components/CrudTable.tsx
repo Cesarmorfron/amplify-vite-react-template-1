@@ -162,7 +162,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  handleDeleteUserConfirm(userToDelete); // Usa userToDelete aquí
+                  handleDeleteUserConfirm(userToDelete); 
                 }}
               >
                 <Flex justifyContent="space-between" marginTop="medium">
