@@ -110,6 +110,16 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setIsFormVisible(false);
   };
 
+  const closeEditInfoForm = () => {
+    formEditData.name = formData.name
+    formEditData.lastName = formData.lastName
+    formEditData.city = formData.name
+    formEditData.birthDate = formData.birthDate
+    formEditData.email = formData.email
+
+    setEditInfoFormVisible(false);
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -251,7 +261,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               <div className="modal-header">
                 <h3>Añadir nuevo usuario</h3>
 
-                <button onClick={() => setEditInfoFormVisible(false)}>
+                <button onClick={() => closeEditInfoForm}>
                   &times;
                 </button>
               </div>
@@ -299,7 +309,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   isRequired
                 />
                 <Flex justifyContent="space-between" marginTop="medium">
-                  <Button type="button" onClick={() => setEditInfoFormVisible(false)}>
+                  <Button type="button" onClick={() => closeEditInfoForm}>
                     Cancelar
                   </Button>
                   <Button type="submit">Editar</Button>
