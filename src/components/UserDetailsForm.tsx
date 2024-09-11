@@ -26,7 +26,16 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     useState(false);
   const [contactToDelete, setContactToDelete] = useState('');
 
-  const [formData, setFormData] = useState({
+  const [formData] = useState({
+    id: user?.id || '',
+    name: user?.name || '',
+    lastName: user?.lastName || '',
+    city: user?.city || '',
+    birthDate: user?.birthDate || '',
+    email: user?.email || '',
+  });
+
+  const [formEditData, setFormEditData] = useState({
     id: user?.id || '',
     name: user?.name || '',
     lastName: user?.lastName || '',
@@ -65,8 +74,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormEditData({
+      ...formEditData,
       [id]: value,
     });
   };
@@ -84,12 +93,18 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
     await client.models.User.update({
       id: user!.id,
-      name: formData.name,
-      lastName: formData.lastName,
-      city: formData.city,
-      birthDate: formData.birthDate,
-      email: formData.email,
+      name: formEditData.name,
+      lastName: formEditData.lastName,
+      city: formEditData.city,
+      birthDate: formEditData.birthDate,
+      email: formEditData.email,
     });
+
+    formData.name = formEditData.name
+    formData.lastName = formEditData.lastName
+    formData.city = formEditData.name
+    formData.birthDate = formEditData.birthDate
+    formData.email = formEditData.email
 
     // Hide modal after submission
     setIsFormVisible(false);
@@ -247,7 +262,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 <Input
                   id="name"
                   type="text"
-                  value={formData.name}
+                  value={formEditData.name}
                   onChange={handleChange}
                   isRequired
                 />
@@ -255,7 +270,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 <Input
                   id="lastName"
                   type="text"
-                  value={formData.lastName}
+                  value={formEditData.lastName}
                   onChange={handleChange}
                   isRequired
                 />
@@ -263,7 +278,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 <Input
                   id="city"
                   type="text"
-                  value={formData.city}
+                  value={formEditData.city}
                   onChange={handleChange}
                   isRequired
                 />
@@ -271,7 +286,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 <Input
                   id="birthDate"
                   type="date"
-                  value={formData.birthDate}
+                  value={formEditData.birthDate}
                   onChange={handleChange}
                   isRequired
                 />
@@ -279,7 +294,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 <Input
                   id="email"
                   type="email"
-                  value={formData.email}
+                  value={formEditData.email}
                   onChange={handleChange}
                   isRequired
                 />
