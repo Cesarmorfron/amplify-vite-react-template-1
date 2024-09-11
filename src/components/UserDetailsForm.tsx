@@ -182,7 +182,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         </div>
       )}
 
-      <form onSubmit={handleUpdateUserInfoSubmit} className="user-form">
+      <form className="user-form">
         <Grid
           templateColumns="repeat(3, 1fr)"
           gap="small"
@@ -262,7 +262,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         </Grid>
 
         <Flex justifyContent="center" marginTop="small">
-          <Button type="submit" className="add-button">
+          <Button onClick={() => handleUpdateUserInfoSubmit} type="submit" className="add-button">
             Actualizar
           </Button>
         </Flex>
