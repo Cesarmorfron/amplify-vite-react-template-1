@@ -90,6 +90,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       birthDate: formData.birthDate,
       email: formData.email,
     });
+
+    // Hide modal after submission
+    setIsFormVisible(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
