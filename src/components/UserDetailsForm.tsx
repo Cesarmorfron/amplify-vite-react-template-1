@@ -107,7 +107,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     formData.email = formEditData.email
 
     // Hide modal after submission
-    setIsFormVisible(false);
+    setEditInfoFormVisible(false);
   };
 
   const closeEditInfoForm = () => {
