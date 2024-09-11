@@ -58,6 +58,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       city: formData.city,
       birthDate: formData.birthDate,
       email: formData.email,
+      deceased: false,
     });
 
     // Clear form data

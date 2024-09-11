@@ -22,6 +22,7 @@ const schema = a.schema({
       city: a.string(),
       birthDate: a.string(),
       email: a.string(),
+      deceased: a.boolean(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
   Contact: a
