@@ -33,7 +33,24 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   useEffect(() => {
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
-    const sub = client.models.User.observeQuery().subscribe({next: ({ items }) => {        setItems([...items]);      },    });    return () => sub.unsubscribe();
+    const sub = client.models.User.observeQuery().subscribe({
+      next: ({ items }) => {
+        // Ordena los items por el campo 'email' en orden alfabético
+        const sortedItems = [...items].sort((a, b) => {
+          if (a.email! < b.email!) return -1;
+          if (a.email! > b.email!) return 1;
+          return 0;
+        });
+        
+        // Actualiza el estado con los items ordenados
+        setItems(sortedItems);
+      },
+    });
+    
+    return () => sub.unsubscribe();
+    
+
+    // const sub = client.models.User.observeQuery().subscribe({next: ({ items }) => {        setItems([...items]);      },    });    return () => sub.unsubscribe();
 
   }, []);
 

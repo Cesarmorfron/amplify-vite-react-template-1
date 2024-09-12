@@ -60,12 +60,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   useEffect(() => {
-    console.log(JSON.stringify(user))
     if (user?.deceased) {
-      console.log(1)
       setIsInfoDeceasedShowed(true);
     } else {
-      console.log(2)
       setIsInfoDeceasedShowed(false);
     }
     const fetchContacts = async () => {
@@ -93,13 +90,16 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     // Suscripción a cambios en tiempo real
     const sub = client.models.Contact.observeQuery().subscribe({
       next: ({ items }) => {
-        console.log(3);
-        // Filtra los contactos en tiempo real según el idUser
         const filteredItems = items.filter(
           (contact) => contact.idUser === user?.id
         );
-        console.log(filteredItems);
-        setItems(filteredItems);
+
+        const sortedItems = [...filteredItems].sort((a, b) => {
+          if (a.emailContact! < b.emailContact!) return -1;
+          if (a.emailContact! > b.emailContact!) return 1;
+          return 0;
+        });
+        setItems(sortedItems);
       },
     });
 
