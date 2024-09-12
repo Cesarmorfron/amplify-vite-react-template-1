@@ -59,63 +59,63 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     lastName: '',
   });
 
-  // useEffect(() => {
-  //   if (user?.deceased) {
-  //     setIsInfoDeceasedShowed(true);
-  //   } else {
-  //     setIsInfoDeceasedShowed(false);
-  //   }
-  //   const fetchContacts = async () => {
-  //     try {
-  //       const { data: contacts, errors } = await client.models.Contact.list({
-  //         filter: {
-  //           idUser: {
-  //             eq: user?.id,
-  //           },
-  //         },
-  //       });
-
-  //       if (errors) {
-  //         console.error(errors);
-  //       } else {
-  //         setItems([...contacts]);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching contacts:', error);
-  //     }
-  //   };
-
-  //   fetchContacts();
-
-  //   // Suscripción a cambios en tiempo real
-  //   const sub = client.models.Contact.observeQuery().subscribe({
-  //     next: ({ items }) => {
-  //       console.log(3);
-  //       // Filtra los contactos en tiempo real según el idUser
-  //       const filteredItems = items.filter(
-  //         (contact) => contact.idUser === user?.id
-  //       );
-  //       console.log(filteredItems);
-  //       setItems(filteredItems);
-  //     },
-  //   });
-
-  //   // Cleanup para la suscripción
-  //   return () => sub.unsubscribe();
-  // }, [user?.id]);
-
   useEffect(() => {
-    const contact = {
-      id: 'name',
-      emailContact: 'name',
-      name: 'name',
-      lastName: 'name',
-      idUser: 'name',
-    };
-    setItems([contact, contact, contact, contact, contact]);
+    if (user?.deceased) {
+      setIsInfoDeceasedShowed(true);
+    } else {
+      setIsInfoDeceasedShowed(false);
+    }
+    const fetchContacts = async () => {
+      try {
+        const { data: contacts, errors } = await client.models.Contact.list({
+          filter: {
+            idUser: {
+              eq: user?.id,
+            },
+          },
+        });
 
-    // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
-  }, []);
+        if (errors) {
+          console.error(errors);
+        } else {
+          setItems([...contacts]);
+        }
+      } catch (error) {
+        console.error('Error fetching contacts:', error);
+      }
+    };
+
+    fetchContacts();
+
+    // Suscripción a cambios en tiempo real
+    const sub = client.models.Contact.observeQuery().subscribe({
+      next: ({ items }) => {
+        console.log(3);
+        // Filtra los contactos en tiempo real según el idUser
+        const filteredItems = items.filter(
+          (contact) => contact.idUser === user?.id
+        );
+        console.log(filteredItems);
+        setItems(filteredItems);
+      },
+    });
+
+    // Cleanup para la suscripción
+    return () => sub.unsubscribe();
+  }, [user?.id]);
+
+  // useEffect(() => {
+  //   const contact = {
+  //     id: 'name',
+  //     emailContact: 'name',
+  //     name: 'name',
+  //     lastName: 'name',
+  //     idUser: 'name',
+  //   };
+  //   setItems([contact, contact, contact, contact, contact]);
+
+  //   // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
+  // }, []);
 
   const handleNotifyDeleteContactClick = (id: string) => {
     if (!user?.deceased) {
