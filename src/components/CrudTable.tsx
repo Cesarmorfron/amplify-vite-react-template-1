@@ -32,13 +32,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
   useEffect(() => {
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name',};setItems([user, user, user, user, user]);
+    const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: false,};setItems([user, user, user, user, user]);
 
-    const sub = client.models.User.observeQuery().subscribe({
-      next: ({ items }) => {
-        setItems([...items]);
-      },
-    });
-    return () => sub.unsubscribe();
+    // const sub = client.models.User.observeQuery().subscribe({next: ({ items }) => {        setItems([...items]);      },    });    return () => sub.unsubscribe();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +112,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                 <th>Email</th>
                 <th>Nombre</th>
                 <th>Apellidos</th>
+                <th>Estado</th>
                 <th>Eliminar</th>
               </tr>
             </thead>
@@ -132,6 +129,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   <td className="table-ellipsis">{item.email}</td>
                   <td className="table-ellipsis">{item.name}</td>
                   <td className="table-ellipsis">{item.lastName}</td>
+                  <td className="table-ellipsis">{item.deceased ? 'Fallecido' : 'Vivo'}</td>
                   <td>
                     <div className="buttonsActions">
                       {/* <Button onClick={() => deleteItem(item.id)}> */}
