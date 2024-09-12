@@ -38,7 +38,7 @@ const App: React.FC = () => {
   >(null);
 
   return (
-    <Authenticator>
+    // <Authenticator>
       <Router>
         <div className="header-title">
           <Header title="Esquela Electrónica" />
@@ -57,7 +57,7 @@ const App: React.FC = () => {
           </Routes>
         </div>
       </Router>
-    </Authenticator>
+    // </Authenticator>
   );
 };
 
