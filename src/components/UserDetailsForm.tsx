@@ -22,6 +22,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const [items, setItems] = useState<Schema['Contact']['type'][]>([]);
   const [isDialogDeceasedOpen, setIsDialogDeceasedOpen] = useState(false);
+  const [isInfoDeceasedShowed, setIsInfoDeceasedShowed] = useState(false);
+
   const [isDeleteContactDialogOpen, setIsDeleteContactDialogOpen] =
     useState(false);
   const [contactToDelete, setContactToDelete] = useState('');
@@ -58,6 +60,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   useEffect(() => {
+    if (user?.deceased) {
+      setIsInfoDeceasedShowed(true);
+    } else {
+      setIsInfoDeceasedShowed(false);
+    }
     const fetchContacts = async () => {
       try {
         const { data: contacts, errors } = await client.models.Contact.list({
@@ -233,6 +240,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
     console.log('Fallecimiento notificado');
     setIsDialogDeceasedOpen(false);
+    setIsInfoDeceasedShowed(true);
   };
 
   const handleCancel = () => {
@@ -263,8 +271,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header-confirmation">
-            <div className="header-content">
-            <h3>¿Notificar fallecimiento?</h3>
+              <div className="header-content">
+                <h3>¿Notificar fallecimiento?</h3>
                 <p>
                   Todos los contactos de este usuario recibirán una
                   notificación.
@@ -342,11 +350,13 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             <p className="form-input">{formData.email}</p>
           </div>
 
-          {user?.deceased && (
+          {isInfoDeceasedShowed && (
             <>
               <div className="form-group">
                 <label className="form-label">Estado</label>
-                <p className="form-input">{formData.deceased ? 'Fallecido' : 'Vivo'}</p>
+                <p className="form-input">
+                  {formData.deceased ? 'Fallecido' : 'Vivo'}
+                </p>
               </div>
 
               <div className="form-group">
