@@ -223,24 +223,24 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const handleNotifyClick = () => {
     console.log('handleNotifyClick user?.deceased')
-    console.log(user?.deceased)
-    if (!user?.deceased) setIsDialogDeceasedOpen(true);
+    console.log(isInfoDeceasedShowed)
+    if (!isInfoDeceasedShowed) setIsDialogDeceasedOpen(true);
   };
 
   const handleEditInfoClick = () => {
     console.log('handleEditInfoClick user?.deceased')
-    console.log(user?.deceased)
-    if (!user?.deceased) setEditInfoFormVisible(true);
+    console.log(isInfoDeceasedShowed)
+    if (!isInfoDeceasedShowed) setEditInfoFormVisible(true);
   };
 
   const handleFormVisibleClick = () => {
     console.log('handleFormVisibleClick user?.deceased')
-    console.log(user?.deceased)
-    if (!user?.deceased) setIsFormVisible(true);
+    console.log(isInfoDeceasedShowed)
+    if (!isInfoDeceasedShowed) setIsFormVisible(true);
   };
 
   const handleFormStorageManagerClick = () => {
-    if (!user?.deceased) setIsFormStorageManagerVisible(true);
+    if (!isInfoDeceasedShowed) setIsFormStorageManagerVisible(true);
   };
 
   const handleNotifySubmit = async (e: React.FormEvent) => {
@@ -293,7 +293,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         </Button>
         <Button
           onClick={handleNotifyClick}
-          className={`notify-button ${isFormVisible ? 'disabled' : ''}`}
+          className={`notify-button ${isInfoDeceasedShowed ? 'disabled' : ''}`}
         >
           Notificar fallecimiento
         </Button>
