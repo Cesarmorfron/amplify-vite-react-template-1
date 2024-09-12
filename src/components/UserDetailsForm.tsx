@@ -293,7 +293,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         </Button>
         <Button
           onClick={handleNotifyClick}
-          className={`notify-button ${user?.deceased ? 'disabled' : ''}`}
+          className={`notify-button ${isFormVisible ? 'disabled' : ''}`}
         >
           Notificar fallecimiento
         </Button>
@@ -412,7 +412,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         <Flex justifyContent="center" marginTop="small">
           <Button
             onClick={handleEditInfoClick}
-            className={`add-button ${user?.deceased ? 'disabled' : ''}`}
+            className={`add-button ${isFormVisible ? 'disabled' : ''}`}
           >
             Editar informacion
           </Button>
@@ -487,7 +487,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           <Flex className="search-container">
             <Button
               onClick={handleFormVisibleClick}
-              className={`add-button ${user?.deceased ? 'disabled' : ''}`}
+              className={`add-button ${isFormVisible ? 'disabled' : ''}`}
             >
               Añadir contacto
             </Button>
@@ -499,7 +499,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             />
             <Button
               onClick={handleFormStorageManagerClick}
-              className={`add-button ${user?.deceased ? 'disabled' : ''}`}
+              className={`add-button ${isFormVisible ? 'disabled' : ''}`}
             >
               Importar archivo
             </Button>
