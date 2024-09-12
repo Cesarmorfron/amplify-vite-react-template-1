@@ -59,66 +59,61 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     lastName: '',
   });
 
-  useEffect(() => {
-    if (user?.deceased) {
-      setIsInfoDeceasedShowed(true);
-    } else {
-      setIsInfoDeceasedShowed(false);
-    }
-    const fetchContacts = async () => {
-      try {
-        const { data: contacts, errors } = await client.models.Contact.list({
-          filter: {
-            idUser: {
-              eq: user?.id,
-            },
-          },
-        });
-
-        if (errors) {
-          console.error(errors);
-        } else {
-          setItems([...contacts]);
-        }
-      } catch (error) {
-        console.error('Error fetching contacts:', error);
-      }
-    };
-
-    fetchContacts();
-
-    // Suscripción a cambios en tiempo real
-    const sub = client.models.Contact.observeQuery().subscribe({
-      next: ({ items }) => {
-        const filteredItems = items.filter(
-          (contact) => contact.idUser === user?.id
-        );
-
-        const sortedItems = [...filteredItems].sort((a, b) => {
-          if (a.emailContact! < b.emailContact!) return -1;
-          if (a.emailContact! > b.emailContact!) return 1;
-          return 0;
-        });
-        setItems(sortedItems);
-      },
-    });
-
-    // Cleanup para la suscripción
-    return () => sub.unsubscribe();
-  }, [user?.id]);
-
   // useEffect(() => {
-  //   const contact = {
-  //     id: 'name',
-  //     emailContact: 'name',
-  //     name: 'name',
-  //     lastName: 'name',
-  //     idUser: 'name',
-  //   };
-  //   setItems([contact, contact, contact, contact, contact]);
+  //   if (user?.deceased) {
+  //     setIsInfoDeceasedShowed(true);
+  //   } else {
+  //     setIsInfoDeceasedShowed(false);
+  //   }
+  //   const fetchContacts = async () => {
+  //     try {
+  //       const { data: contacts, errors } = await client.models.Contact.list({
+  //         filter: {
+  //           idUser: {
+  //             eq: user?.id,
+  //           },
+  //         },
+  //       });
 
-  //   // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
-  // }, []);
+  //       if (errors) {
+  //         console.error(errors);
+  //       } else {
+  //         setItems([...contacts]);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching contacts:', error);
+  //     }
+  //   };
+
+  //   fetchContacts();
+
+  //   // Suscripción a cambios en tiempo real
+  //   const sub = client.models.Contact.observeQuery().subscribe({
+  //     next: ({ items }) => {
+  //       const filteredItems = items.filter(
+  //         (contact) => contact.idUser === user?.id
+  //       );
+
+  //       setItems(filteredItems);
+  //     },
+  //   });
+
+  //   // Cleanup para la suscripción
+  //   return () => sub.unsubscribe();
+  // }, [user?.id]);
+
+  useEffect(() => {
+    const contact = {
+      id: 'name',
+      emailContact: 'name',
+      name: 'name',
+      lastName: 'name',
+      idUser: 'name',
+    };
+    setItems([contact, contact, contact, contact, contact]);
+
+    // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
+  }, []);
 
   const handleNotifyDeleteContactClick = (id: string) => {
     if (!user?.deceased) {
@@ -227,13 +222,13 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleEditInfoClick = () => {
-    console.log('handleNotifyClick user?.deceased')
+    console.log('handleEditInfoClick user?.deceased')
     console.log(user?.deceased)
     if (!user?.deceased) setEditInfoFormVisible(true);
   };
 
   const handleFormVisibleClick = () => {
-    console.log('handleNotifyClick user?.deceased')
+    console.log('handleFormVisibleClick user?.deceased')
     console.log(user?.deceased)
     if (!user?.deceased) setIsFormVisible(true);
   };
@@ -410,7 +405,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
         <Flex justifyContent="center" marginTop="small">
           <Button
-            onClick={() => handleEditInfoClick}
+            onClick={handleEditInfoClick}
             className={`add-button ${user?.deceased ? 'disabled' : ''}`}
           >
             Editar informacion
@@ -485,7 +480,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         <Flex direction="column" gap="small">
           <Flex className="search-container">
             <Button
-              onClick={() => handleFormVisibleClick}
+              onClick={handleFormVisibleClick}
               className={`add-button ${user?.deceased ? 'disabled' : ''}`}
             >
               Añadir contacto
@@ -497,7 +492,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               className="search-input"
             />
             <Button
-              onClick={() => handleFormStorageManagerClick}
+              onClick={handleFormStorageManagerClick}
               className={`add-button ${user?.deceased ? 'disabled' : ''}`}
             >
               Importar archivo
