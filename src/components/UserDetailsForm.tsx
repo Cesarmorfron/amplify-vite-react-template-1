@@ -59,61 +59,69 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     lastName: '',
   });
 
-  useEffect(() => {
-    if (user?.deceased) {
-      setIsInfoDeceasedShowed(true);
-    } else {
-      setIsInfoDeceasedShowed(false);
-    }
-    const fetchContacts = async () => {
-      try {
-        const { data: contacts, errors } = await client.models.Contact.list({
-          filter: {
-            idUser: {
-              eq: user?.id,
-            },
-          },
-        });
-
-        if (errors) {
-          console.error(errors);
-        } else {
-          setItems([...contacts]);
-        }
-      } catch (error) {
-        console.error('Error fetching contacts:', error);
-      }
-    };
-
-    fetchContacts();
-
-    // Suscripción a cambios en tiempo real
-    const sub = client.models.Contact.observeQuery().subscribe({
-      next: ({ items }) => {
-        console.log(3);
-        // Filtra los contactos en tiempo real según el idUser
-        const filteredItems = items.filter(
-          (contact) => contact.idUser === user?.id
-        );
-        console.log(filteredItems);
-        setItems(filteredItems);
-      },
-    });
-
-    // Cleanup para la suscripción
-    return () => sub.unsubscribe();
-  }, [user?.id]);
-
   // useEffect(() => {
-  //   // const contact = {id: 'name',emailContact: 'name',name: 'name',lastName: 'name',idUser: 'name',}; setItems([contact, contact, contact, contact, contact]);
+  //   if (user?.deceased) {
+  //     setIsInfoDeceasedShowed(true);
+  //   } else {
+  //     setIsInfoDeceasedShowed(false);
+  //   }
+  //   const fetchContacts = async () => {
+  //     try {
+  //       const { data: contacts, errors } = await client.models.Contact.list({
+  //         filter: {
+  //           idUser: {
+  //             eq: user?.id,
+  //           },
+  //         },
+  //       });
 
-  //   const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
+  //       if (errors) {
+  //         console.error(errors);
+  //       } else {
+  //         setItems([...contacts]);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching contacts:', error);
+  //     }
+  //   };
 
-  // }, []);
+  //   fetchContacts();
+
+  //   // Suscripción a cambios en tiempo real
+  //   const sub = client.models.Contact.observeQuery().subscribe({
+  //     next: ({ items }) => {
+  //       console.log(3);
+  //       // Filtra los contactos en tiempo real según el idUser
+  //       const filteredItems = items.filter(
+  //         (contact) => contact.idUser === user?.id
+  //       );
+  //       console.log(filteredItems);
+  //       setItems(filteredItems);
+  //     },
+  //   });
+
+  //   // Cleanup para la suscripción
+  //   return () => sub.unsubscribe();
+  // }, [user?.id]);
+
+  useEffect(() => {
+    const contact = {
+      id: 'name',
+      emailContact: 'name',
+      name: 'name',
+      lastName: 'name',
+      idUser: 'name',
+    };
+    setItems([contact, contact, contact, contact, contact]);
+
+    // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
+  }, []);
 
   const handleNotifyDeleteContactClick = (id: string) => {
-    setContactToDelete(id);
-    setIsDeleteContactDialogOpen(true);
+    if (!user?.deceased) {
+      setContactToDelete(id);
+      setIsDeleteContactDialogOpen(true);
+    }
   };
 
   const handleDeleteContactCancel = () => {
@@ -210,7 +218,19 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleNotifyClick = () => {
-    setIsDialogDeceasedOpen(true);
+    if (!user?.deceased) setIsDialogDeceasedOpen(true);
+  };
+
+  const handleEditInfoClick = () => {
+    if (!user?.deceased) setEditInfoFormVisible(true);
+  };
+
+  const handleFormVisibleClick = () => {
+    if (!user?.deceased) setIsFormVisible(true);
+  };
+
+  const handleFormStorageManagerClick = () => {
+    if (!user?.deceased) setIsFormStorageManagerVisible(true);
   };
 
   const handleNotifySubmit = async (e: React.FormEvent) => {
@@ -261,8 +281,10 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         <Button onClick={handleBackToTable} className="back-button">
           &#x2190; {/* Flecha hacia la izquierda */}
         </Button>
-
-        <Button onClick={handleNotifyClick} className="notify-button">
+        <Button
+          onClick={handleNotifyClick}
+          className={`notify-button ${user?.deceased ? 'disabled' : ''}`}
+        >
           Notificar fallecimiento
         </Button>
       </Flex>
@@ -379,8 +401,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
         <Flex justifyContent="center" marginTop="small">
           <Button
-            onClick={() => setEditInfoFormVisible(true)}
-            className="add-button"
+            onClick={() => handleEditInfoClick}
+            className={`add-button ${user?.deceased ? 'disabled' : ''}`}
           >
             Editar informacion
           </Button>
@@ -454,8 +476,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         <Flex direction="column" gap="small">
           <Flex className="search-container">
             <Button
-              onClick={() => setIsFormVisible(true)}
-              className="add-button"
+              onClick={() => handleFormVisibleClick}
+              className={`add-button ${user?.deceased ? 'disabled' : ''}`}
             >
               Añadir contacto
             </Button>
@@ -466,13 +488,13 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               className="search-input"
             />
             <Button
-              onClick={() => setIsFormStorageManagerVisible(true)}
-              className="add-button"
+              onClick={() => handleFormStorageManagerClick}
+              className={`add-button ${user?.deceased ? 'disabled' : ''}`}
             >
               Importar archivo
             </Button>
           </Flex>
-
+          className={`add-button ${user?.deceased ? 'disabled' : ''}`}
           <div className="table-container">
             <Table>
               <thead>
@@ -480,7 +502,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <th>Email</th>
                   <th>Nombre</th>
                   <th>Apellidos</th>
-                  <th>Eliminar</th>
+                  {isInfoDeceasedShowed && <th>Eliminar</th>}
                 </tr>
               </thead>
               <tbody>
@@ -490,18 +512,17 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     <td className="table-ellipsis">{item.emailContact}</td>
                     <td className="table-ellipsis">{item.name}</td>
                     <td className="table-ellipsis">{item.lastName}</td>
-                    <td>
-                      <div className="buttonsActions">
-                        {/* <Button onClick={() => deleteItem(item.id!)}> */}
-                        <Button
-                          onClick={() =>
-                            handleNotifyDeleteContactClick(item.id!)
-                          }
-                        >
-                          &#x1F5D1;
-                        </Button>
-                      </div>
-                    </td>
+                    {isInfoDeceasedShowed && (
+                      <td>
+                        <div className="buttonsActions">
+                          <Button
+                            onClick={() => handleNotifyDeleteContactClick(item.id!)}
+                          >
+                            &#x1F5D1;
+                          </Button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

@@ -21,6 +21,13 @@
   background-color: rgb(218, 255, 207);
 }
 
+.add-button.disabled {
+  background-color: #cccccc; /* Color gris para cuando está deshabilitado */
+  color: #666666;
+  cursor: not-allowed; /* Cambia el cursor a no permitido */
+  box-shadow: none; /* Elimina cualquier sombra que tenga */
+}
+
 .crud-container {
   padding: 1rem;
   max-height: calc(
@@ -87,8 +94,9 @@ tr:hover {
   background-color: rgb(218, 255, 207); /* Color de fondo del botón */
 }
 
-button:hover {
+button:hover:not(.disabled) {
   background-color: #74ee64; /* Color de fondo del botón al pasar el ratón sobre él */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave al pasar el ratón */
 }
 
 .close-button {

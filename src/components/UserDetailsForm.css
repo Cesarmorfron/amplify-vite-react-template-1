@@ -29,7 +29,14 @@
     box-shadow 0.3s ease; /* Transición suave */
 }
 
-.notify-button:hover {
+.notify-button.disabled {
+  background-color: #cccccc; /* Color gris para cuando está deshabilitado */
+  color: #666666;
+  cursor: not-allowed; /* Cambia el cursor a no permitido */
+  box-shadow: none; /* Elimina cualquier sombra que tenga */
+}
+
+.notify-button:hover:not(.disabled) {
   background-color: #ff4d4d; /* Color más oscuro al pasar el ratón */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave al pasar el ratón */
 }
