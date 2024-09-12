@@ -273,8 +273,18 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setIsInfoDeceasedShowed(true);
   };
 
-  const handleCancel = () => {
+  const handleCancelDialogDeceased = () => {
+    formEditData.vigil = '';
+    formEditData.funeral = '';
+    formEditData.dateDeceased = '';
     setIsDialogDeceasedOpen(false);
+  };
+
+  const handleCancelFormAddNewContact = () => {
+    contactFormData.emailContact = '';
+    contactFormData.name = '';
+    contactFormData.lastName = '';
+    setIsFormVisible(false);
   };
 
   const handleBackToTable = () => {
@@ -309,7 +319,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   Todos los contactos de este usuario recibirán una
                   notificación.
                 </p>
-                <button onClick={() => setIsDialogDeceasedOpen(false)}>
+                <button onClick={handleCancelDialogDeceased}>
                   &times;
                 </button>
               </div>
@@ -340,7 +350,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 />
 
                 <Flex justifyContent="space-between" marginTop="medium">
-                  <Button type="button" onClick={handleCancel}>
+                  <Button type="button" onClick={handleCancelDialogDeceased}>
                     Cancelar
                   </Button>
                   <Button type="submit">Sí, estoy seguro</Button>
@@ -621,7 +631,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               <div className="modal-header-confirmation">
                 <div className="modal-header">
                   <h3>Añadir nuevo contacto</h3>
-                  <button onClick={() => setIsFormVisible(false)}>
+                  <button onClick={handleCancelFormAddNewContact}>
                     &times;
                   </button>
                 </div>
@@ -653,7 +663,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Flex justifyContent="space-between" marginTop="medium">
                     <Button
                       type="button"
-                      onClick={() => setIsFormVisible(false)}
+                      onClick={handleCancelFormAddNewContact}
                     >
                       Cancelar
                     </Button>
