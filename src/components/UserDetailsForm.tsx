@@ -566,8 +566,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               <div className="modal-body">
                 <StorageManager
                   acceptedFileTypes={['.csv']}
-                  path="public/"
-                  autoUpload={false}
+                  path="csvs-esquela/"
+                  autoUpload={true}
                   maxFileCount={1}
                   isResumable
                   displayText={{
