@@ -503,7 +503,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               Importar archivo
             </Button>
           </Flex>
-          className={`add-button ${user?.deceased ? 'disabled' : ''}`}
           <div className="table-container">
             <Table>
               <thead>
@@ -511,17 +510,16 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <th>Email</th>
                   <th>Nombre</th>
                   <th>Apellidos</th>
-                  {isInfoDeceasedShowed && <th>Eliminar</th>}
+                  {!isInfoDeceasedShowed && <th>Eliminar</th>}
                 </tr>
               </thead>
               <tbody>
                 {filteredItems.map((item) => (
-                  //   <tr key={item.id} onClick={() => handleRowClick(item)}>
                   <tr key={item.id}>
                     <td className="table-ellipsis">{item.emailContact}</td>
                     <td className="table-ellipsis">{item.name}</td>
                     <td className="table-ellipsis">{item.lastName}</td>
-                    {isInfoDeceasedShowed && (
+                    {!isInfoDeceasedShowed && (
                       <td>
                         <div className="buttonsActions">
                           <Button
