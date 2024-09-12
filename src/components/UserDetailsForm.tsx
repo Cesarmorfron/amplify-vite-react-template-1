@@ -263,8 +263,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header-confirmation">
-              <div className="header-content">
-                <h3>¿Notificar fallecimiento?</h3>
+            <div className="header-content">
+            <h3>¿Notificar fallecimiento?</h3>
                 <p>
                   Todos los contactos de este usuario recibirán una
                   notificación.
@@ -274,28 +274,25 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 </button>
               </div>
             </div>
-
             <div className="modal-body">
               <form onSubmit={handleNotifySubmit}>
-                <Label htmlFor="lastName">Velatorio</Label>
+                <Label htmlFor="vigil">Velatorio</Label>
                 <Input
-                  id="lastName"
+                  id="vigil"
                   type="text"
                   value={formEditData.vigil}
                   onChange={handleChange}
-                  isRequired
                 />
-                <Label htmlFor="city">Funeral</Label>
+                <Label htmlFor="funeral">Funeral</Label>
                 <Input
-                  id="city"
+                  id="funeral"
                   type="text"
                   value={formEditData.funeral}
                   onChange={handleChange}
-                  isRequired
                 />
-                <Label htmlFor="city">Fecha fallecimiento</Label>
+                <Label htmlFor="dateDeceased">Fecha fallecimiento</Label>
                 <Input
-                  id="city"
+                  id="dateDeceased"
                   type="date"
                   value={formEditData.dateDeceased}
                   onChange={handleChange}
