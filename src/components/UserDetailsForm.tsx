@@ -21,7 +21,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const [isEditInfoFormVisible, setEditInfoFormVisible] = useState(false);
 
   const [items, setItems] = useState<Schema['Contact']['type'][]>([]);
-  const [isDialogDeadOpen, setIsDialogDeadOpen] = useState(false);
+  const [isDialogDeceasedOpen, setIsDialogDeceasedOpen] = useState(false);
   const [isDeleteContactDialogOpen, setIsDeleteContactDialogOpen] =
     useState(false);
   const [contactToDelete, setContactToDelete] = useState('');
@@ -33,6 +33,10 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     city: user?.city || '',
     birthDate: user?.birthDate || '',
     email: user?.email || '',
+    deceased: user?.deceased,
+    vigil: user?.vigil || '',
+    funeral: user?.funeral || '',
+    dateDeceased: user?.dateDeceased || '',
   });
 
   const [formEditData, setFormEditData] = useState({
@@ -42,6 +46,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     city: user?.city || '',
     birthDate: user?.birthDate || '',
     email: user?.email || '',
+    vigil: user?.vigil || '',
+    funeral: user?.funeral || '',
+    dateDeceased: user?.dateDeceased || '',
   });
 
   const [contactFormData, setContactFormData] = useState({
@@ -51,9 +58,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   useEffect(() => {
-    console.log(1);
     const fetchContacts = async () => {
-      console.log(2);
       try {
         const { data: contacts, errors } = await client.models.Contact.list({
           filter: {
@@ -66,7 +71,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         if (errors) {
           console.error(errors);
         } else {
-          console.log(JSON.stringify(contacts));
           setItems([...contacts]);
         }
       } catch (error) {
@@ -144,12 +148,20 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         city: formEditData.city,
         birthDate: formEditData.birthDate,
         email: formEditData.email,
+        deceased: user?.deceased,
+        vigil: formEditData.vigil,
+        funeral: formEditData.funeral,
+        dateDeceased: formEditData.dateDeceased,
       });
       formData.name = formEditData.name;
       formData.lastName = formEditData.lastName;
       formData.city = formEditData.city;
       formData.birthDate = formEditData.birthDate;
       formData.email = formEditData.email;
+      formData.deceased = user!.deceased;
+      formData.vigil = formEditData.vigil;
+      formData.funeral = formEditData.funeral;
+      formData.dateDeceased = formEditData.dateDeceased;
 
       // Hide modal after submission
       setEditInfoFormVisible(false);
@@ -166,7 +178,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     formEditData.birthDate = formData.birthDate;
     formEditData.email = formData.email;
 
-    console.log(3);
     setEditInfoFormVisible(false);
   };
 
@@ -192,27 +203,45 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleNotifyClick = () => {
-    setIsDialogDeadOpen(true);
+    setIsDialogDeceasedOpen(true);
   };
 
-  const handleConfirm = () => {
-    // Aquí va la lógica para notificar el fallecimiento
+  const handleNotifySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    await client.models.User.update({
+      id: user!.id,
+      name: formEditData.name,
+      lastName: formEditData.lastName,
+      city: formEditData.city,
+      birthDate: formEditData.birthDate,
+      email: formEditData.email,
+      deceased: true,
+      vigil: formEditData.vigil,
+      funeral: formEditData.funeral,
+      dateDeceased: formEditData.dateDeceased,
+    });
+    formData.name = formEditData.name;
+    formData.lastName = formEditData.lastName;
+    formData.city = formEditData.city;
+    formData.birthDate = formEditData.birthDate;
+    formData.email = formEditData.email;
+    formData.deceased = true;
+    formData.vigil = formEditData.vigil;
+    formData.funeral = formEditData.funeral;
+    formData.dateDeceased = formEditData.dateDeceased;
+
     console.log('Fallecimiento notificado');
-    setIsDialogDeadOpen(false);
-    // Aquí puedes añadir cualquier otra lógica después de la confirmación
+    setIsDialogDeceasedOpen(false);
   };
 
   const handleCancel = () => {
-    setIsDialogDeadOpen(false);
+    setIsDialogDeceasedOpen(false);
   };
 
   const handleBackToTable = () => {
     navigate('/');
   };
-
-  // const deleteItem = async (id: string) => {
-  //   await client.models.Contact.delete({ id });
-  // };
 
   const filteredItems = items.filter((item) =>
     item.emailContact!.toLowerCase().includes(searchTerm.toLowerCase())
@@ -230,7 +259,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         </Button>
       </Flex>
 
-      {isDialogDeadOpen && (
+      {isDialogDeceasedOpen && (
         <div className="modal-overlay">
           <div className="modal">
             <div className="modal-header-confirmation">
@@ -240,18 +269,41 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   Todos los contactos de este usuario recibirán una
                   notificación.
                 </p>
-                <button onClick={() => setIsDialogDeadOpen(false)}>
+                <button onClick={() => setIsDialogDeceasedOpen(false)}>
                   &times;
                 </button>
               </div>
             </div>
 
             <div className="modal-body">
-              <form onSubmit={handleCreateContactSubmit}>
+              <form onSubmit={handleNotifySubmit}>
+                <Label htmlFor="lastName">Velatorio</Label>
+                <Input
+                  id="lastName"
+                  type="text"
+                  value={formEditData.vigil}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="city">Funeral</Label>
+                <Input
+                  id="city"
+                  type="text"
+                  value={formEditData.funeral}
+                  onChange={handleChange}
+                  isRequired
+                />
+                <Label htmlFor="city">Fecha fallecimiento</Label>
+                <Input
+                  id="city"
+                  type="date"
+                  value={formEditData.dateDeceased}
+                  onChange={handleChange}
+                  isRequired
+                />
+
                 <Flex justifyContent="space-between" marginTop="medium">
-                  <Button type="button" onClick={() => handleConfirm()}>
-                    Sí, estoy seguro
-                  </Button>
+                  <Button type="submit">Sí, estoy seguro</Button>
                   <Button type="button" onClick={handleCancel}>
                     Cancelar
                   </Button>
@@ -292,6 +344,30 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             <label className="form-label">Email</label>
             <p className="form-input">{formData.email}</p>
           </div>
+
+          {user?.deceased && (
+            <>
+              <div className="form-group">
+                <label className="form-label">Estado</label>
+                <p className="form-input">{formData.deceased ? 'Fallecido' : 'Vivo'}</p>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Fecha fallecimiento</label>
+                <p className="form-input">{formData.dateDeceased}</p>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Velatorio</label>
+                <p className="form-input">{formData.vigil}</p>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Funeral</label>
+                <p className="form-input">{formData.funeral}</p>
+              </div>
+            </>
+          )}
         </Grid>
 
         <Flex justifyContent="center" marginTop="small">
