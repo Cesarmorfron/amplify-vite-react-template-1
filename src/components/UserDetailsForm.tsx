@@ -60,9 +60,12 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   });
 
   useEffect(() => {
+    console.log(JSON.stringify(user))
     if (user?.deceased) {
+      console.log(1)
       setIsInfoDeceasedShowed(true);
     } else {
+      console.log(2)
       setIsInfoDeceasedShowed(false);
     }
     const fetchContacts = async () => {
@@ -218,14 +221,20 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleNotifyClick = () => {
+    console.log('handleNotifyClick user?.deceased')
+    console.log(user?.deceased)
     if (!user?.deceased) setIsDialogDeceasedOpen(true);
   };
 
   const handleEditInfoClick = () => {
+    console.log('handleNotifyClick user?.deceased')
+    console.log(user?.deceased)
     if (!user?.deceased) setEditInfoFormVisible(true);
   };
 
   const handleFormVisibleClick = () => {
+    console.log('handleNotifyClick user?.deceased')
+    console.log(user?.deceased)
     if (!user?.deceased) setIsFormVisible(true);
   };
 
@@ -634,7 +643,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     type="text"
                     value={contactFormData.name}
                     onChange={contactHandleChange}
-                    isRequired
                   />
                   <Label htmlFor="lastName">Apellidos</Label>
                   <Input
@@ -642,7 +650,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     type="text"
                     value={contactFormData.lastName}
                     onChange={contactHandleChange}
-                    isRequired
                   />
                   <Flex justifyContent="space-between" marginTop="medium">
                     <Button
