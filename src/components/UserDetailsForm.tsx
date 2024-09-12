@@ -308,10 +308,10 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 />
 
                 <Flex justifyContent="space-between" marginTop="medium">
-                  <Button type="submit">Sí, estoy seguro</Button>
                   <Button type="button" onClick={handleCancel}>
                     Cancelar
                   </Button>
+                  <Button type="submit">Sí, estoy seguro</Button>
                 </Flex>
               </form>
             </div>
@@ -564,20 +564,20 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Flex justifyContent="space-between" marginTop="medium">
                     <Button
                       type="button"
-                      onClick={() =>
-                        handleDeleteContactConfirm(contactToDelete)
-                      }
-                    >
-                      Sí, estoy seguro
-                    </Button>
-                    <Button
-                      type="button"
                       onClick={() => {
                         handleDeleteContactCancel();
                         setContactToDelete(''); // Limpia el ID cuando se cancela
                       }}
                     >
                       Cancelar
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() =>
+                        handleDeleteContactConfirm(contactToDelete)
+                      }
+                    >
+                      Sí, estoy seguro
                     </Button>
                   </Flex>
                 </form>

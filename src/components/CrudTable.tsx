@@ -179,18 +179,18 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                 <Flex justifyContent="space-between" marginTop="medium">
                   <Button
                     type="button"
-                    onClick={() => handleDeleteUserConfirm(userToDelete)}
-                  >
-                    Sí, estoy seguro
-                  </Button>
-                  <Button
-                    type="button"
                     onClick={() => {
                       handleDeleteUserCancel();
                       setUserToDelete(''); // Limpia el ID cuando se cancela
                     }}
                   >
                     Cancelar
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => handleDeleteUserConfirm(userToDelete)}
+                  >
+                    Sí, estoy seguro
                   </Button>
                 </Flex>
               </form>
