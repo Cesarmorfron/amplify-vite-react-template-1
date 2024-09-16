@@ -27,6 +27,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const [isDeleteContactDialogOpen, setIsDeleteContactDialogOpen] =
     useState(false);
   const [contactToDelete, setContactToDelete] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [formData] = useState({
     id: user?.id || '',
@@ -244,6 +245,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const handleNotifySubmit = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
+      setLoading(true); // Inicia la pantalla de carga
 
       await client.models.User.update({
         id: user!.id,
@@ -257,6 +259,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         funeral: formEditData.funeral,
         dateDeceased: formEditData.dateDeceased,
       });
+
       formData.name = formEditData.name;
       formData.lastName = formEditData.lastName;
       formData.city = formEditData.city;
@@ -279,6 +282,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         dateDeceased: formEditData.dateDeceased,
       });
 
+      await sleep(5000);
       console.log('response');
       console.log(response);
 
@@ -286,9 +290,13 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       setIsInfoDeceasedShowed(true);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false); // Detener la pantalla de carga
     }
   };
-
+  
+  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  
   const handleCancelDialogDeceased = () => {
     formEditData.vigil = '';
     formEditData.funeral = '';
@@ -324,6 +332,12 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           Notificar fallecimiento
         </Button>
       </Flex>
+
+      {loading && (
+        <div className="loading-screen">
+          <div className="spinner"></div>
+        </div>
+      )}
 
       {isDialogDeceasedOpen && (
         <div className="modal-overlay">
