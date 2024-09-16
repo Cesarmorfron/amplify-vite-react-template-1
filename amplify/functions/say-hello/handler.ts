@@ -1,15 +1,20 @@
-import type { Schema } from "../../data/resource"
-import { generateClient } from 'aws-amplify/data';
+import { Amplify } from 'aws-amplify';
+import type { Schema } from "../../data/resource";
+import outputs from '../../../amplify_outputs.json';
 
+// Configurar Amplify
+Amplify.configure(outputs);
+
+// Generar el cliente con el esquema de Amplify
+import { generateClient } from 'aws-amplify/data';
 const client = generateClient<Schema>();
 
 export const handler: Schema["sayHello"]["functionHandler"] = async (event) => {
-   // arguments typed from `.arguments()`
-   const { idUser } = event.arguments
-   console.log('name')
-   console.log(idUser)
+  // Extraer idUser desde los argumentos
+  const { idUser } = event.arguments;
+  console.log('idUser:', idUser);
 
-   const fetchContacts = async () => {
+  const fetchContacts = async () => {
     try {
       const { data: contacts, errors } = await client.models.Contact.list({
         filter: {
@@ -21,18 +26,16 @@ export const handler: Schema["sayHello"]["functionHandler"] = async (event) => {
 
       if (errors) {
         console.error(errors);
-      }
-      else {
-        console.log('contacts')
-        console.log(contacts)
+      } else {
+        console.log('contacts:', contacts);
       }
     } catch (error) {
       console.error('Error fetching contacts:', error);
     }
   };
 
-  fetchContacts();
+  await fetchContacts();
 
-   // return typed from `.returns()`
-   return `Hello, ${idUser}!`
-}
+  // Devolver respuesta
+  return `Hello, ${idUser}!`;
+};
