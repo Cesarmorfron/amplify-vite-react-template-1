@@ -18,7 +18,6 @@ const backend = defineBackend({
   myDynamoDBFunction,
 });
 
-
 const contactTable = backend.data.resources.tables["Contact"];
 const policy = new Policy(
   Stack.of(contactTable),
@@ -28,11 +27,7 @@ const policy = new Policy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         actions: [
-          "dynamodb:DescribeStream",
-          "dynamodb:GetRecords",
-          "dynamodb:GetShardIterator",
-          "dynamodb:ListStreams",
-          "dynamodb:Scan",
+          "dynamodb:*",
         ],
         resources: ["*"],
       }),
@@ -53,15 +48,3 @@ const mappingDynamoDbFunction = new EventSourceMapping(
 );
 
 mappingDynamoDbFunction.node.addDependency(policy);
-
-const mappingSayHello = new EventSourceMapping(
-  Stack.of(contactTable),
-  "MyDynamoDBFunctionTodoEventStreamMappingSayHello",
-  {
-    target: backend.sayHello.resources.lambda,
-    eventSourceArn: contactTable.tableStreamArn,
-    startingPosition: StartingPosition.LATEST,
-  }
-);
-
-mappingSayHello.node.addDependency(policy);
