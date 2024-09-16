@@ -10,7 +10,7 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
 
   const params = {
     TableName: 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE',
-    IndexName: 'idUser',
+    IndexName: 'contactsByIdUser',
     KeyConditionExpression: 'idUser = :idUser',
     ExpressionAttributeValues: {
       ':idUser': idUser,
