@@ -19,7 +19,7 @@ const schema = a.schema({
   sayHello: a
     .query()
     .arguments({
-      name: a.string(),
+      idUser: a.string(),
     })
     .returns(a.string())
     .handler(a.handler.function(sayHello))

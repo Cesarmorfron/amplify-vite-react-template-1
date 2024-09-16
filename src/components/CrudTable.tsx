@@ -89,13 +89,6 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   const handleNotifyDeleteUserClick = async (id: string) => {
-    const response = await client.queries.sayHello({
-      name: "Amplify",
-    })
-
-    console.log('response')
-    console.log(response)
-
     setUserToDelete(id);
     setIsDeleteUserDialogOpen(true);
   };

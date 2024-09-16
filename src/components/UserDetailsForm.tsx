@@ -136,6 +136,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const handleDeleteContactConfirm = async (id: string) => {
     console.log('Fallecimiento notificado');
     console.log(id);
+
     await client.models.Contact.delete({ id });
     setIsDeleteContactDialogOpen(false);
   };
@@ -269,6 +270,15 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     formData.dateDeceased = formEditData.dateDeceased;
 
     console.log('Fallecimiento notificado');
+
+    
+    const response = await client.queries.sayHello({
+      idUser: "Amplify",
+    })
+
+    console.log('response')
+    console.log(response)
+    
     setIsDialogDeceasedOpen(false);
     setIsInfoDeceasedShowed(true);
   };
