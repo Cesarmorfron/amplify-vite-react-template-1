@@ -282,7 +282,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         dateDeceased: formEditData.dateDeceased,
       });
 
-      await sleep(5000);
       console.log('response');
       console.log(response);
 
@@ -294,8 +293,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       setLoading(false); // Detener la pantalla de carga
     }
   };
-  
-  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
   
   const handleCancelDialogDeceased = () => {
     formEditData.vigil = '';
