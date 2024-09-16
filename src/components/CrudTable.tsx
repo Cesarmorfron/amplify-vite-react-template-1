@@ -32,13 +32,6 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
   useEffect(() => {
 
-    const response = client.queries.sayHello({
-      name: "Amplify",
-    })
-
-    console.log('response')
-    console.log(response)
-
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
     const sub = client.models.User.observeQuery().subscribe({
@@ -95,7 +88,14 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     setIsFormVisible(false);
   };
 
-  const handleNotifyDeleteUserClick = (id: string) => {
+  const handleNotifyDeleteUserClick = async (id: string) => {
+    const response = await client.queries.sayHello({
+      name: "Amplify",
+    })
+
+    console.log('response')
+    console.log(response)
+
     setUserToDelete(id);
     setIsDeleteUserDialogOpen(true);
   };
