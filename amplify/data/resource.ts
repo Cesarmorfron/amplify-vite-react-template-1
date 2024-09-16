@@ -20,6 +20,12 @@ const schema = a.schema({
     .query()
     .arguments({
       idUser: a.string(),
+      email: a.string(),
+      name: a.string(),
+      lastName: a.string(),
+      vigil: a.string(),
+      funeral: a.string(),
+      dateDeceased: a.string(),
     })
     .returns(a.string())
     .handler(a.handler.function(sayHello))
@@ -45,7 +51,7 @@ const schema = a.schema({
       lastName: a.string(),
       idUser: a.string(),
     })
-    .secondaryIndexes((index) => [index("idUser")])
+    .secondaryIndexes((index) => [index('idUser')])
     .authorization((allow) => [allow.publicApiKey()]),
 });
 

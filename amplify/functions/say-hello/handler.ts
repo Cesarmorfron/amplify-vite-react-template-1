@@ -5,8 +5,10 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
   // Extraer el idUser desde los argumentos
-  const { idUser } = event.arguments;
+  const { idUser, email, name, lastName, vigil, funeral, dateDeceased } =
+    event.arguments;
   console.log('idUser:', idUser);
+  console.log(idUser, email, name, lastName, vigil, funeral, dateDeceased);
 
   const params = {
     TableName: 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE',

@@ -5,8 +5,8 @@ import { storage } from './storage/resource';
 import { myFirstFunction } from './my-first-function/resource';
 import { sayHello } from './functions/say-hello/resources';
 // import { myDynamoDBFunction } from "./functions/dynamoDB-function/resource";
-import { Policy, PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
-import { Stack } from "aws-cdk-lib";
+import { Policy, PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
+import { Stack } from 'aws-cdk-lib';
 // import { StartingPosition, EventSourceMapping } from "aws-cdk-lib/aws-lambda";
 
 const backend = defineBackend({
@@ -18,18 +18,16 @@ const backend = defineBackend({
   // myDynamoDBFunction,
 });
 
-const contactTable = backend.data.resources.tables["Contact"];
+const contactTable = backend.data.resources.tables['Contact'];
 const policy = new Policy(
   Stack.of(contactTable),
-  "MyDynamoDBFunctionStreamingPolicy",
+  'MyDynamoDBFunctionStreamingPolicy',
   {
     statements: [
       new PolicyStatement({
         effect: Effect.ALLOW,
-        actions: [
-          "dynamodb:*",
-        ],
-        resources: ["*"],
+        actions: ['dynamodb:*'],
+        resources: ['*'],
       }),
     ],
   }

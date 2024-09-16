@@ -67,10 +67,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     }
     const fetchContacts = async () => {
       try {
-        const { data, errors } = await client.models.Contact.listContactByIdUser({
-          idUser: user!.id!,
-        });
-        
+        const { data, errors } =
+          await client.models.Contact.listContactByIdUser({
+            idUser: user!.id!,
+          });
+
         if (errors) {
           console.error(errors);
         } else {
@@ -95,7 +96,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         //   if (a.emailContact! > b.emailContact!) return 1;
         //   return 0;
         // });
-        
+
         setItems(filteredItems);
       },
     });
@@ -219,20 +220,20 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleNotifyClick = () => {
-    console.log('handleNotifyClick user?.deceased')
-    console.log(isInfoDeceasedShowed)
+    console.log('handleNotifyClick user?.deceased');
+    console.log(isInfoDeceasedShowed);
     if (!isInfoDeceasedShowed) setIsDialogDeceasedOpen(true);
   };
 
   const handleEditInfoClick = () => {
-    console.log('handleEditInfoClick user?.deceased')
-    console.log(isInfoDeceasedShowed)
+    console.log('handleEditInfoClick user?.deceased');
+    console.log(isInfoDeceasedShowed);
     if (!isInfoDeceasedShowed) setEditInfoFormVisible(true);
   };
 
   const handleFormVisibleClick = () => {
-    console.log('handleFormVisibleClick user?.deceased')
-    console.log(isInfoDeceasedShowed)
+    console.log('handleFormVisibleClick user?.deceased');
+    console.log(isInfoDeceasedShowed);
     if (!isInfoDeceasedShowed) setIsFormVisible(true);
   };
 
@@ -241,41 +242,51 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleNotifySubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    await client.models.User.update({
-      id: user!.id,
-      name: formEditData.name,
-      lastName: formEditData.lastName,
-      city: formEditData.city,
-      birthDate: formEditData.birthDate,
-      email: formEditData.email,
-      deceased: true,
-      vigil: formEditData.vigil,
-      funeral: formEditData.funeral,
-      dateDeceased: formEditData.dateDeceased,
-    });
-    formData.name = formEditData.name;
-    formData.lastName = formEditData.lastName;
-    formData.city = formEditData.city;
-    formData.birthDate = formEditData.birthDate;
-    formData.email = formEditData.email;
-    formData.deceased = true;
-    formData.vigil = formEditData.vigil;
-    formData.funeral = formEditData.funeral;
-    formData.dateDeceased = formEditData.dateDeceased;
+      await client.models.User.update({
+        id: user!.id,
+        name: formEditData.name,
+        lastName: formEditData.lastName,
+        city: formEditData.city,
+        birthDate: formEditData.birthDate,
+        email: formEditData.email,
+        deceased: true,
+        vigil: formEditData.vigil,
+        funeral: formEditData.funeral,
+        dateDeceased: formEditData.dateDeceased,
+      });
+      formData.name = formEditData.name;
+      formData.lastName = formEditData.lastName;
+      formData.city = formEditData.city;
+      formData.birthDate = formEditData.birthDate;
+      formData.email = formEditData.email;
+      formData.deceased = true;
+      formData.vigil = formEditData.vigil;
+      formData.funeral = formEditData.funeral;
+      formData.dateDeceased = formEditData.dateDeceased;
 
-    console.log('Fallecimiento notificado');
+      console.log('Fallecimiento notificado');
 
-    const response = await client.queries.sayHello({
-      idUser: user!.id,
-    })
+      const response = await client.queries.sayHello({
+        idUser: user!.id,
+        email: user!.email,
+        name: user!.name,
+        lastName: user!.lastName,
+        vigil: formEditData.vigil,
+        funeral: formEditData.funeral,
+        dateDeceased: formEditData.dateDeceased,
+      });
 
-    console.log('response')
-    console.log(response)
-    
-    setIsDialogDeceasedOpen(false);
-    setIsInfoDeceasedShowed(true);
+      console.log('response');
+      console.log(response);
+
+      setIsDialogDeceasedOpen(false);
+      setIsInfoDeceasedShowed(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancelDialogDeceased = () => {
@@ -324,9 +335,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   Todos los contactos de este usuario recibirán una
                   notificación.
                 </p>
-                <button onClick={handleCancelDialogDeceased}>
-                  &times;
-                </button>
+                <button onClick={handleCancelDialogDeceased}>&times;</button>
               </div>
             </div>
             <div className="modal-body">
@@ -539,7 +548,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                       <td>
                         <div className="buttonsActions">
                           <Button
-                            onClick={() => handleNotifyDeleteContactClick(item.id!)}
+                            onClick={() =>
+                              handleNotifyDeleteContactClick(item.id!)
+                            }
                           >
                             &#x1F5D1;
                           </Button>
