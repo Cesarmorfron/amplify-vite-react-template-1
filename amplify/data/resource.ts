@@ -45,6 +45,7 @@ const schema = a.schema({
       lastName: a.string(),
       idUser: a.string(),
     })
+    .secondaryIndexes((index) => [index("idUser")])
     .authorization((allow) => [allow.publicApiKey()]),
 });
 

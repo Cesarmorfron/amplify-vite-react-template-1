@@ -67,18 +67,14 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     }
     const fetchContacts = async () => {
       try {
-        const { data: contacts, errors } = await client.models.Contact.list({
-          filter: {
-            idUser: {
-              eq: user?.id,
-            },
-          },
+        const { data, errors } = await client.models.Contact.listContactByIdUser({
+          idUser: user!.id!,
         });
-
+        
         if (errors) {
           console.error(errors);
         } else {
-          setItems([...contacts]);
+          setItems([...data]);
         }
       } catch (error) {
         console.error('Error fetching contacts:', error);
