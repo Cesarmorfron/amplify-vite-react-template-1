@@ -1,6 +1,0 @@
-{
-  "devDependencies": {
-    "@aws-lambda-powertools/logger": "^2.8.0",
-    "@types/aws-lambda": "^8.10.145"
-  }
-}
