@@ -19,9 +19,9 @@ const backend = defineBackend({
 });
 
 
-const todoTable = backend.data.resources.tables["Contact"];
+const contactTable = backend.data.resources.tables["Contact"];
 const policy = new Policy(
-  Stack.of(todoTable),
+  Stack.of(contactTable),
   "MyDynamoDBFunctionStreamingPolicy",
   {
     statements: [
@@ -32,6 +32,7 @@ const policy = new Policy(
           "dynamodb:GetRecords",
           "dynamodb:GetShardIterator",
           "dynamodb:ListStreams",
+          "dynamodb:Scan",
         ],
         resources: ["*"],
       }),
@@ -39,15 +40,28 @@ const policy = new Policy(
   }
 );
 backend.myDynamoDBFunction.resources.lambda.role?.attachInlinePolicy(policy);
+backend.sayHello.resources.lambda.role?.attachInlinePolicy(policy);
 
-const mapping = new EventSourceMapping(
-  Stack.of(todoTable),
-  "MyDynamoDBFunctionTodoEventStreamMapping",
+const mappingDynamoDbFunction = new EventSourceMapping(
+  Stack.of(contactTable),
+  "MyDynamoDBFunctionTodoEventStreamMappingDynamoDbFunction",
   {
     target: backend.myDynamoDBFunction.resources.lambda,
-    eventSourceArn: todoTable.tableStreamArn,
+    eventSourceArn: contactTable.tableStreamArn,
     startingPosition: StartingPosition.LATEST,
   }
 );
 
-mapping.node.addDependency(policy);
+mappingDynamoDbFunction.node.addDependency(policy);
+
+const mappingSayHello = new EventSourceMapping(
+  Stack.of(contactTable),
+  "MyDynamoDBFunctionTodoEventStreamMappingSayHello",
+  {
+    target: backend.sayHello.resources.lambda,
+    eventSourceArn: contactTable.tableStreamArn,
+    startingPosition: StartingPosition.LATEST,
+  }
+);
+
+mappingSayHello.node.addDependency(policy);
