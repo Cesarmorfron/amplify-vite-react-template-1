@@ -4,10 +4,10 @@ import { data } from './data/resource';
 import { storage } from './storage/resource';
 import { myFirstFunction } from './my-first-function/resource';
 import { sayHello } from './functions/say-hello/resources';
-import { myDynamoDBFunction } from "./functions/dynamoDB-function/resource";
+// import { myDynamoDBFunction } from "./functions/dynamoDB-function/resource";
 import { Policy, PolicyStatement, Effect } from "aws-cdk-lib/aws-iam";
 import { Stack } from "aws-cdk-lib";
-import { StartingPosition, EventSourceMapping } from "aws-cdk-lib/aws-lambda";
+// import { StartingPosition, EventSourceMapping } from "aws-cdk-lib/aws-lambda";
 
 const backend = defineBackend({
   auth,
@@ -15,7 +15,7 @@ const backend = defineBackend({
   storage,
   myFirstFunction,
   sayHello,
-  myDynamoDBFunction,
+  // myDynamoDBFunction,
 });
 
 const contactTable = backend.data.resources.tables["Contact"];
@@ -34,17 +34,17 @@ const policy = new Policy(
     ],
   }
 );
-backend.myDynamoDBFunction.resources.lambda.role?.attachInlinePolicy(policy);
+// backend.myDynamoDBFunction.resources.lambda.role?.attachInlinePolicy(policy);
 backend.sayHello.resources.lambda.role?.attachInlinePolicy(policy);
 
-const mappingDynamoDbFunction = new EventSourceMapping(
-  Stack.of(contactTable),
-  "MyDynamoDBFunctionTodoEventStreamMappingDynamoDbFunction",
-  {
-    target: backend.myDynamoDBFunction.resources.lambda,
-    eventSourceArn: contactTable.tableStreamArn,
-    startingPosition: StartingPosition.LATEST,
-  }
-);
+// const mappingDynamoDbFunction = new EventSourceMapping(
+//   Stack.of(contactTable),
+//   "MyDynamoDBFunctionTodoEventStreamMappingDynamoDbFunction",
+//   {
+//     target: backend.myDynamoDBFunction.resources.lambda,
+//     eventSourceArn: contactTable.tableStreamArn,
+//     startingPosition: StartingPosition.LATEST,
+//   }
+// );
 
-mappingDynamoDbFunction.node.addDependency(policy);
+// mappingDynamoDbFunction.node.addDependency(policy);

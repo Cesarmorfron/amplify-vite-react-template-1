@@ -1,5 +1,5 @@
-import { defineFunction } from "@aws-amplify/backend";
+// import { defineFunction } from "@aws-amplify/backend";
 
-export const myDynamoDBFunction = defineFunction({
-  name: "dynamoDB-function",
-});
+// export const myDynamoDBFunction = defineFunction({
+//   name: "dynamoDB-function",
+// });
