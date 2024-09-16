@@ -106,6 +106,15 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     setIsDeleteUserDialogOpen(false);
   };
 
+  const handleCancelFormAddNewContact = () => {
+    formData.email = '';
+    formData.name = '';
+    formData.lastName = '';
+    formData.city = '';
+    formData.birthDate = '';
+    setIsFormVisible(false);
+  };
+
   const filteredItems = items.filter((item) =>
     item.email!.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -222,7 +231,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
               <div className="modal-header">
                 <h3>Añadir nuevo usuario</h3>
 
-                <button onClick={() => setIsFormVisible(false)}>&times;</button>
+                <button onClick={handleCancelFormAddNewContact}>&times;</button>
               </div>
             </div>
             <div className="modal-body">
@@ -268,7 +277,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   isRequired
                 />
                 <Flex justifyContent="space-between" marginTop="medium">
-                  <Button type="button" onClick={() => setIsFormVisible(false)}>
+                  <Button type="button" onClick={handleCancelFormAddNewContact}>
                     Cancelar
                   </Button>
                   <Button type="submit">Crear</Button>

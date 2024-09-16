@@ -223,24 +223,24 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const handleNotifyClick = () => {
     console.log('handleNotifyClick user?.deceased')
-    console.log(user?.deceased)
-    if (!user?.deceased) setIsDialogDeceasedOpen(true);
+    console.log(isInfoDeceasedShowed)
+    if (!isInfoDeceasedShowed) setIsDialogDeceasedOpen(true);
   };
 
   const handleEditInfoClick = () => {
     console.log('handleEditInfoClick user?.deceased')
-    console.log(user?.deceased)
-    if (!user?.deceased) setEditInfoFormVisible(true);
+    console.log(isInfoDeceasedShowed)
+    if (!isInfoDeceasedShowed) setEditInfoFormVisible(true);
   };
 
   const handleFormVisibleClick = () => {
     console.log('handleFormVisibleClick user?.deceased')
-    console.log(user?.deceased)
-    if (!user?.deceased) setIsFormVisible(true);
+    console.log(isInfoDeceasedShowed)
+    if (!isInfoDeceasedShowed) setIsFormVisible(true);
   };
 
   const handleFormStorageManagerClick = () => {
-    if (!user?.deceased) setIsFormStorageManagerVisible(true);
+    if (!isInfoDeceasedShowed) setIsFormStorageManagerVisible(true);
   };
 
   const handleNotifySubmit = async (e: React.FormEvent) => {
@@ -273,8 +273,18 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setIsInfoDeceasedShowed(true);
   };
 
-  const handleCancel = () => {
+  const handleCancelDialogDeceased = () => {
+    formEditData.vigil = '';
+    formEditData.funeral = '';
+    formEditData.dateDeceased = '';
     setIsDialogDeceasedOpen(false);
+  };
+
+  const handleCancelFormAddNewContact = () => {
+    contactFormData.emailContact = '';
+    contactFormData.name = '';
+    contactFormData.lastName = '';
+    setIsFormVisible(false);
   };
 
   const handleBackToTable = () => {
@@ -293,7 +303,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         </Button>
         <Button
           onClick={handleNotifyClick}
-          className={`notify-button ${user?.deceased ? 'disabled' : ''}`}
+          className={`notify-button ${isInfoDeceasedShowed ? 'disabled' : ''}`}
         >
           Notificar fallecimiento
         </Button>
@@ -309,7 +319,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   Todos los contactos de este usuario recibirán una
                   notificación.
                 </p>
-                <button onClick={() => setIsDialogDeceasedOpen(false)}>
+                <button onClick={handleCancelDialogDeceased}>
                   &times;
                 </button>
               </div>
@@ -340,7 +350,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 />
 
                 <Flex justifyContent="space-between" marginTop="medium">
-                  <Button type="button" onClick={handleCancel}>
+                  <Button type="button" onClick={handleCancelDialogDeceased}>
                     Cancelar
                   </Button>
                   <Button type="submit">Sí, estoy seguro</Button>
@@ -412,7 +422,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         <Flex justifyContent="center" marginTop="small">
           <Button
             onClick={handleEditInfoClick}
-            className={`add-button ${user?.deceased ? 'disabled' : ''}`}
+            className={`add-button ${isInfoDeceasedShowed ? 'disabled' : ''}`}
           >
             Editar informacion
           </Button>
@@ -487,7 +497,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           <Flex className="search-container">
             <Button
               onClick={handleFormVisibleClick}
-              className={`add-button ${user?.deceased ? 'disabled' : ''}`}
+              className={`add-button ${isInfoDeceasedShowed ? 'disabled' : ''}`}
             >
               Añadir contacto
             </Button>
@@ -499,7 +509,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             />
             <Button
               onClick={handleFormStorageManagerClick}
-              className={`add-button ${user?.deceased ? 'disabled' : ''}`}
+              className={`add-button ${isInfoDeceasedShowed ? 'disabled' : ''}`}
             >
               Importar archivo
             </Button>
@@ -556,8 +566,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               <div className="modal-body">
                 <StorageManager
                   acceptedFileTypes={['.csv']}
-                  path="public/"
-                  autoUpload={false}
+                  path="csvs-esquela/"
+                  autoUpload={true}
                   maxFileCount={1}
                   isResumable
                   displayText={{
@@ -621,7 +631,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               <div className="modal-header-confirmation">
                 <div className="modal-header">
                   <h3>Añadir nuevo contacto</h3>
-                  <button onClick={() => setIsFormVisible(false)}>
+                  <button onClick={handleCancelFormAddNewContact}>
                     &times;
                   </button>
                 </div>
@@ -653,7 +663,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Flex justifyContent="space-between" marginTop="medium">
                     <Button
                       type="button"
-                      onClick={() => setIsFormVisible(false)}
+                      onClick={handleCancelFormAddNewContact}
                     >
                       Cancelar
                     </Button>
