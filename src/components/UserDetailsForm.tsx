@@ -271,9 +271,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
     console.log('Fallecimiento notificado');
 
-    
     const response = await client.queries.sayHello({
-      idUser: "Amplify",
+      idUser: user!.id,
     })
 
     console.log('response')

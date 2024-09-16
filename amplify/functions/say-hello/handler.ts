@@ -14,7 +14,7 @@ export const handler: Schema["sayHello"]["functionHandler"] = async (event) => {
       const { data: contacts, errors } = await client.models.Contact.list({
         filter: {
           idUser: {
-            eq: idUser,
+            eq: idUser!,
           },
         },
       });
