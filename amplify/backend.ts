@@ -19,19 +19,20 @@ const backend = defineBackend({
 });
 
 const contactTable = backend.data.resources.tables['Contact'];
-const policy = new Policy(
-  Stack.of(contactTable),
-  'MyDynamoDBFunctionStreamingPolicy',
-  {
-    statements: [
-      new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions: ['dynamodb:*'],
-        resources: ['*'],
-      }),
-    ],
-  }
-);
+const policy = new Policy(Stack.of(contactTable), 'MyLambdaPolicy', {
+  statements: [
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ['dynamodb:*'],
+      resources: ['*'],
+    }),
+    new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ['ses:SendEmail'],
+      resources: ['*'],
+    }),
+  ],
+});
 // backend.myDynamoDBFunction.resources.lambda.role?.attachInlinePolicy(policy);
 backend.sayHello.resources.lambda.role?.attachInlinePolicy(policy);
 

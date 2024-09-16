@@ -1,6 +1,7 @@
 import type { Schema } from '../../data/resource';
 import AWS from 'aws-sdk';
 
+const ses = new AWS.SES();
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
@@ -20,20 +21,36 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
   };
 
   try {
-    // Ejecutar el escaneo completo de la tabla
     const data = await dynamoDB.query(params).promise();
     console.log('Escaneo exitoso:', data);
 
-    // Filtrar los resultados por idUser
-    //  const filteredItems = data.Items.filter(item => item.idUser === idUser);
+    const emailContacts = data.Items?.map((contact) => contact.emailContact);
 
-    // Retornar los elementos filtrados
-    //  return filteredItems;
-    return `Hello, ${idUser}!`;
+    console.log(emailContacts)
+    
+    if (emailContacts) {
+      const paramsSes = {
+        Destination: {
+          ToAddresses: emailContacts,
+        },
+        Message: {
+          Body: {
+            Text: { Data: 'Este es el contenido del correo' },
+          },
+          Subject: { Data: 'Asunto del correo' },
+        },
+        Source: 'cemofron@gmail.com',
+      };
+
+      const data = await ses.sendEmail(paramsSes).promise();
+      console.log(data);
+    } else {
+      console.log(`User: ${idUser} no tenia contactos`);
+    }
   } catch (err) {
     console.error('Error al escanear DynamoDB:', err);
-
-    // Retornar un error en caso de fallo
     throw new Error('Error al escanear la tabla Contact');
   }
+
+  return `Hello, ${idUser}!`;
 };
