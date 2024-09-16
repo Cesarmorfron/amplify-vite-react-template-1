@@ -31,9 +31,13 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   useEffect(() => {
-    client.queries.sayHello({
+
+    const response = client.queries.sayHello({
       name: "Amplify",
     })
+
+    console.log('response')
+    console.log(response)
 
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
