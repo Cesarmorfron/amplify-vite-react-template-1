@@ -48,12 +48,12 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
               
               <p>Con el corazón entristecido,</p>
               
-              <p><a href="https://esquelainformatica.com">esquelaelectronica</a></p>`
+              <p><a href="https://esquelaelectronica.com">esquelaelectronica</a></p>`
             },
           },
           Subject: { Data: `Notificación de fallecimiento de ${name} ${lastName}` },
         },
-        Source: 'no-reply@esqualaelectronica.com',
+        Source: 'no-reply@esquelaelectronica.com',
       };
       
       const data = await ses.sendEmail(paramsSes).promise();
@@ -63,8 +63,8 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
       console.log(`User: ${idUser} no tenia contactos`);
     }
   } catch (err) {
-    console.error('Error al escanear DynamoDB:', err);
-    throw new Error('Error al escanear la tabla Contact');
+    console.error('Error lambda:', err);
+    throw new Error('Error lambda');
   }
 
   return `Hello, ${idUser}!`;
