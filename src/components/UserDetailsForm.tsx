@@ -293,7 +293,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       setLoading(false); // Detener la pantalla de carga
     }
   };
-  
+
   const handleCancelDialogDeceased = () => {
     formEditData.vigil = '';
     formEditData.funeral = '';

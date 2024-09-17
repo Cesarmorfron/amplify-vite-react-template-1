@@ -35,14 +35,29 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
         },
         Message: {
           Body: {
-            Text: { Data: 'Este es el contenido del correo' },
+            Html: { 
+              Data: `Con profundo pesar siento comunicarle el fallecimiento de <b>${name} ${lastName}</b>, quien nos dejó el <b>${dateDeceased}</b>.
+              
+              ${(vigil || funeral) ? `<p>En estos momentos difíciles, nos gustaría compartir los detalles de las ceremonias que se llevarán a cabo en su honor.</p>` : ''}
+              
+              ${vigil ? `<p>La vigil se realizará en: <b>${vigil}</b></p>` : ''}
+              
+              ${funeral ? `<p>El funeral tendrá lugar en: <b>${funeral}</b></p>` : ''}
+              
+              ${(vigil || funeral) ? `<p>Si desea acompañarnos en estos momentos, su presencia será muy apreciada.</p>` : ''}
+              
+              <p>Con el corazón entristecido,</p>
+              
+              <p><a href="https://esquelainformatica.com">esquelaelectronica</a></p>`
+            },
           },
-          Subject: { Data: 'Asunto del correo' },
+          Subject: { Data: `Notificación de fallecimiento de ${name} ${lastName}` },
         },
-        Source: 'cemofron@gmail.com',
+        Source: 'no-reply@esqualaelectronica.com',
       };
-
+      
       const data = await ses.sendEmail(paramsSes).promise();
+      
       console.log(data);
     } else {
       console.log(`User: ${idUser} no tenia contactos`);
