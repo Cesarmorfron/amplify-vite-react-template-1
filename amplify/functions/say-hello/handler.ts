@@ -40,7 +40,7 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
               
               ${(vigil || funeral) ? `<p>En estos momentos difíciles, nos gustaría compartir los detalles de las ceremonias que se llevarán a cabo en su honor.</p>` : ''}
               
-              ${vigil ? `<p>La vigil se realizará en: <b>${vigil}</b></p>` : ''}
+              ${vigil ? `<p>El velatorio se realizará en: <b>${vigil}</b></p>` : ''}
               
               ${funeral ? `<p>El funeral tendrá lugar en: <b>${funeral}</b></p>` : ''}
               
