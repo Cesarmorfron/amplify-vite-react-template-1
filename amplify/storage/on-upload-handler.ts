@@ -18,7 +18,8 @@ const TABLE_NAME = 'YourDynamoDBTableName';
 export const handler: S3Handler = async (event) => {
   const bucketName = event.Records[0].s3.bucket.name;
   const objectKey = event.Records[0].s3.object.key;
-  const fileName = objectKey.split('/').pop()?.split('.')[0] || 'unknown'; 
+  const decodedKey = decodeURIComponent(objectKey);
+  const fileName = decodedKey.split('/').pop() || 'unknown';
   const idUser = fileName.split('|')[0];
 
   console.log('bucketName')
@@ -30,18 +31,23 @@ export const handler: S3Handler = async (event) => {
   console.log('idUser')
   console.log(idUser)
   
-  return;
   try {
     const s3Stream = s3.getObject({ Bucket: bucketName, Key: objectKey }).createReadStream();
     
     s3Stream.pipe(csvParser())
       .on('data', async (row) => {
-        const { email, name, lastName } = row;
-        if (email && name && lastName) {
+        console.log(row)
+        console.log(row[0])
+        console.log(row[1])
+        console.log(row[2])
+        const email = row[2]
+        const lastName = row[1]? row[1] : ''
+        const name = row[0] ? row[0] : ''
+        if (email) {
           await dynamoDb.put({
             TableName: TABLE_NAME,
             Item: {
-              id: uuidv4(), // Genera un ID único para cada fila
+              id: uuidv4(),
               emailContact: email,
               name,
               lastName,
