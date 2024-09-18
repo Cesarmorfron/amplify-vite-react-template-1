@@ -36,7 +36,7 @@ export const handler: S3Handler = async (event) => {
   console.log(decodedKey)
 
   const bucket = bucketName;
-    const key = objectKey;
+    const key = decodedKey;
 
     try {
         const params = {
@@ -48,7 +48,7 @@ export const handler: S3Handler = async (event) => {
         const csvData = data.Body!.toString('utf-8');
         
         // Analizar el CSV
-        return new Promise((resolve, reject) => {
+        const csvAnalysis = new Promise((resolve, reject) => {
             parse(csvData, { columns: true, delimiter: ',' }, (err, records) => {
                 if (err) {
                     reject(err);
@@ -59,6 +59,7 @@ export const handler: S3Handler = async (event) => {
         });
 
     console.log('successfully')
+    console.log(csvAnalysis)
   } catch (error) {
     console.error('Error processing S3 event', error);
     throw error;
