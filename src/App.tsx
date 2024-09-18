@@ -39,24 +39,24 @@ const App: React.FC = () => {
 
   return (
     <Authenticator>
-    <Router>
-      <div className="header-title">
-        <Header title="Esquela Electrónica" />
-      </div>
-      <div className="header-separator"></div>
-      <div className="app-container">
-        <Routes>
-          <Route
-            path="/"
-            element={<CrudTable onRowClick={setSelectedUser} />}
-          />
-          <Route
-            path="/edit"
-            element={<UserDetailsForm user={selectedUser} />}
-          />
-        </Routes>
-      </div>
-    </Router>
+      <Router>
+        <div className="header-title">
+          <Header title="Esquela Electrónica" />
+        </div>
+        <div className="header-separator"></div>
+        <div className="app-container">
+          <Routes>
+            <Route
+              path="/"
+              element={<CrudTable onRowClick={setSelectedUser} />}
+            />
+            <Route
+              path="/edit"
+              element={<UserDetailsForm user={selectedUser} />}
+            />
+          </Routes>
+        </div>
+      </Router>
     </Authenticator>
   );
 };
