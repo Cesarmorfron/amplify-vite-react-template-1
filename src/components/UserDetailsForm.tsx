@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 import './UserDetailsForm.css';
-import { FileUploader } from '@aws-amplify/ui-react-storage';
+import { StorageManager } from '@aws-amplify/ui-react-storage';
 
 interface UserDetailsFormProps {
   user: Schema['User']['type'] | null;
@@ -312,6 +312,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     navigate('/');
   };
 
+  const customFileName = () => {
+    const timestamp = new Date().toISOString();
+    return `${user?.id}-${timestamp}.csv`;
+  };
+
   const filteredItems = items.filter((item) =>
     item.emailContact!.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -591,9 +596,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 </button>
               </div>
               <div className="modal-body">
-                <FileUploader
+                <StorageManager
                   acceptedFileTypes={['.csv']}
-                  path="csvs-esquela/"
+                  path={`csvs-esquela/${customFileName()}`}
                   autoUpload={true}
                   maxFileCount={1}
                   isResumable
