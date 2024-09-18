@@ -61,28 +61,29 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     lastName: '',
   });
 
+  const fetchContacts = async () => {
+    try {
+      const { data, errors } =
+        await client.models.Contact.listContactByIdUser({
+          idUser: user!.id!,
+        });
+
+      if (errors) {
+        console.error(errors);
+      } else {
+        setItems([...data]);
+      }
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
+    }
+  };
+
   useEffect(() => {
     if (user?.deceased) {
       setIsInfoDeceasedShowed(true);
     } else {
       setIsInfoDeceasedShowed(false);
     }
-    const fetchContacts = async () => {
-      try {
-        const { data, errors } =
-          await client.models.Contact.listContactByIdUser({
-            idUser: user!.id!,
-          });
-
-        if (errors) {
-          console.error(errors);
-        } else {
-          setItems([...data]);
-        }
-      } catch (error) {
-        console.error('Error fetching contacts:', error);
-      }
-    };
 
     fetchContacts();
 
@@ -242,6 +243,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const handleFormStorageManagerClick = () => {
     if (!isInfoDeceasedShowed) setIsFormStorageManagerVisible(true);
   };
+
+  const handleFormStorageManagerCancel = () => {
+    fetchContacts();
+    setIsFormStorageManagerVisible(false)
+  }
 
   const handleNotifySubmit = async (e: React.FormEvent) => {
     try {
@@ -592,7 +598,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     apellidos y email
                   </p>
                 </div>
-                <button onClick={() => setIsFormStorageManagerVisible(false)}>
+                <button onClick={handleFormStorageManagerCancel}>
                   &times;
                 </button>
               </div>

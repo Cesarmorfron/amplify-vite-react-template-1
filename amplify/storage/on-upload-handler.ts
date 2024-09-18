@@ -73,8 +73,8 @@ export const handler: S3Handler = async (event) => {
       console.log(row)
       if (row.email) {
         const email = row.email;
-        const lastName = row.lastName ? row.lastName : '';
-        const name = row.name ? row.name : '';
+        const lastName = row.apellidos ? row.apellidos : '';
+        const name = row.nombre ? row.nombre : '';
         const currentDate = new Date();
         const isoDate = currentDate.toISOString();
 
