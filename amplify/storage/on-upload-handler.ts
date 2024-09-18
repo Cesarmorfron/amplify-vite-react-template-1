@@ -6,41 +6,57 @@
 // };
 
 import { S3Handler } from 'aws-lambda';
-// import { S3 } from 'aws-sdk';
+import AWS from 'aws-sdk';
+const S3 = new AWS.S3();
 // import { DynamoDB } from 'aws-sdk';
 // import csvParser from 'csv-parser';
 // import { v4 as uuidv4 } from 'uuid'; // Para generar IDs únicos
-import csv from 'csv-parser';
-import fs from 'fs';
+import { parse } from 'csv-parse';
 
 // const s3 = new S3();
 // const dynamoDb = new DynamoDB.DocumentClient();
 // const TABLE_NAME = 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE';
 
 export const handler: S3Handler = async (event) => {
-  // const bucketName = event.Records[0].s3.bucket.name;
+  const bucketName = event.Records[0].s3.bucket.name;
   const objectKey = event.Records[0].s3.object.key;
   const decodedKey = decodeURIComponent(objectKey);
   const fileName = decodedKey.split('/').pop() || 'unknown';
   const idUser = fileName.split('|')[0];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const results: any[] = [];
+  // const results: any[] = [];
 
   console.log('idUser')
   console.log(idUser)
-  
-  try {
-    
-    fs.createReadStream(fileName)
-    .pipe(csv())
-    .on('data', (data) => results.push(data))
-    .on('end', () => {
-      console.log(results);
-      // [
-      //   { NAME: 'Daffy Duck', AGE: '24' },
-      //   { NAME: 'Bugs Bunny', AGE: '22' }
-      // ]
-    });
+  console.log('bucketName')
+  console.log(bucketName)
+  console.log('objectKey')
+  console.log(objectKey)
+  console.log('decodedKey')
+  console.log(decodedKey)
+
+  const bucket = bucketName;
+    const key = objectKey;
+
+    try {
+        const params = {
+            Bucket: bucket,
+            Key: key
+        };
+        const data = await S3.getObject(params).promise();
+        
+        const csvData = data.Body!.toString('utf-8');
+        
+        // Analizar el CSV
+        return new Promise((resolve, reject) => {
+            parse(csvData, { columns: true, delimiter: ',' }, (err, records) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(records);
+                }
+            });
+        });
 
     console.log('successfully')
   } catch (error) {
