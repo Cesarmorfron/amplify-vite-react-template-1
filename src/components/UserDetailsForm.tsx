@@ -87,7 +87,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
     fetchContacts();
 
-    // Suscripción a cambios en tiempo real
     const sub = client.models.Contact.observeQuery().subscribe({
       next: ({ items }) => {
         const filteredItems = items.filter(
@@ -244,8 +243,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     if (!isInfoDeceasedShowed) setIsFormStorageManagerVisible(true);
   };
 
-  const handleFormStorageManagerCancel = () => {
-    fetchContacts();
+  const handleFormStorageManagerCancel = async () => {
+    console.log('handleFormStorageManagerCancel')
+    await fetchContacts();
     setIsFormStorageManagerVisible(false)
   }
 
@@ -538,6 +538,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             >
               Añadir contacto
             </Button>
+            <button onClick={fetchContacts}>Refrescar contactos</button>
             <Input
               placeholder="Busqueda por email"
               value={searchTerm}

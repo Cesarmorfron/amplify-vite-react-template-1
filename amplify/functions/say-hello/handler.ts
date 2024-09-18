@@ -52,7 +52,7 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
             },
           },
           Subject: {
-            Data: `Notificación de fallecimiento de ${name} ${lastName}`,
+            Data: `Fallecimiento de ${name} ${lastName}`,
           },
         },
         Source: 'no-reply@esquelaelectronica.com',
