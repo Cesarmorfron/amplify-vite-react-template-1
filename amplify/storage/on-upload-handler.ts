@@ -6,18 +6,19 @@
 // };
 
 import { S3Handler } from 'aws-lambda';
-import { S3 } from 'aws-sdk';
+// import { S3 } from 'aws-sdk';
 // import { DynamoDB } from 'aws-sdk';
 // import csvParser from 'csv-parser';
 // import { v4 as uuidv4 } from 'uuid'; // Para generar IDs únicos
 import csv from 'csv-parser';
+import fs from 'fs';
 
-const s3 = new S3();
+// const s3 = new S3();
 // const dynamoDb = new DynamoDB.DocumentClient();
 // const TABLE_NAME = 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE';
 
 export const handler: S3Handler = async (event) => {
-  const bucketName = event.Records[0].s3.bucket.name;
+  // const bucketName = event.Records[0].s3.bucket.name;
   const objectKey = event.Records[0].s3.object.key;
   const decodedKey = decodeURIComponent(objectKey);
   const fileName = decodedKey.split('/').pop() || 'unknown';
@@ -29,20 +30,18 @@ export const handler: S3Handler = async (event) => {
   console.log(idUser)
   
   try {
-    const s3Stream = s3.getObject({ Bucket: bucketName, Key: objectKey }).createReadStream();
-    console.log('s3Stream')
-    console.log(s3Stream)
     
-    s3Stream.pipe(csv())
-    .on('data', function (data) {
-        results.push(data);
-        console.log(results)
-    })
+    fs.createReadStream(fileName)
+    .pipe(csv())
+    .on('data', (data) => results.push(data))
     .on('end', () => {
-       console.log('CSV file processed successfully.');
-       console.log(results);
+      console.log(results);
+      // [
+      //   { NAME: 'Daffy Duck', AGE: '24' },
+      //   { NAME: 'Bugs Bunny', AGE: '22' }
+      // ]
     });
-    
+
     console.log('successfully')
   } catch (error) {
     console.error('Error processing S3 event', error);
