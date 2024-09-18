@@ -5,6 +5,7 @@ import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 import './UserDetailsForm.css';
 import { StorageManager } from '@aws-amplify/ui-react-storage';
+import '@aws-amplify/ui-react/styles.css';
 
 interface UserDetailsFormProps {
   user: Schema['User']['type'] | null;
