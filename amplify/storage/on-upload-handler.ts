@@ -31,6 +31,7 @@ export const handler: S3Handler = async (event) => {
   try {
     const s3Stream = s3.getObject({ Bucket: bucketName, Key: objectKey }).createReadStream();
     console.log('s3Stream')
+    console.log(s3Stream)
     
     s3Stream.pipe(csv())
     .on('data', function (data) {
@@ -41,6 +42,8 @@ export const handler: S3Handler = async (event) => {
        console.log('CSV file processed successfully.');
        console.log(results);
     });
+    
+    console.log('successfully')
   } catch (error) {
     console.error('Error processing S3 event', error);
     throw error;
