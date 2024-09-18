@@ -48,7 +48,8 @@ export const handler: S3Handler = async (event) => {
     const csvData = data.Body!.toString('utf-8');
 
     // Analizar el CSV
-    const csvAnalysis = await new Promise((resolve, reject) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const csvTransformArray: any[] = await new Promise((resolve, reject) => {
       parse(
         csvData,
         { columns: true, delimiter: ';' },
@@ -58,25 +59,6 @@ export const handler: S3Handler = async (event) => {
           } else {
             console.log('records');
             console.log(records);
-
-            if (records.email) {
-              const email = records.email;
-              const lastName = records.lastName ? records.lastName : '';
-              const name = records.name ? records.name : '';
-              await dynamoDb
-                .put({
-                  TableName: TABLE_NAME,
-                  Item: {
-                    id: uuidv4(),
-                    emailContact: email,
-                    name,
-                    lastName,
-                    idUser,
-                  },
-                })
-                .promise();
-            }
-
             resolve(records);
           }
         }
@@ -84,7 +66,29 @@ export const handler: S3Handler = async (event) => {
     });
 
     console.log('successfully');
-    console.log(csvAnalysis);
+    console.log(csvTransformArray);
+
+    for(const row of csvTransformArray){
+      if (row.email) {
+        const email = row.email;
+        const lastName = row.lastName ? row.lastName : '';
+        const name = row.name ? row.name : '';
+        await dynamoDb
+          .put({
+            TableName: TABLE_NAME,
+            Item: {
+              id: uuidv4(),
+              emailContact: email,
+              name,
+              lastName,
+              idUser,
+            },
+          })
+          .promise();
+      }
+    }
+
+
   } catch (error) {
     console.error('Error processing S3 event', error);
     throw error;
