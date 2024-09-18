@@ -315,7 +315,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const customFileName = () => {
     const timestamp = new Date().toISOString();
-    return `${user?.id}:${timestamp}.csv`;
+    return `${user?.id}|${timestamp}.csv`;
   };
 
   const filteredItems = items.filter((item) =>
