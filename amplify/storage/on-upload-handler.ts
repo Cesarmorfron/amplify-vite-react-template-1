@@ -8,14 +8,14 @@
 import { S3Handler } from 'aws-lambda';
 import AWS from 'aws-sdk';
 const S3 = new AWS.S3();
-// import { DynamoDB } from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
 // import csvParser from 'csv-parser';
-// import { v4 as uuidv4 } from 'uuid'; // Para generar IDs únicos
+import { v4 as uuidv4 } from 'uuid';
 import { parse } from 'csv-parse';
 
 // const s3 = new S3();
-// const dynamoDb = new DynamoDB.DocumentClient();
-// const TABLE_NAME = 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE';
+const dynamoDb = new DynamoDB.DocumentClient();
+const TABLE_NAME = 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE';
 
 export const handler: S3Handler = async (event) => {
   const bucketName = event.Records[0].s3.bucket.name;
@@ -48,19 +48,43 @@ export const handler: S3Handler = async (event) => {
     const csvData = data.Body!.toString('utf-8');
 
     // Analizar el CSV
-    const csvAnalysis = await (new Promise((resolve, reject) => {
-      parse(csvData, { columns: true, delimiter: ';' }, (err, records) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(records);
+    const csvAnalysis = await new Promise((resolve, reject) => {
+      parse(
+        csvData,
+        { columns: true, delimiter: ';' },
+        async (err, records) => {
+          if (err) {
+            reject(err);
+          } else {
+            console.log('records');
+            console.log(records);
+
+            if (records.email) {
+              const email = records.email;
+              const lastName = records.lastName ? records.lastName : '';
+              const name = records.name ? records.name : '';
+              await dynamoDb
+                .put({
+                  TableName: TABLE_NAME,
+                  Item: {
+                    id: uuidv4(),
+                    emailContact: email,
+                    name,
+                    lastName,
+                    idUser,
+                  },
+                })
+                .promise();
+            }
+
+            resolve(records);
+          }
         }
-      });
-    }));
+      );
+    });
 
     console.log('successfully');
     console.log(csvAnalysis);
-
   } catch (error) {
     console.error('Error processing S3 event', error);
     throw error;
