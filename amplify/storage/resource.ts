@@ -10,7 +10,7 @@ export const storage = defineStorage({
   }),
   triggers: {
     onUpload: defineFunction({
-      entry: './on-upload-handler.ts'
-    })
-  }
+      entry: './on-upload-handler.ts',
+    }),
+  },
 });
