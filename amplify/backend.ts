@@ -33,8 +33,9 @@ const policy = new Policy(Stack.of(contactTable), 'MyLambdaPolicy', {
     }),
   ],
 });
-// backend.myDynamoDBFunction.resources.lambda.role?.attachInlinePolicy(policy);
 backend.sayHello.resources.lambda.role?.attachInlinePolicy(policy);
+
+// backend.myDynamoDBFunction.resources.lambda.role?.attachInlinePolicy(policy);
 
 // const mappingDynamoDbFunction = new EventSourceMapping(
 //   Stack.of(contactTable),

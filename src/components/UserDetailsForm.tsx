@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import type { Schema } from '../../amplify/data/resource';
 import { generateClient } from 'aws-amplify/data';
 import './UserDetailsForm.css';
-import { StorageManager } from '@aws-amplify/ui-react-storage';
+import { FileUploader } from '@aws-amplify/ui-react-storage';
 
 interface UserDetailsFormProps {
   user: Schema['User']['type'] | null;
@@ -591,7 +591,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 </button>
               </div>
               <div className="modal-body">
-                <StorageManager
+                <FileUploader
                   acceptedFileTypes={['.csv']}
                   path="csvs-esquela/"
                   autoUpload={true}
