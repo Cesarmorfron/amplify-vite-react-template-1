@@ -69,14 +69,22 @@ export const handler: S3Handler = async (event) => {
     console.log(csvTransformArray);
 
     for(const row of csvTransformArray){
+      console.log('row')
+      console.log(row)
       if (row.email) {
         const email = row.email;
         const lastName = row.lastName ? row.lastName : '';
         const name = row.name ? row.name : '';
+        const currentDate = new Date();
+        const isoDate = currentDate.toISOString();
+
         await dynamoDb
           .put({
             TableName: TABLE_NAME,
             Item: {
+              __typename: 'Contact',
+              createdAt: isoDate,
+              updatedAt: isoDate,
               id: uuidv4(),
               emailContact: email,
               name,
