@@ -158,18 +158,12 @@ export const handler: S3Handler = async (event) => {
       FunctionName:
         'amplify-d2la42mrj91oaz-ma-newcontactlambdaA0C0D661-LggoK7jQ2xw3',
       InvocationType: 'RequestResponse',
-      arguments: {
+      Payload: JSON.stringify({
         emailContact: email,
         emailUser: emailUser,
         nameUser: name,
         lastName: lastName,
-      },
-      Payload: {
-        emailContact: email,
-        emailUser: emailUser,
-        nameUser: name,
-        lastName: lastName,
-      },
+      }),
     };
 
     await lambda.invoke(paramsInvokeLambda).promise();
