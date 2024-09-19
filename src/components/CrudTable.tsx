@@ -94,19 +94,15 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   const handleDeleteUserConfirm = async (id: string) => {
     try {
       await client.models.User.delete({ id });
-
-      console.log(1)
+      
       const { data: contactsData, errors: contactsErrors } =
         await client.models.Contact.listContactByIdUser({
           idUser: id,
         });
-        console.log(2)
 
       if (contactsErrors) {
         console.error('Error fetching contacts:', contactsErrors);
       }
-      console.log('contactsData')
-      console.log(contactsData)
 
       if (contactsData.length > 0) {
         const deletePromises = contactsData.map((contact) =>
