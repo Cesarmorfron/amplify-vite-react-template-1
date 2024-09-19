@@ -6,6 +6,7 @@ const ses = new AWS.SES();
 export const handler: Schema['newContact']['functionHandler'] = async (
   event
 ) => {
+  console.log(event)
   const { emailContact, emailUser, nameUser, lastName } = event.arguments;
 
   try {

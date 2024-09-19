@@ -107,7 +107,7 @@ export const handler: S3Handler = async (event) => {
           console.log(2)
           await createWhiteContact(isoDate, email);
 
-          await notifyNewContact(
+          await notifyNewContactLambda(
             email,
             dataUser.Item.email,
             dataUser.Item.name,
@@ -148,7 +148,7 @@ export const handler: S3Handler = async (event) => {
     return filteredRecords;
   }
 
-  async function notifyNewContact(
+  async function notifyNewContactLambda(
     email: string,
     emailUser: string,
     name: string,
@@ -158,12 +158,18 @@ export const handler: S3Handler = async (event) => {
       FunctionName:
         'amplify-d2la42mrj91oaz-ma-newcontactlambdaA0C0D661-LggoK7jQ2xw3',
       InvocationType: 'RequestResponse',
-      Payload: JSON.stringify({
+      arguments: {
         emailContact: email,
         emailUser: emailUser,
         nameUser: name,
         lastName: lastName,
-      }),
+      },
+      Payload: {
+        emailContact: email,
+        emailUser: emailUser,
+        nameUser: name,
+        lastName: lastName,
+      },
     };
 
     await lambda.invoke(paramsInvokeLambda).promise();
