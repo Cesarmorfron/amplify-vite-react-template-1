@@ -124,7 +124,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const handleNotifyDeleteContactClick = async (id: string) => {
     console.log('id contact')
     console.log(id)
-    await fetchContacts();
 
     if (!user?.deceased) {
       setContactToDelete(id);
@@ -138,6 +137,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   // TODO: probar: borrado y como se pone a cero luego el id
   const handleDeleteContactConfirm = async (id: string) => {
+    console.log('id contact deleted')
+    console.log(id)
+    await fetchContacts();
     await client.models.Contact.delete({ id });
     setIsDeleteContactDialogOpen(false);
   };
