@@ -86,7 +86,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       setIsInfoDeceasedShowed(false);
     }
 
-    fetchContacts();
+    // fetchContacts();
 
     const sub = client.models.Contact.observeQuery().subscribe({
       next: ({ items }) => {
@@ -137,11 +137,16 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   // TODO: probar: borrado y como se pone a cero luego el id
   const handleDeleteContactConfirm = async (id: string) => {
-    console.log('id contact deleted')
-    console.log(id)
-    await client.models.Contact.delete({ id });
-    setIsDeleteContactDialogOpen(false);
-    await fetchContacts();
+    try{
+      console.log('id contact deleted')
+      console.log(id)
+      setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+      await client.models.Contact.delete({ id });
+      setIsDeleteContactDialogOpen(false);
+      await fetchContacts();
+    } catch (error) {
+      console.error('Error deleting contact:', error);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -204,9 +209,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setEditInfoFormVisible(false);
   };
 
-  // const handleCreateContactSubmit = async (e: React.FormEvent) => {
-    const handleCreateContactSubmit = async () => {
-    // e.preventDefault();
+  const handleCreateContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
     await client.models.Contact.create({
       emailContact: contactFormData.emailContact,
@@ -254,10 +258,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setIsFormStorageManagerVisible(false)
   }
 
-  // const handleNotifySubmit = async (e: React.FormEvent) => {
-    const handleNotifySubmit = async () => {
+  const handleNotifySubmit = async (e: React.FormEvent) => {
     try {
-      // e.preventDefault();
+      e.preventDefault();
       setLoading(true); // Inicia la pantalla de carga
 
       await client.models.User.update({
@@ -621,6 +624,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     dropFilesText: 'Suelta los archivos .csv aqui',
                     browseFilesText: 'Selecciona el archivo',
                   }}
+                  onUploadSuccess={() => {
+                    fetchContacts(); // Refresca los contactos después de que el archivo se suba correctamente
+                  }}
                 />
               </div>
             </div>
@@ -641,11 +647,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               </div>
               <div className="modal-body">
                 <form
-                  // onSubmit={(e) => {
-                  //   e.preventDefault();
-                  //   handleDeleteContactConfirm(contactToDelete);
-                  // }}
-                  onSubmit={() => {
+                  onSubmit={(e) => {
+                    e.preventDefault();
                     handleDeleteContactConfirm(contactToDelete);
                   }}
                 >
