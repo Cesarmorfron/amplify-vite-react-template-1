@@ -212,22 +212,36 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const handleCreateContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await client.models.Contact.create({
-      emailContact: contactFormData.emailContact,
-      name: contactFormData.name,
-      lastName: contactFormData.lastName,
-      idUser: user?.id,
-    });
+    const emailExists = items.some(
+      (item) => item.emailContact === contactFormData.emailContact
+    );
 
-    // Clear form data
-    setContactFormData({
-      emailContact: '',
-      name: '',
-      lastName: '',
-    });
+    if (emailExists) {
+      alert('Este email ya está registrado.');
+      return;
+    }
 
-    // Hide modal after submission
-    setIsFormVisible(false);
+    try {
+      await client.models.Contact.create({
+        emailContact: contactFormData.emailContact,
+        name: contactFormData.name,
+        lastName: contactFormData.lastName,
+        idUser: user?.id,
+      });
+
+      // Clear form data
+      setContactFormData({
+        emailContact: '',
+        name: '',
+        lastName: '',
+      });
+
+      // Hide modal after submission
+      setIsFormVisible(false);
+    } catch (error) {
+      console.error('Error creating contact:', error);
+      alert('Hubo un error al crear el contacto.');
+    }
   };
 
   const handleNotifyClick = () => {
@@ -547,7 +561,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             >
               Añadir contacto
             </Button>
-            <button onClick={fetchContacts}>Refrescar contactos</button>
             <Input
               placeholder="Busqueda por email"
               value={searchTerm}

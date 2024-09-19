@@ -26,76 +26,76 @@ export const handler: S3Handler = async (event) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // const results: any[] = [];
 
-  console.log('idUser');
-  console.log(idUser);
-  console.log('bucketName');
-  console.log(bucketName);
-  console.log('objectKey');
-  console.log(objectKey);
-  console.log('decodedKey');
-  console.log(decodedKey);
-
   const bucket = bucketName;
   const key = decodedKey;
 
   try {
-    const params = {
+    const paramsGetEmails = {
+      TableName: 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE',
+      IndexName: 'contactsByIdUser',
+      KeyConditionExpression: 'idUser = :idUser',
+      ExpressionAttributeValues: {
+        ':idUser': idUser,
+      },
+    };
+    const paramsS3 = {
       Bucket: bucket,
       Key: key,
     };
-    const data = await S3.getObject(params).promise();
 
-    const csvData = data.Body!.toString('utf-8');
+    const [dataDDB, dataS3] = await Promise.all([
+      dynamoDb.query(paramsGetEmails).promise(),
+      S3.getObject(paramsS3).promise(),
+    ]);
+    
+    const emailContacts = new Set(dataDDB.Items?.map((contact) => contact.emailContact) || []);
 
+    const csvData = dataS3.Body!.toString('utf-8');
+    
     // Analizar el CSV
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const csvTransformArray: any[] = await new Promise((resolve, reject) => {
       parse(
         csvData,
         { columns: true, delimiter: ';' },
-        async (err, records) => {
+        (err, records) => {
           if (err) {
             reject(err);
           } else {
-            console.log('records');
-            console.log(records);
             resolve(records);
           }
         }
       );
     });
-
+    
     console.log('successfully');
     console.log(csvTransformArray);
-
-    for(const row of csvTransformArray){
-      console.log('row')
-      console.log(row)
-      if (row.email) {
-        const email = row.email;
-        const lastName = row.apellidos ? row.apellidos : '';
-        const name = row.nombre ? row.nombre : '';
-        const currentDate = new Date();
-        const isoDate = currentDate.toISOString();
-
-        await dynamoDb
-          .put({
-            TableName: TABLE_NAME,
-            Item: {
-              __typename: 'Contact',
-              createdAt: isoDate,
-              updatedAt: isoDate,
-              id: uuidv4(),
-              emailContact: email,
-              name,
-              lastName,
-              idUser,
-            },
-          })
-          .promise();
-      }
+    
+    const filteredRecords = csvTransformArray.filter(row => row.email && !emailContacts.has(row.email));
+    
+    for (const row of filteredRecords) {
+      const email = row.email;
+      const lastName = row.apellidos || '';
+      const name = row.nombre || '';
+      const currentDate = new Date();
+      const isoDate = currentDate.toISOString();
+    
+      await dynamoDb
+        .put({
+          TableName: TABLE_NAME,
+          Item: {
+            __typename: 'Contact',
+            createdAt: isoDate,
+            updatedAt: isoDate,
+            id: uuidv4(),
+            emailContact: email,
+            name,
+            lastName,
+            idUser,
+          },
+        })
+        .promise();
     }
-
 
   } catch (error) {
     console.error('Error processing S3 event', error);
