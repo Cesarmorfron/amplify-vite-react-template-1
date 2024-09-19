@@ -52,6 +52,8 @@ export const handler: S3Handler = async (event) => {
       dynamoDb.query(paramsGetEmails).promise(),
       S3.getObject(paramsS3).promise(),
     ]);
+    console.log('dataUser')
+    console.log(dataUser)
 
     if (!dataUser || !dataUser.Item) {
       throw new Error(`user: ${idUser} does not exist`);
@@ -99,8 +101,10 @@ export const handler: S3Handler = async (event) => {
       console.log('dataWhitelist');
       console.log(dataWhitelist);
 
-      if (!dataBlacklist) {
-        if (!dataWhitelist) {
+      if (!dataBlacklist.Item) {
+        console.log(1)
+        if (!dataWhitelist.Item) {
+          console.log(2)
           await createWhiteContact(isoDate, email);
 
           await notifyNewContact(
