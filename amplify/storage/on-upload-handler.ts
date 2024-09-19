@@ -52,8 +52,8 @@ export const handler: S3Handler = async (event) => {
       dynamoDb.query(paramsGetEmails).promise(),
       S3.getObject(paramsS3).promise(),
     ]);
-    console.log('dataUser')
-    console.log(dataUser)
+    console.log('dataUser');
+    console.log(dataUser);
 
     if (!dataUser || !dataUser.Item) {
       throw new Error(`user: ${idUser} does not exist`);
@@ -102,9 +102,9 @@ export const handler: S3Handler = async (event) => {
       console.log(dataWhitelist);
 
       if (!dataBlacklist.Item) {
-        console.log(1)
+        console.log(1);
         if (!dataWhitelist.Item) {
-          console.log(2)
+          console.log(2);
           await createWhiteContact(isoDate, email);
 
           await notifyNewContactLambda(
@@ -159,10 +159,12 @@ export const handler: S3Handler = async (event) => {
         'amplify-d2la42mrj91oaz-ma-newcontactlambdaA0C0D661-LggoK7jQ2xw3',
       InvocationType: 'RequestResponse',
       Payload: JSON.stringify({
-        emailContact: email,
-        emailUser: emailUser,
-        nameUser: name,
-        lastName: lastName,
+        arguments: {
+          emailContact: email,
+          emailUser: emailUser,
+          nameUser: name,
+          lastName: lastName,
+        },
       }),
     };
 
