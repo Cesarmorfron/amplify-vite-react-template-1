@@ -36,7 +36,7 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
         Message: {
           Body: {
             Html: {
-              Data: `Con profundo pesar siento comunicarle el fallecimiento de <b>${name} ${lastName}</b>, quien nos dejó el <b>${dateDeceased}</b>.
+              Data: `Con profundo pesar sentimos comunicarle el fallecimiento de <b>${name} ${lastName}</b>, quien nos dejó el <b>${dateDeceased}</b>.
               
               ${vigil || funeral ? `<p>En estos momentos difíciles, nos gustaría compartir los detalles de las ceremonias que se llevarán a cabo en su honor.</p>` : ''}
               

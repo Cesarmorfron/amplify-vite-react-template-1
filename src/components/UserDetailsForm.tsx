@@ -120,7 +120,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   //   // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
   // }, []);
 
-  const handleNotifyDeleteContactClick = (id: string) => {
+  const handleNotifyDeleteContactClick = async (id: string) => {
+    console.log('id contact')
+    console.log(id)
+    await fetchContacts();
+
     if (!user?.deceased) {
       setContactToDelete(id);
       setIsDeleteContactDialogOpen(true);
@@ -133,9 +137,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   // TODO: probar: borrado y como se pone a cero luego el id
   const handleDeleteContactConfirm = async (id: string) => {
-    console.log('Fallecimiento notificado');
-    console.log(id);
-
     await client.models.Contact.delete({ id });
     setIsDeleteContactDialogOpen(false);
   };
@@ -277,7 +278,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       formData.funeral = formEditData.funeral;
       formData.dateDeceased = formEditData.dateDeceased;
 
-      console.log('Fallecimiento notificado');
+      console.log('defuncion notificado');
 
       const response = await client.queries.sayHello({
         idUser: user!.id,
@@ -338,7 +339,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           onClick={handleNotifyClick}
           className={`notify-button ${isInfoDeceasedShowed ? 'disabled' : ''}`}
         >
-          Notificar fallecimiento
+          Notificar defuncion
         </Button>
       </Flex>
 
@@ -353,7 +354,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           <div className="modal">
             <div className="modal-header-confirmation">
               <div className="header-content">
-                <h3>¿Notificar fallecimiento?</h3>
+                <h3>¿Notificar defuncion?</h3>
                 <p>
                   Todos los contactos de este usuario recibirán una
                   notificación.
@@ -377,7 +378,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   value={formEditData.funeral}
                   onChange={handleChange}
                 />
-                <Label htmlFor="dateDeceased">Fecha fallecimiento</Label>
+                <Label htmlFor="dateDeceased">Fecha defuncion</Label>
                 <Input
                   id="dateDeceased"
                   type="date"
@@ -439,7 +440,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Fecha fallecimiento</label>
+                <label className="form-label">Fecha defuncion</label>
                 <p className="form-input">{formData.dateDeceased}</p>
               </div>
 
