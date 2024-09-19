@@ -47,32 +47,30 @@ export const handler: S3Handler = async (event) => {
       dynamoDb.query(paramsGetEmails).promise(),
       S3.getObject(paramsS3).promise(),
     ]);
-    
-    const emailContacts = new Set(dataDDB.Items?.map((contact) => contact.emailContact) || []);
+
+    const emailContacts = new Set(
+      dataDDB.Items?.map((contact) => contact.emailContact) || []
+    );
 
     const csvData = dataS3.Body!.toString('utf-8');
-    
+
     // Analizar el CSV
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const csvTransformArray: any[] = await new Promise((resolve, reject) => {
-      parse(
-        csvData,
-        { columns: true, delimiter: ';' },
-        (err, records) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(records);
-          }
+      parse(csvData, { columns: true, delimiter: ';' }, (err, records) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(records);
         }
-      );
+      });
     });
-    
+
     console.log('successfully');
     console.log(csvTransformArray);
-    
+
     const processedEmails = new Set<string>();
-    const filteredRecords = csvTransformArray.filter(row => {
+    const filteredRecords = csvTransformArray.filter((row) => {
       const email = row.email;
       if (email && !emailContacts.has(email) && !processedEmails.has(email)) {
         processedEmails.add(email);
@@ -80,14 +78,14 @@ export const handler: S3Handler = async (event) => {
       }
       return false;
     });
-    
+
     for (const row of filteredRecords) {
       const email = row.email;
       const lastName = row.apellidos || '';
       const name = row.nombre || '';
       const currentDate = new Date();
       const isoDate = currentDate.toISOString();
-    
+
       await dynamoDb
         .put({
           TableName: TABLE_NAME,
@@ -104,7 +102,6 @@ export const handler: S3Handler = async (event) => {
         })
         .promise();
     }
-
   } catch (error) {
     console.error('Error processing S3 event', error);
     throw error;

@@ -92,8 +92,28 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
   // TODO: probar: borrado y como se pone a cero luego el id
   const handleDeleteUserConfirm = async (id: string) => {
-    await client.models.User.delete({ id });
-    setIsDeleteUserDialogOpen(false);
+    try {
+      await client.models.User.delete({ id });
+      const { data: contactsData, errors: contactsErrors } =
+        await client.models.Contact.listContactByIdUser({
+          idUser: id,
+        });
+
+      if (contactsErrors) {
+        console.error('Error fetching contacts:', contactsErrors);
+      }
+
+      if (contactsData.length > 0) {
+        const deletePromises = contactsData.map((contact) =>
+          client.models.Contact.delete({ id: contact.id })
+        );
+        await Promise.all(deletePromises);
+      }
+
+      setIsDeleteUserDialogOpen(false);
+    } catch (error) {
+      console.error('Error deleting user and contacts:', error);
+    }
   };
 
   const handleDeleteUserCancel = () => {

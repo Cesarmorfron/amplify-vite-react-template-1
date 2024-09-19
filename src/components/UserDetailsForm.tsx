@@ -63,15 +63,14 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const fetchContacts = async () => {
     try {
-      const { data, errors } =
-        await client.models.Contact.listContactByIdUser({
-          idUser: user!.id!,
-        });
+      const { data, errors } = await client.models.Contact.listContactByIdUser({
+        idUser: user!.id!,
+      });
 
       if (errors) {
         console.error(errors);
       } else {
-        console.log(JSON.stringify(data))
+        console.log(JSON.stringify(data));
         setItems([...data]);
       }
     } catch (error) {
@@ -122,8 +121,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   // }, []);
 
   const handleNotifyDeleteContactClick = async (id: string) => {
-    console.log('id contact')
-    console.log(id)
+    console.log('id contact');
+    console.log(id);
 
     if (!user?.deceased) {
       setContactToDelete(id);
@@ -137,9 +136,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   // TODO: probar: borrado y como se pone a cero luego el id
   const handleDeleteContactConfirm = async (id: string) => {
-    try{
-      console.log('id contact deleted')
-      console.log(id)
+    try {
+      console.log('id contact deleted');
+      console.log(id);
       setItems((prevItems) => prevItems.filter((item) => item.id !== id));
       await client.models.Contact.delete({ id });
       setIsDeleteContactDialogOpen(false);
@@ -267,10 +266,10 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleFormStorageManagerCancel = async () => {
-    console.log('handleFormStorageManagerCancel')
+    console.log('handleFormStorageManagerCancel');
     await fetchContacts();
-    setIsFormStorageManagerVisible(false)
-  }
+    setIsFormStorageManagerVisible(false);
+  };
 
   const handleNotifySubmit = async (e: React.FormEvent) => {
     try {
