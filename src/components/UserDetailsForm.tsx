@@ -205,7 +205,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleCreateContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     await client.models.Contact.create({
       emailContact: contactFormData.emailContact,
@@ -255,7 +255,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const handleNotifySubmit = async (e: React.FormEvent) => {
     try {
-      e.preventDefault();
+      // e.preventDefault();
       setLoading(true); // Inicia la pantalla de carga
 
       await client.models.User.update({
@@ -639,8 +639,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               </div>
               <div className="modal-body">
                 <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
+                  // onSubmit={(e) => {
+                  //   e.preventDefault();
+                  //   handleDeleteContactConfirm(contactToDelete);
+                  // }}
+                  onSubmit={() => {
                     handleDeleteContactConfirm(contactToDelete);
                   }}
                 >
