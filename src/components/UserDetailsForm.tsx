@@ -220,19 +220,26 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       return;
     }
 
-    const blacklistEmail = await client.models.BlacklistContact.get({id: contactFormData.emailContact});
+    const { data: dataBlack } = await client.models.BlacklistContact.get({
+      id: contactFormData.emailContact,
+    });
 
-    if(blacklistEmail) {
-      alert('Este email no quiere recibir notificaciones de esquela electronica.');
+    console.log(dataBlack);
+    if (dataBlack) {
+      alert(
+        'Este email no quiere recibir notificaciones de esquela electronica.'
+      );
       return;
     }
 
-    const whitelistEmail = await client.models.WhitelistContact.get({id: contactFormData.emailContact});
+    const { data: dataWhite } = await client.models.WhitelistContact.get({
+      id: contactFormData.emailContact,
+    });
 
-    if(!whitelistEmail) {
+    if (!dataWhite) {
       await Promise.all([
         client.models.WhitelistContact.create({
-          id: contactFormData.emailContact
+          id: contactFormData.emailContact,
         }),
         client.queries.newContact({
           emailContact: contactFormData.emailContact,

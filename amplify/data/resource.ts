@@ -41,7 +41,7 @@ const schema = a.schema({
     })
     .returns(a.string())
     .handler(a.handler.function(newContact))
-    .authorization((allow) => [allow.publicApiKey()]),    
+    .authorization((allow) => [allow.publicApiKey()]),
   User: a
     .model({
       name: a.string(),
@@ -65,16 +65,16 @@ const schema = a.schema({
     })
     .secondaryIndexes((index) => [index('idUser')])
     .authorization((allow) => [allow.publicApiKey()]),
-    BlacklistContact: a
+  BlacklistContact: a
     .model({
       id: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
-    WhitelistContact: a
+  WhitelistContact: a
     .model({
       id: a.string(),
     })
-    .authorization((allow) => [allow.publicApiKey()]),        
+    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

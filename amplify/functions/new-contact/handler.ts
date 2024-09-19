@@ -3,7 +3,9 @@ import AWS from 'aws-sdk';
 
 const ses = new AWS.SES();
 
-export const handler: Schema['newContact']['functionHandler'] = async (event) => {
+export const handler: Schema['newContact']['functionHandler'] = async (
+  event
+) => {
   const { emailContact, emailUser, nameUser, lastName } = event.arguments;
 
   try {
@@ -36,10 +38,10 @@ export const handler: Schema['newContact']['functionHandler'] = async (event) =>
       },
       Source: 'rechazar@esquelaelectronica.com',
     };
-    
+
     const data = await ses.sendEmail(paramsSes).promise();
 
-      console.log(data);
+    console.log(data);
   } catch (err) {
     console.error('Error lambda:', err);
     throw new Error('Error lambda');
