@@ -204,7 +204,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setEditInfoFormVisible(false);
   };
 
-  const handleCreateContactSubmit = async (e: React.FormEvent) => {
+  // const handleCreateContactSubmit = async (e: React.FormEvent) => {
+    const handleCreateContactSubmit = async () => {
     // e.preventDefault();
 
     await client.models.Contact.create({
@@ -253,7 +254,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setIsFormStorageManagerVisible(false)
   }
 
-  const handleNotifySubmit = async (e: React.FormEvent) => {
+  // const handleNotifySubmit = async (e: React.FormEvent) => {
+    const handleNotifySubmit = async () => {
     try {
       // e.preventDefault();
       setLoading(true); // Inicia la pantalla de carga
