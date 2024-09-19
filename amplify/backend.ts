@@ -4,6 +4,7 @@ import { data } from './data/resource';
 import { storage } from './storage/resource';
 import { myFirstFunction } from './my-first-function/resource';
 import { sayHello } from './functions/say-hello/resources';
+import { newContact } from './functions/new-contact/resources';
 // import { myDynamoDBFunction } from "./functions/dynamoDB-function/resource";
 import { Policy, PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import { Stack } from 'aws-cdk-lib';
@@ -15,6 +16,7 @@ const backend = defineBackend({
   storage,
   myFirstFunction,
   sayHello,
+  newContact,
   // myDynamoDBFunction,
 });
 
@@ -34,6 +36,7 @@ const policy = new Policy(Stack.of(contactTable), 'MyLambdaPolicy', {
   ],
 });
 backend.sayHello.resources.lambda.role?.attachInlinePolicy(policy);
+backend.newContact.resources.lambda.role?.attachInlinePolicy(policy);
 
 // backend.myDynamoDBFunction.resources.lambda.role?.attachInlinePolicy(policy);
 

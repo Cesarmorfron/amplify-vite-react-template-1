@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { sayHello } from '../functions/say-hello/resources';
+import { newContact } from '../functions/new-contact/resources';
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -30,6 +31,17 @@ const schema = a.schema({
     .returns(a.string())
     .handler(a.handler.function(sayHello))
     .authorization((allow) => [allow.publicApiKey()]),
+  newContact: a
+    .query()
+    .arguments({
+      emailContact: a.string(),
+      emailUser: a.string(),
+      nameUser: a.string(),
+      lastName: a.string(),
+    })
+    .returns(a.string())
+    .handler(a.handler.function(newContact))
+    .authorization((allow) => [allow.publicApiKey()]),    
   User: a
     .model({
       name: a.string(),
@@ -53,6 +65,16 @@ const schema = a.schema({
     })
     .secondaryIndexes((index) => [index('idUser')])
     .authorization((allow) => [allow.publicApiKey()]),
+    BlacklistContact: a
+    .model({
+      id: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+    WhitelistContact: a
+    .model({
+      id: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),        
 });
 
 export type Schema = ClientSchema<typeof schema>;
