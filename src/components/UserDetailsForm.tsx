@@ -71,6 +71,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       if (errors) {
         console.error(errors);
       } else {
+        console.log(JSON.stringify(data))
         setItems([...data]);
       }
     } catch (error) {
