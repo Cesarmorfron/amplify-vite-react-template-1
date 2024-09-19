@@ -139,9 +139,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   const handleDeleteContactConfirm = async (id: string) => {
     console.log('id contact deleted')
     console.log(id)
-    await fetchContacts();
     await client.models.Contact.delete({ id });
     setIsDeleteContactDialogOpen(false);
+    await fetchContacts();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
