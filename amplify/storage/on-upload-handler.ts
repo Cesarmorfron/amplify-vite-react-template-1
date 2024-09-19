@@ -71,7 +71,15 @@ export const handler: S3Handler = async (event) => {
     console.log('successfully');
     console.log(csvTransformArray);
     
-    const filteredRecords = csvTransformArray.filter(row => row.email && !emailContacts.has(row.email));
+    const processedEmails = new Set<string>();
+    const filteredRecords = csvTransformArray.filter(row => {
+      const email = row.email;
+      if (email && !emailContacts.has(email) && !processedEmails.has(email)) {
+        processedEmails.add(email);
+        return true;
+      }
+      return false;
+    });
     
     for (const row of filteredRecords) {
       const email = row.email;
