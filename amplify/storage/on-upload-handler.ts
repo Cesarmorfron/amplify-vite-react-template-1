@@ -25,31 +25,29 @@ export const handler: S3Handler = async (event) => {
   const key = decodedKey;
 
   try {
-    const paramsGetEmails = {
-      TableName: TABLE_NAME_CONTACT,
-      IndexName: 'contactsByIdUser',
-      KeyConditionExpression: 'idUser = :idUser',
-      ExpressionAttributeValues: {
-        ':idUser': idUser,
-      },
-    };
-
-    const paramsGetUser = {
-      TableName: TABLE_NAME_USER,
-      Key: {
-        id: idUser,
-      },
-    };
-
-    const paramsS3 = {
-      Bucket: bucket,
-      Key: key,
-    };
-
     const [dataUser, dataDDB, dataS3] = await Promise.all([
-      dynamoDb.get(paramsGetUser).promise(),
-      dynamoDb.query(paramsGetEmails).promise(),
-      S3.getObject(paramsS3).promise(),
+      dynamoDb
+        .get({
+          TableName: TABLE_NAME_USER,
+          Key: {
+            id: idUser,
+          },
+        })
+        .promise(),
+      dynamoDb
+        .query({
+          TableName: TABLE_NAME_CONTACT,
+          IndexName: 'contactsByIdUser',
+          KeyConditionExpression: 'idUser = :idUser',
+          ExpressionAttributeValues: {
+            ':idUser': idUser,
+          },
+        })
+        .promise(),
+      S3.getObject({
+        Bucket: bucket,
+        Key: key,
+      }).promise(),
     ]);
     console.log('dataUser');
     console.log(dataUser);
@@ -64,60 +62,62 @@ export const handler: S3Handler = async (event) => {
 
     const csvData = dataS3.Body!.toString('utf-8');
 
-    // Analizar el CSV
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const filteredRecords = await analyseCSV(csvData, emailContacts);
     console.log('filteredRecords');
     console.log(filteredRecords);
 
-    for (const row of filteredRecords) {
+    const emailsToCheck = filteredRecords.map(row => row.email);
+    const [whitelistData, blacklistData] = await Promise.all([
+      dynamoDb
+        .batchGet({
+          RequestItems: {
+            [TABLE_NAME_WHITELIST]: {
+              Keys: emailsToCheck.map(email => ({ id: email })),
+            },
+          },
+        })
+        .promise(),
+      dynamoDb
+        .batchGet({
+          RequestItems: {
+            [TABLE_NAME_BLACKLIST]: {
+              Keys: emailsToCheck.map(email => ({ id: email })),
+            },
+          },
+        })
+        .promise(),
+    ]);
+    
+    const whitelistEmails = new Set(whitelistData.Responses![TABLE_NAME_WHITELIST]?.map(item => item.id) || []);
+    const blacklistEmails = new Set(blacklistData.Responses![TABLE_NAME_BLACKLIST]?.map(item => item.id) || []);
+    
+    const currentDate = new Date();
+    const isoDate = currentDate.toISOString();
+    
+    // Procesar los registros filtrados
+    const contactPromises = filteredRecords.map(async row => {
       const email = row.email;
       const lastName = row.apellidos || '';
       const name = row.nombre || '';
-      const currentDate = new Date();
-      const isoDate = currentDate.toISOString();
-
-      const paramsGetWhitelist = {
-        TableName: TABLE_NAME_WHITELIST,
-        Key: {
-          id: email,
-        },
-      };
-
-      const paramsGetBlacklist = {
-        TableName: TABLE_NAME_BLACKLIST,
-        Key: {
-          id: email,
-        },
-      };
-
-      const [dataWhitelist, dataBlacklist] = await Promise.all([
-        dynamoDb.get(paramsGetWhitelist).promise(),
-        dynamoDb.get(paramsGetBlacklist).promise(),
-      ]);
-      console.log('dataBlacklist');
-      console.log(dataBlacklist);
-      console.log('dataWhitelist');
-      console.log(dataWhitelist);
-
-      if (!dataBlacklist.Item) {
-        console.log(1);
-        if (!dataWhitelist.Item) {
-          console.log(2);
-          await createWhiteContact(isoDate, email);
-
-          await notifyNewContactLambda(
-            email,
-            dataUser.Item.email,
-            dataUser.Item.name,
-            dataUser.Item.lastName
-          );
+    
+      if (!blacklistEmails.has(email)) {
+        if (!whitelistEmails.has(email)) {
+          // Crear en whitelist y enviar notificación solo si no está en la whitelist
+          await Promise.all([
+            createWhiteContact(isoDate, email),
+            notifyNewContactLambda(email, dataUser.Item!.email, dataUser.Item!.name, dataUser.Item!.lastName),
+          ]);
         }
-
+    
+        // Crear el contacto
         await createContact(isoDate, email, name, lastName);
       }
-    }
-
+    });
+    
+    // Esperar a que se completen todas las promesas
+    await Promise.all(contactPromises);
+    
+    console.log('csv updated');
     await updateCsvFlagToUser(dataUser.Item);
   } catch (error) {
     console.error('Error processing S3 event', error);
