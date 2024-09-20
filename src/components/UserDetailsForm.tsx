@@ -6,7 +6,6 @@ import { generateClient } from 'aws-amplify/data';
 import './UserDetailsForm.css';
 import { StorageManager } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';
-import { jwtDecode } from 'jwt-decode';
 
 interface UserDetailsFormProps {
   user: Schema['User']['type'] | null;
