@@ -25,7 +25,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isDeleteUserDialogOpen, setIsDeleteUserDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState('');
-  let company: string;
+  const [company, setCompany] = useState<string>('');
 
   const handleRowClick = (item: Schema['User']['type']) => {
     onRowClick(item);
@@ -54,7 +54,8 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       'CognitoIdentityServiceProvider.7uhf5j7182rj4t6ufbe35v8iuk.b1e970be-0061-70fb-6342-7cac3f4e53a1.idToken'
     );
     const decodedToken = jwtDecode(token!);
-    company = (decodedToken as any)['custom:company'];
+    const companyValue = (decodedToken as any)['custom:company'];
+    setCompany(companyValue);
     console.log(company);
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
