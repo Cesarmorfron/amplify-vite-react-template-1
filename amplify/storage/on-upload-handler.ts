@@ -217,7 +217,7 @@ async function updateCsvFlagToUser(Item: DynamoDB.DocumentClient.AttributeMap) {
       TableName: TABLE_NAME_USER,
       Item: {
         ...Item,
-        flagUploadCsv: false,
+        flagUploadCsv: true,
       },
     })
     .promise();
