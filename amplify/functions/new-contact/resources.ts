@@ -4,6 +4,6 @@ export const newContact = defineFunction({
   name: 'new-contact',
   entry: './handler.ts',
   environment: {
-    emailActivated: 'false'
-  }
+    emailActivated: 'false',
+  },
 });

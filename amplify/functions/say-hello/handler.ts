@@ -58,9 +58,13 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
         Source: 'no-reply@esquelaelectronica.com',
       };
 
-      const data = await ses.sendEmail(paramsSes).promise();
+      if (process.env.emailActivated) {
+        const data = await ses.sendEmail(paramsSes).promise();
 
-      console.log(data);
+        console.log(data);
+      } else {
+        console.log('emailActivated false');
+      }
     } else {
       console.log(`User: ${idUser} no tenia contactos`);
     }

@@ -39,14 +39,12 @@ export const handler: Schema['newContact']['functionHandler'] = async (
       Source: 'notificaciones@esquelaelectronica.com',
     };
 
-
-    // if(env.emailActivated === 'true'){
+    if (process.env.emailActivated === 'true') {
       const data = await ses.sendEmail(paramsSes).promise();
       console.log(data);
-    // }
-    // else {
-    //   console.log('emailActivated false');
-    // }
+    } else {
+      console.log('emailActivated false');
+    }
   } catch (err) {
     console.error('Error lambda:', err);
     throw new Error('Error lambda');

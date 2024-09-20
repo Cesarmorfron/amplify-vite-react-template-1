@@ -6,6 +6,6 @@ export const sayHello = defineFunction({
   // optionally specify a path to your handler (defaults to "./handler.ts")
   entry: './handler.ts',
   environment: {
-    emailActivated: 'false'
-  }
+    emailActivated: 'false',
+  },
 });
