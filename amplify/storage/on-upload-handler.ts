@@ -69,11 +69,12 @@ export const handler: S3Handler = async (event) => {
     console.log(filteredRecords);
 
     if (filteredRecords.length <= 0) {
-      console.log('filtered Records is 0');
-      throw new Error('filtered Records is 0');
+      console.log('no new emails for this contact');
+      return;
     }
 
     const emailsToCheck = filteredRecords.map((row) => row.email);
+    console.log(1)
     const [whitelistData, blacklistData] = await Promise.all([
       dynamoDb
         .batchGet({
@@ -94,11 +95,13 @@ export const handler: S3Handler = async (event) => {
         })
         .promise(),
     ]);
+    console.log(2)
 
     const whitelistEmails = new Set(
       whitelistData.Responses![TABLE_NAME_WHITELIST]?.map((item) => item.id) ||
         []
     );
+    console.log(3)
     const blacklistEmails = new Set(
       blacklistData.Responses![TABLE_NAME_BLACKLIST]?.map((item) => item.id) ||
         []
