@@ -1,6 +1,5 @@
 import type { Schema } from '../../data/resource';
 import AWS from 'aws-sdk';
-
 const ses = new AWS.SES();
 
 export const handler: Schema['newContact']['functionHandler'] = async (
@@ -40,9 +39,14 @@ export const handler: Schema['newContact']['functionHandler'] = async (
       Source: 'notificaciones@esquelaelectronica.com',
     };
 
-    const data = await ses.sendEmail(paramsSes).promise();
 
-    console.log(data);
+    // if(env.emailActivated === 'true'){
+      const data = await ses.sendEmail(paramsSes).promise();
+      console.log(data);
+    // }
+    // else {
+    //   console.log('emailActivated false');
+    // }
   } catch (err) {
     console.error('Error lambda:', err);
     throw new Error('Error lambda');
