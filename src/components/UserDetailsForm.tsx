@@ -322,8 +322,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
       if (dataUser?.flagUploadCsv === 'true') {
         contatsLoaded = true;
+      } else {
+        await sleep(500);
       }
-      await sleep(500);
     }
 
     await fetchContacts();
@@ -701,7 +702,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     browseFilesText: 'Selecciona el archivo',
                   }}
                   onUploadSuccess={() => {
-                    fetchContacts();
                     uploadContactsFlagUserToFalse();
                   }}
                 />
