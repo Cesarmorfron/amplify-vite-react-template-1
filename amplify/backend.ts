@@ -18,7 +18,7 @@ const backend = defineBackend({
   myFirstFunction,
   sayHello,
   newContact,
-  blacklistLambda
+  blacklistLambda,
   // myDynamoDBFunction,
 });
 

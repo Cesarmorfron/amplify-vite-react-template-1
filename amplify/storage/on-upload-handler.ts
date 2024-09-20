@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { parse } from 'csv-parse';
 const lambda = new AWS.Lambda();
 
-// const s3 = new S3();
 const dynamoDb = new DynamoDB.DocumentClient();
 const TABLE_NAME_CONTACT = 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE';
 const TABLE_NAME_WHITELIST = 'WhitelistContact-xlznjcoayzddxlockvuufrw5vi-NONE';

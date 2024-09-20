@@ -1,4 +1,10 @@
 import type { Schema } from '../../data/resource';
+import { DynamoDB } from 'aws-sdk';
+
+const dynamoDb = new DynamoDB.DocumentClient();
+const TABLE_NAME_CONTACT = 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE';
+const TABLE_NAME_WHITELIST = 'WhitelistContact-xlznjcoayzddxlockvuufrw5vi-NONE';
+const TABLE_NAME_BLACKLIST = 'BlacklistContact-xlznjcoayzddxlockvuufrw5vi-NONE';
 
 export const handler: Schema['blacklistLambda']['functionHandler'] = async (
   event
@@ -15,22 +21,92 @@ export const handler: Schema['blacklistLambda']['functionHandler'] = async (
   const from = record.mail.commonHeaders.from[0];
   console.log(`Email received from: ${from}`);
 
-  // Obtener el asunto del correo
-  const subject = record.mail.commonHeaders.subject;
-  console.log(`Subject: ${subject}`);
+  const email = from.match(/<([^>]+)>/)?.[1];
 
-  // Obtener el cuerpo del mensaje MIME (formato raw)
-  const message = record.mail;
-  console.log('Raw email message:', message);
-
-  // Aquí podrías parsear el mensaje MIME si es necesario
-  // ...
-
-  // Si el asunto o cuerpo del correo contiene "baja", procesarlo
-  if (message.toLowerCase().includes('baja')) {
-    console.log(`Processing unsubscribe request from: ${from}`);
-    // Aquí podrías eliminar al usuario de la base de datos
+  if (!email) {
+    console.log('No se encontró ningún email.');
+    return 'no email valid';
   }
+
+  const whitelist = await getWhitelistContact(email);
+
+  if (!whitelist.Item) return 'no email whitelisted';
+
+  await deleteWhitelistContact(email);
+
+  const currentDate = new Date();
+  const isoDate = currentDate.toISOString();
+
+  await createBlacklistContact(isoDate, email);
+
+  const contactsToDelete = await queryContactsToDelete(email);
+
+  if (!contactsToDelete.Items) return;
+
+  const deletePromises = contactsToDelete.Items.map((contact) =>
+    deleteContact(contact.id)
+  );
+  await Promise.all(deletePromises);
 
   return 'success';
 };
+
+async function queryContactsToDelete(email: string) {
+  return await dynamoDb
+    .query({
+      TableName: TABLE_NAME_CONTACT,
+      IndexName: 'contactsByEmailContact',
+      KeyConditionExpression: 'emailContact = :emailContact',
+      ExpressionAttributeValues: {
+        ':emailContact': email,
+      },
+    })
+    .promise();
+}
+
+async function deleteWhitelistContact(email: string) {
+  await dynamoDb
+    .delete({
+      TableName: TABLE_NAME_WHITELIST,
+      Key: {
+        id: email,
+      },
+    })
+    .promise();
+}
+
+async function deleteContact(id: string) {
+  await dynamoDb
+    .delete({
+      TableName: TABLE_NAME_CONTACT,
+      Key: {
+        id: id,
+      },
+    })
+    .promise();
+}
+
+async function getWhitelistContact(email: string) {
+  return await dynamoDb
+    .get({
+      TableName: TABLE_NAME_WHITELIST,
+      Key: {
+        id: email,
+      },
+    })
+    .promise();
+}
+
+async function createBlacklistContact(isoDate: string, email: string) {
+  await dynamoDb
+    .put({
+      TableName: TABLE_NAME_BLACKLIST,
+      Item: {
+        __typename: 'WhitelistContact',
+        createdAt: isoDate,
+        updatedAt: isoDate,
+        id: email,
+      },
+    })
+    .promise();
+}

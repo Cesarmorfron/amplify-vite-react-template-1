@@ -50,7 +50,7 @@ const schema = a.schema({
     })
     .returns(a.string())
     .handler(a.handler.function(blacklistLambda))
-    .authorization((allow) => [allow.publicApiKey()]),    
+    .authorization((allow) => [allow.publicApiKey()]),
   User: a
     .model({
       name: a.string(),
@@ -73,7 +73,7 @@ const schema = a.schema({
       lastName: a.string(),
       idUser: a.string(),
     })
-    .secondaryIndexes((index) => [index('idUser')])
+    .secondaryIndexes((index) => [index('idUser'), index('emailContact')])
     .authorization((allow) => [allow.publicApiKey()]),
   BlacklistContact: a
     .model({
