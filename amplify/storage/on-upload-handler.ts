@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { S3Handler } from 'aws-lambda';
 import AWS from 'aws-sdk';
 const S3 = new AWS.S3();
@@ -33,11 +34,11 @@ export const handler: S3Handler = async (event) => {
     })
     .promise();
 
-    console.log('dataUser');
-    console.log(dataUser);
-    if (!dataUser || !dataUser.Item) {
-      throw new Error(`user: ${idUser} does not exist`);
-    }
+  console.log('dataUser');
+  console.log(dataUser);
+  if (!dataUser || !dataUser.Item) {
+    throw new Error(`user: ${idUser} does not exist`);
+  }
 
   try {
     const [dataDDB, dataS3] = await Promise.all([
@@ -57,8 +58,6 @@ export const handler: S3Handler = async (event) => {
       }).promise(),
     ]);
 
-
-
     const emailContacts = new Set(
       dataDDB.Items?.map((contact) => contact.emailContact) || []
     );
@@ -69,8 +68,9 @@ export const handler: S3Handler = async (event) => {
     console.log('filteredRecords');
     console.log(filteredRecords);
 
-    if(filteredRecords.length <= 0) {
-      throw new Error('filtered Records is 0')
+    if (filteredRecords.length <= 0) {
+      console.log('filtered Records is 0');
+      throw new Error('filtered Records is 0');
     }
 
     const emailsToCheck = filteredRecords.map((row) => row.email);
@@ -111,127 +111,176 @@ export const handler: S3Handler = async (event) => {
     const currentDate = new Date();
     const isoDate = currentDate.toISOString();
 
-    // Procesar los registros filtrados
-    const contactPromises = filteredRecords.map(async (row) => {
-      const email = row.email;
-      const lastName = row.apellidos || '';
-      const name = row.nombre || '';
-
-      if (!blacklistEmails.has(email)) {
-        if (!whitelistEmails.has(email)) {
-          // Crear en whitelist y enviar notificación solo si no está en la whitelist
-          await Promise.all([
-            createWhiteContact(isoDate, email),
-            notifyNewContactLambda(
-              email,
-              dataUser.Item!.email,
-              dataUser.Item!.name,
-              dataUser.Item!.lastName
-            ),
-          ]);
-        }
-
-        // Crear el contacto
-        await createContact(isoDate, email, name, lastName);
-      }
-    });
-
-    // Esperar a que se completen todas las promesas
-    await Promise.all(contactPromises);
+    await processContacts(
+      filteredRecords,
+      blacklistEmails,
+      whitelistEmails,
+      isoDate,
+      {
+        email: dataUser.Item!.email,
+        name: dataUser.Item!.name,
+        lastName: dataUser.Item!.lastName,
+        idUser
+      },
+      10
+    );
 
     console.log('csv updated');
-    await updateCsvFlagToUser(dataUser.Item);
   } catch (error) {
-    await updateCsvFlagToUser(dataUser.Item);
     console.error('Error processing S3 event', error);
     throw error;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async function analyseCSV(csvData: string, emailContacts: Set<any>) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const csvTransformArray: any[] = await new Promise((resolve, reject) => {
-      parse(csvData, { columns: true, delimiter: ';' }, (err, records) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(records);
-        }
-      });
-    });
-
-    const processedEmails = new Set<string>();
-    const filteredRecords = csvTransformArray.filter((row) => {
-      const email = row.email;
-      if (email && !emailContacts.has(email) && !processedEmails.has(email)) {
-        processedEmails.add(email);
-        return true;
-      }
-      return false;
-    });
-    return filteredRecords;
-  }
-
-  async function notifyNewContactLambda(
-    email: string,
-    emailUser: string,
-    name: string,
-    lastName: string
-  ) {
-    const paramsInvokeLambda = {
-      FunctionName:
-        'amplify-d2la42mrj91oaz-ma-newcontactlambdaA0C0D661-LggoK7jQ2xw3',
-      InvocationType: 'RequestResponse',
-      Payload: JSON.stringify({
-        arguments: {
-          emailContact: email,
-          emailUser: emailUser,
-          nameUser: name,
-          lastName: lastName,
-        },
-      }),
-    };
-
-    await lambda.invoke(paramsInvokeLambda).promise();
-  }
-
-  async function createContact(
-    isoDate: string,
-    email: string,
-    name: string,
-    lastName: string
-  ) {
-    await dynamoDb
-      .put({
-        TableName: TABLE_NAME_CONTACT,
-        Item: {
-          __typename: 'Contact',
-          createdAt: isoDate,
-          updatedAt: isoDate,
-          id: uuidv4(),
-          emailContact: email,
-          name,
-          lastName,
-          idUser,
-        },
-      })
-      .promise();
-  }
-
-  async function createWhiteContact(isoDate: string, email: string) {
-    await dynamoDb
-      .put({
-        TableName: TABLE_NAME_WHITELIST,
-        Item: {
-          __typename: 'WhitelistContact',
-          createdAt: isoDate,
-          updatedAt: isoDate,
-          id: email,
-        },
-      })
-      .promise();
+  } finally {
+    await updateCsvFlagToUser(dataUser.Item);
   }
 };
+
+async function processContacts(
+  filteredRecords: any[],
+  blacklistEmails: Set<string>,
+  whitelistEmails: Set<string>,
+  isoDate: string,
+  dataUser: { email: string; name: string; lastName: string; idUser: string },
+  concurrencyLimit: number
+) {
+  const processContact = async (row: any) => {
+    const email = row.email;
+    const lastName = row.apellidos || '';
+    const name = row.nombre || '';
+
+    if (!blacklistEmails.has(email)) {
+      if (!whitelistEmails.has(email)) {
+        // Crear en whitelist y enviar notificación
+        await Promise.all([
+          createWhiteContact(isoDate, email),
+          notifyNewContactLambda(
+            email,
+            dataUser.email,
+            dataUser.name,
+            dataUser.lastName
+          ),
+        ]);
+      }
+      // Crear el contacto
+      await createContact(isoDate, email, name, lastName, dataUser.idUser );
+    }
+  };
+
+  // Crear las promesas sin ejecutarlas aún
+  const contactPromises = filteredRecords.map(
+    (row) => () => processContact(row)
+  );
+
+  // Limitar la concurrencia al procesar los contactos
+  await limitConcurrency(contactPromises, concurrencyLimit);
+}
+
+async function limitConcurrency(promises: any[], limit: number) {
+  const results = [];
+  const executing: any[] = [];
+
+  for (const promise of promises) {
+    const p = promise().then((result: any) => {
+      // Eliminar la promesa completada del conjunto en ejecución
+      executing.splice(executing.indexOf(p), 1);
+      return result;
+    });
+    results.push(p);
+    executing.push(p);
+
+    // Si llegamos al límite de concurrencia, esperamos que termine alguna
+    if (executing.length >= limit) {
+      await Promise.race(executing);
+    }
+  }
+
+  return Promise.all(results);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function analyseCSV(csvData: string, emailContacts: Set<any>) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const csvTransformArray: any[] = await new Promise((resolve, reject) => {
+    parse(csvData, { columns: true, delimiter: ';' }, (err, records) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(records);
+      }
+    });
+  });
+
+  const processedEmails = new Set<string>();
+  const filteredRecords = csvTransformArray.filter((row) => {
+    const email = row.email;
+    if (email && !emailContacts.has(email) && !processedEmails.has(email)) {
+      processedEmails.add(email);
+      return true;
+    }
+    return false;
+  });
+  return filteredRecords;
+}
+
+async function notifyNewContactLambda(
+  email: string,
+  emailUser: string,
+  name: string,
+  lastName: string
+) {
+  const paramsInvokeLambda = {
+    FunctionName:
+      'amplify-d2la42mrj91oaz-ma-newcontactlambdaA0C0D661-LggoK7jQ2xw3',
+    InvocationType: 'RequestResponse',
+    Payload: JSON.stringify({
+      arguments: {
+        emailContact: email,
+        emailUser: emailUser,
+        nameUser: name,
+        lastName: lastName,
+      },
+    }),
+  };
+
+  await lambda.invoke(paramsInvokeLambda).promise();
+}
+
+async function createContact(
+  isoDate: string,
+  email: string,
+  name: string,
+  lastName: string,
+  idUser: string,
+) {
+  await dynamoDb
+    .put({
+      TableName: TABLE_NAME_CONTACT,
+      Item: {
+        __typename: 'Contact',
+        createdAt: isoDate,
+        updatedAt: isoDate,
+        id: uuidv4(),
+        emailContact: email,
+        name,
+        lastName,
+        idUser,
+      },
+    })
+    .promise();
+}
+
+async function createWhiteContact(isoDate: string, email: string) {
+  await dynamoDb
+    .put({
+      TableName: TABLE_NAME_WHITELIST,
+      Item: {
+        __typename: 'WhitelistContact',
+        createdAt: isoDate,
+        updatedAt: isoDate,
+        id: email,
+      },
+    })
+    .promise();
+}
 
 async function updateCsvFlagToUser(Item: DynamoDB.DocumentClient.AttributeMap) {
   await dynamoDb
