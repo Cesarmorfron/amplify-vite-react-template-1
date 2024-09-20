@@ -24,16 +24,23 @@ export const handler: S3Handler = async (event) => {
   const bucket = bucketName;
   const key = decodedKey;
 
+  const dataUser = await dynamoDb
+    .get({
+      TableName: TABLE_NAME_USER,
+      Key: {
+        id: idUser,
+      },
+    })
+    .promise();
+
+    console.log('dataUser');
+    console.log(dataUser);
+    if (!dataUser || !dataUser.Item) {
+      throw new Error(`user: ${idUser} does not exist`);
+    }
+
   try {
-    const [dataUser, dataDDB, dataS3] = await Promise.all([
-      dynamoDb
-        .get({
-          TableName: TABLE_NAME_USER,
-          Key: {
-            id: idUser,
-          },
-        })
-        .promise(),
+    const [dataDDB, dataS3] = await Promise.all([
       dynamoDb
         .query({
           TableName: TABLE_NAME_CONTACT,
@@ -49,12 +56,8 @@ export const handler: S3Handler = async (event) => {
         Key: key,
       }).promise(),
     ]);
-    console.log('dataUser');
-    console.log(dataUser);
 
-    if (!dataUser || !dataUser.Item) {
-      throw new Error(`user: ${idUser} does not exist`);
-    }
+
 
     const emailContacts = new Set(
       dataDDB.Items?.map((contact) => contact.emailContact) || []
@@ -66,13 +69,13 @@ export const handler: S3Handler = async (event) => {
     console.log('filteredRecords');
     console.log(filteredRecords);
 
-    const emailsToCheck = filteredRecords.map(row => row.email);
+    const emailsToCheck = filteredRecords.map((row) => row.email);
     const [whitelistData, blacklistData] = await Promise.all([
       dynamoDb
         .batchGet({
           RequestItems: {
             [TABLE_NAME_WHITELIST]: {
-              Keys: emailsToCheck.map(email => ({ id: email })),
+              Keys: emailsToCheck.map((email) => ({ id: email })),
             },
           },
         })
@@ -81,45 +84,61 @@ export const handler: S3Handler = async (event) => {
         .batchGet({
           RequestItems: {
             [TABLE_NAME_BLACKLIST]: {
-              Keys: emailsToCheck.map(email => ({ id: email })),
+              Keys: emailsToCheck.map((email) => ({ id: email })),
             },
           },
         })
         .promise(),
     ]);
-    
-    const whitelistEmails = new Set(whitelistData.Responses![TABLE_NAME_WHITELIST]?.map(item => item.id) || []);
-    const blacklistEmails = new Set(blacklistData.Responses![TABLE_NAME_BLACKLIST]?.map(item => item.id) || []);
-    
+
+    const whitelistEmails = new Set(
+      whitelistData.Responses![TABLE_NAME_WHITELIST]?.map((item) => item.id) ||
+        []
+    );
+    const blacklistEmails = new Set(
+      blacklistData.Responses![TABLE_NAME_BLACKLIST]?.map((item) => item.id) ||
+        []
+    );
+    console.log('whitelistEmails');
+    console.log(whitelistEmails);
+    console.log('blacklistEmails');
+    console.log(blacklistEmails);
+
     const currentDate = new Date();
     const isoDate = currentDate.toISOString();
-    
+
     // Procesar los registros filtrados
-    const contactPromises = filteredRecords.map(async row => {
+    const contactPromises = filteredRecords.map(async (row) => {
       const email = row.email;
       const lastName = row.apellidos || '';
       const name = row.nombre || '';
-    
+
       if (!blacklistEmails.has(email)) {
         if (!whitelistEmails.has(email)) {
           // Crear en whitelist y enviar notificación solo si no está en la whitelist
           await Promise.all([
             createWhiteContact(isoDate, email),
-            notifyNewContactLambda(email, dataUser.Item!.email, dataUser.Item!.name, dataUser.Item!.lastName),
+            notifyNewContactLambda(
+              email,
+              dataUser.Item!.email,
+              dataUser.Item!.name,
+              dataUser.Item!.lastName
+            ),
           ]);
         }
-    
+
         // Crear el contacto
         await createContact(isoDate, email, name, lastName);
       }
     });
-    
+
     // Esperar a que se completen todas las promesas
     await Promise.all(contactPromises);
-    
+
     console.log('csv updated');
     await updateCsvFlagToUser(dataUser.Item);
   } catch (error) {
+    await updateCsvFlagToUser(dataUser.Item);
     console.error('Error processing S3 event', error);
     throw error;
   }
