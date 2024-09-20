@@ -25,7 +25,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isDeleteUserDialogOpen, setIsDeleteUserDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState('');
-  let company: string; 
+  let company: string;
 
   const handleRowClick = (item: Schema['User']['type']) => {
     onRowClick(item);
@@ -33,30 +33,32 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   const fetchByCompany = async () => {
-    const { data, errors } =  await client.models.User.listUserByCompany({
+    const { data, errors } = await client.models.User.listUserByCompany({
       company: company,
     });
 
     if (errors) {
       console.error(errors);
     } else {
-    const sortedItems = [...data].sort((a, b) => {
-      if (a.email! < b.email!) return -1;
-      if (a.email! > b.email!) return 1;
-      return 0;
-    });
-    setItems(sortedItems);
-  }
-
-  }
+      const sortedItems = [...data].sort((a, b) => {
+        if (a.email! < b.email!) return -1;
+        if (a.email! > b.email!) return 1;
+        return 0;
+      });
+      setItems(sortedItems);
+    }
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem('CognitoIdentityServiceProvider.7uhf5j7182rj4t6ufbe35v8iuk.b1e970be-0061-70fb-6342-7cac3f4e53a1.idToken');
+    const token = localStorage.getItem(
+      'CognitoIdentityServiceProvider.7uhf5j7182rj4t6ufbe35v8iuk.b1e970be-0061-70fb-6342-7cac3f4e53a1.idToken'
+    );
     const decodedToken = jwtDecode(token!);
     company = (decodedToken as any)['custom:company'];
+    console.log(company);
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
-    fetchByCompany()
+    fetchByCompany();
     // const sub = client.models.User.observeQuery().subscribe({
     //   next: ({ items }) => {
     //     // Ordena los items por el campo 'email' en orden alfabético
@@ -90,6 +92,8 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('company');
+    console.log(company);
 
     await client.models.User.create({
       name: formData.name,
@@ -98,7 +102,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       birthDate: formData.birthDate,
       email: formData.email,
       deceased: false,
-      company
+      company: company,
     });
 
     // Clear form data

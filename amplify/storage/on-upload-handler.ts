@@ -115,8 +115,14 @@ export const handler: S3Handler = async (event) => {
         ) || []
       );
 
-      whitelistEmailsSet = new Set(...whitelistEmailsSet,...whitelistEmailsBatch)
-      blacklistEmailsSet = new Set(...blacklistEmailsSet,...blacklistEmailsBatch)
+      whitelistEmailsSet = new Set(
+        ...whitelistEmailsSet,
+        ...whitelistEmailsBatch
+      );
+      blacklistEmailsSet = new Set(
+        ...blacklistEmailsSet,
+        ...blacklistEmailsBatch
+      );
     }
 
     console.log(2);
