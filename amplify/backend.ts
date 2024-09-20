@@ -39,6 +39,7 @@ const policy = new Policy(Stack.of(contactTable), 'MyLambdaPolicy', {
 });
 backend.sayHello.resources.lambda.role?.attachInlinePolicy(policy);
 backend.newContact.resources.lambda.role?.attachInlinePolicy(policy);
+backend.blacklistLambda.resources.lambda.role?.attachInlinePolicy(policy);
 
 // backend.myDynamoDBFunction.resources.lambda.role?.attachInlinePolicy(policy);
 
