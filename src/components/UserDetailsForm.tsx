@@ -6,6 +6,7 @@ import { generateClient } from 'aws-amplify/data';
 import './UserDetailsForm.css';
 import { StorageManager } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';
+import { jwtDecode } from 'jwt-decode';
 
 interface UserDetailsFormProps {
   user: Schema['User']['type'] | null;
@@ -29,6 +30,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     useState(false);
   const [contactToDelete, setContactToDelete] = useState('');
   const [loading, setLoading] = useState(false);
+  let company: string; 
 
   const [formData] = useState({
     id: user?.id || '',
@@ -79,6 +81,10 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('CognitoIdentityServiceProvider.7uhf5j7182rj4t6ufbe35v8iuk.b1e970be-0061-70fb-6342-7cac3f4e53a1.idToken');
+    const decodedToken = jwtDecode(token!);
+    company = (decodedToken as any)['custom:company'];
+
     if (user?.deceased) {
       setIsInfoDeceasedShowed(true);
     } else {
@@ -177,6 +183,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         vigil: formEditData.vigil,
         funeral: formEditData.funeral,
         dateDeceased: formEditData.dateDeceased,
+        company
       });
       formData.name = formEditData.name;
       formData.lastName = formEditData.lastName;
@@ -352,6 +359,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         vigil: formEditData.vigil,
         funeral: formEditData.funeral,
         dateDeceased: formEditData.dateDeceased,
+        company
       });
 
       formData.name = formEditData.name;

@@ -25,6 +25,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [isDeleteUserDialogOpen, setIsDeleteUserDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState('');
+  let company: string; 
 
   const handleRowClick = (item: Schema['User']['type']) => {
     onRowClick(item);
@@ -32,11 +33,6 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   const fetchByCompany = async () => {
-    const token = localStorage.getItem('CognitoIdentityServiceProvider.7uhf5j7182rj4t6ufbe35v8iuk.b1e970be-0061-70fb-6342-7cac3f4e53a1.idToken');
-    const decodedToken = jwtDecode(token!);
-    const company = (decodedToken as any)['custom:company'];
-    console.log(company);
-    
     const { data, errors } =  await client.models.User.listUserByCompany({
       company: company,
     });
@@ -55,7 +51,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   }
 
   useEffect(() => {
-
+    const token = localStorage.getItem('CognitoIdentityServiceProvider.7uhf5j7182rj4t6ufbe35v8iuk.b1e970be-0061-70fb-6342-7cac3f4e53a1.idToken');
+    const decodedToken = jwtDecode(token!);
+    company = (decodedToken as any)['custom:company'];
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
     fetchByCompany()
@@ -100,6 +98,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       birthDate: formData.birthDate,
       email: formData.email,
       deceased: false,
+      company
     });
 
     // Clear form data
