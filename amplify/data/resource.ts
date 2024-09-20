@@ -53,6 +53,7 @@ const schema = a.schema({
       vigil: a.string(),
       funeral: a.string(),
       dateDeceased: a.string(),
+      flagUploadCsv: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
   Contact: a

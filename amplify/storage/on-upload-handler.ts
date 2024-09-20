@@ -118,6 +118,8 @@ export const handler: S3Handler = async (event) => {
         await createContact(isoDate, email, name, lastName);
       }
     }
+
+    await updateCsvFlagToUser(dataUser.Item);
   } catch (error) {
     console.error('Error processing S3 event', error);
     throw error;
@@ -208,3 +210,15 @@ export const handler: S3Handler = async (event) => {
       .promise();
   }
 };
+
+async function updateCsvFlagToUser(Item: DynamoDB.DocumentClient.AttributeMap) {
+  await dynamoDb
+    .put({
+      TableName: TABLE_NAME_USER,
+      Item: {
+        ...Item,
+        flagUploadCsv: false,
+      },
+    })
+    .promise();
+}

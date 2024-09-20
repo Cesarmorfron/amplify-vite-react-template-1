@@ -85,8 +85,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       setIsInfoDeceasedShowed(false);
     }
 
-    // fetchContacts();
-
     const sub = client.models.Contact.observeQuery().subscribe({
       next: ({ items }) => {
         const filteredItems = items.filter(
@@ -209,48 +207,49 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleCreateContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const emailExists = items.some(
-      (item) => item.emailContact === contactFormData.emailContact
-    );
-
-    if (emailExists) {
-      alert('Este email ya está registrado.');
-      return;
-    }
-
-    const { data: dataBlack } = await client.models.BlacklistContact.get({
-      id: contactFormData.emailContact,
-    });
-
-    console.log(dataBlack);
-    if (dataBlack) {
-      alert(
-        'Este email no quiere recibir notificaciones de esquela electronica.'
-      );
-      return;
-    }
-
-    const { data: dataWhite } = await client.models.WhitelistContact.get({
-      id: contactFormData.emailContact,
-    });
-
-    if (!dataWhite) {
-      await Promise.all([
-        client.models.WhitelistContact.create({
-          id: contactFormData.emailContact,
-        }),
-        client.queries.newContact({
-          emailContact: contactFormData.emailContact,
-          emailUser: user!.email,
-          nameUser: user!.name,
-          lastName: user!.lastName,
-        }),
-      ]);
-    }
-
     try {
+      e.preventDefault();
+      setLoading(true);
+
+      const emailExists = items.some(
+        (item) => item.emailContact === contactFormData.emailContact
+      );
+
+      if (emailExists) {
+        alert('Este email ya está registrado.');
+        return;
+      }
+
+      const { data: dataBlack } = await client.models.BlacklistContact.get({
+        id: contactFormData.emailContact,
+      });
+
+      console.log(dataBlack);
+      if (dataBlack) {
+        alert(
+          'Este email no quiere recibir notificaciones de esquela electronica.'
+        );
+        return;
+      }
+
+      const { data: dataWhite } = await client.models.WhitelistContact.get({
+        id: contactFormData.emailContact,
+      });
+
+      if (!dataWhite) {
+        await Promise.all([
+          client.models.WhitelistContact.create({
+            id: contactFormData.emailContact,
+          }),
+          client.queries.newContact({
+            emailContact: contactFormData.emailContact,
+            emailUser: user!.email,
+            nameUser: user!.name,
+            lastName: user!.lastName,
+          }),
+        ]);
+      }
+
       await client.models.Contact.create({
         emailContact: contactFormData.emailContact,
         name: contactFormData.name,
@@ -270,6 +269,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     } catch (error) {
       console.error('Error creating contact:', error);
       alert('Hubo un error al crear el contacto.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -295,16 +296,49 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     if (!isInfoDeceasedShowed) setIsFormStorageManagerVisible(true);
   };
 
-  const handleFormStorageManagerCancel = async () => {
-    console.log('handleFormStorageManagerCancel');
-    await fetchContacts();
-    setIsFormStorageManagerVisible(false);
+  const uploadContactsFlagUserToFalse = async () => {
+    try {
+      await client.models.User.update({
+        ...user,
+        id: user!.id,
+        flagUploadCsv: 'false',
+      });
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
+    }
   };
 
-  const handleNotifySubmit = async (e: React.FormEvent) => {
+  const handleFormStorageManagerCancel = async () => {
+    console.log('handleFormStorageManagerCancel');
+    setLoading(true);
+
+    let contatsLoaded = false;
+    while (!contatsLoaded) {
+      const { data: dataUser } = await client.models.User.get({
+        id: user!.id,
+      });
+      console.log('dataUser');
+      console.log(contatsLoaded);
+
+      if (dataUser?.flagUploadCsv === 'true') {
+        contatsLoaded = true;
+      }
+      await sleep(500);
+    }
+
+    await fetchContacts();
+    setIsFormStorageManagerVisible(false);
+    setLoading(false);
+  };
+
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  const handleNotifyDeceased = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
-      setLoading(true); // Inicia la pantalla de carga
+      setLoading(true);
 
       await client.models.User.update({
         id: user!.id,
@@ -349,7 +383,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false); // Detener la pantalla de carga
+      setLoading(false);
     }
   };
 
@@ -414,7 +448,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               </div>
             </div>
             <div className="modal-body">
-              <form onSubmit={handleNotifySubmit}>
+              <form onSubmit={handleNotifyDeceased}>
                 <Label htmlFor="vigil">Velatorio</Label>
                 <Input
                   id="vigil"
@@ -667,7 +701,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     browseFilesText: 'Selecciona el archivo',
                   }}
                   onUploadSuccess={() => {
-                    fetchContacts(); // Refresca los contactos después de que el archivo se suba correctamente
+                    fetchContacts();
+                    uploadContactsFlagUserToFalse();
                   }}
                 />
               </div>
