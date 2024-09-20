@@ -55,8 +55,10 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     );
     const decodedToken = jwtDecode(token!);
     const companyValue = (decodedToken as any)['custom:company'];
+    if(!companyValue){
+      alert('No esta registrado, contacto con el servicio técnico.')
+    }
     setCompany(companyValue);
-    console.log(company);
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
     fetchByCompany();
@@ -93,8 +95,6 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('company');
-    console.log(company);
 
     await client.models.User.create({
       name: formData.name,
