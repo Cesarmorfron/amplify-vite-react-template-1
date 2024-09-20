@@ -63,7 +63,9 @@ const schema = a.schema({
       funeral: a.string(),
       dateDeceased: a.string(),
       flagUploadCsv: a.string(),
+      company: a.string(),
     })
+    .secondaryIndexes((index) => [index('company')])
     .authorization((allow) => [allow.publicApiKey()]),
   Contact: a
     .model({

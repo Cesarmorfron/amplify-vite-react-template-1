@@ -31,30 +31,53 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     navigate('/edit');
   };
 
-  useEffect(() => {
+  const fetchByCompany = async () => {
     const token = localStorage.getItem('CognitoIdentityServiceProvider.7uhf5j7182rj4t6ufbe35v8iuk.b1e970be-0061-70fb-6342-7cac3f4e53a1.idToken');
-    if (token) {
-        const decodedToken = jwtDecode(token);
-        const company = (decodedToken as any)['custom:company'];
-        console.log(company);
-    }
-    // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
-
-    const sub = client.models.User.observeQuery().subscribe({
-      next: ({ items }) => {
-        // Ordena los items por el campo 'email' en orden alfabético
-        const sortedItems = [...items].sort((a, b) => {
-          if (a.email! < b.email!) return -1;
-          if (a.email! > b.email!) return 1;
-          return 0;
-        });
-
-        // Actualiza el estado con los items ordenados
-        setItems(sortedItems);
-      },
+    const decodedToken = jwtDecode(token!);
+    const company = (decodedToken as any)['custom:company'];
+    console.log(company);
+    
+    const { data, errors } =  await client.models.User.listUserByCompany({
+      company: company,
     });
 
-    return () => sub.unsubscribe();
+    if (errors) {
+      console.error(errors);
+    } else {
+    const sortedItems = [...data].sort((a, b) => {
+      if (a.email! < b.email!) return -1;
+      if (a.email! > b.email!) return 1;
+      return 0;
+    });
+    setItems(sortedItems);
+  }
+
+  }
+
+  useEffect(() => {
+
+    // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
+
+    fetchByCompany()
+    // const sub = client.models.User.observeQuery().subscribe({
+    //   next: ({ items }) => {
+    //     // Ordena los items por el campo 'email' en orden alfabético
+    //     const sortedItems = [...items].sort((a, b) => {
+    //       if (a.email! < b.email!) return -1;
+    //       if (a.email! > b.email!) return 1;
+    //       return 0;
+    //     });
+
+    //     // Actualiza el estado con los items ordenados
+    //     setItems(sortedItems);
+    //   },
+    // });
+
+    // const { data, errors } =  client.models.User.listUserByCompany({
+    //   company: company,
+    // });
+
+    // return () => sub.unsubscribe();
 
     // const sub = client.models.User.observeQuery().subscribe({next: ({ items }) => {        setItems([...items]);      },    });    return () => sub.unsubscribe();
   }, []);
@@ -90,6 +113,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
     // Hide modal after submission
     setIsFormVisible(false);
+    fetchByCompany();
   };
 
   const handleNotifyDeleteUserClick = async (id: string) => {
@@ -119,6 +143,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       }
 
       setIsDeleteUserDialogOpen(false);
+      fetchByCompany();
     } catch (error) {
       console.error('Error deleting user and contacts:', error);
     }
