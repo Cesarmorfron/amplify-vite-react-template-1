@@ -1,6 +1,7 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { sayHello } from '../functions/say-hello/resources';
 import { newContact } from '../functions/new-contact/resources';
+import { blacklistLambda } from '../functions/blacklist-lambda/resources';
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -42,6 +43,14 @@ const schema = a.schema({
     .returns(a.string())
     .handler(a.handler.function(newContact))
     .authorization((allow) => [allow.publicApiKey()]),
+  blacklistLambda: a
+    .query()
+    .arguments({
+      email: a.string(),
+    })
+    .returns(a.string())
+    .handler(a.handler.function(blacklistLambda))
+    .authorization((allow) => [allow.publicApiKey()]),    
   User: a
     .model({
       name: a.string(),

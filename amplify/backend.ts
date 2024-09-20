@@ -5,6 +5,7 @@ import { storage } from './storage/resource';
 import { myFirstFunction } from './my-first-function/resource';
 import { sayHello } from './functions/say-hello/resources';
 import { newContact } from './functions/new-contact/resources';
+import { blacklistLambda } from './functions/blacklist-lambda/resources';
 // import { myDynamoDBFunction } from "./functions/dynamoDB-function/resource";
 import { Policy, PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam';
 import { Stack } from 'aws-cdk-lib';
@@ -17,6 +18,7 @@ const backend = defineBackend({
   myFirstFunction,
   sayHello,
   newContact,
+  blacklistLambda
   // myDynamoDBFunction,
 });
 
