@@ -4,6 +4,7 @@ import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../amplify/data/resource';
 import { useNavigate } from 'react-router-dom';
 import './CrudTable.css';
+import { jwtDecode } from 'jwt-decode';
 interface CrudTableProps {
   onRowClick: (user: Schema['User']['type']) => void;
 }
@@ -31,6 +32,12 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('CognitoIdentityServiceProvider.7uhf5j7182rj4t6ufbe35v8iuk.b1e970be-0061-70fb-6342-7cac3f4e53a1.idToken');
+    if (token) {
+        const decodedToken = jwtDecode(token);
+        const company = (decodedToken as any)['custom:company'];
+        console.log(company);
+    }
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
     const sub = client.models.User.observeQuery().subscribe({
