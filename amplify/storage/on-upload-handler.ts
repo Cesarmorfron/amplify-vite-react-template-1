@@ -69,6 +69,10 @@ export const handler: S3Handler = async (event) => {
     console.log('filteredRecords');
     console.log(filteredRecords);
 
+    if(filteredRecords.length <= 0) {
+      throw new Error('filtered Records is 0')
+    }
+
     const emailsToCheck = filteredRecords.map((row) => row.email);
     const [whitelistData, blacklistData] = await Promise.all([
       dynamoDb
