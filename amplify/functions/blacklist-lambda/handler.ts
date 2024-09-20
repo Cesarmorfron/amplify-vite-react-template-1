@@ -41,7 +41,8 @@ export const handler: Schema['blacklistLambda']['functionHandler'] = async (
 
   const contactsToDelete = await queryContactsToDelete(email);
 
-  if (!contactsToDelete.Items) return;
+  console.log(contactsToDelete)
+  if (!contactsToDelete.Items) return 'no contacts to delete';
 
   const deletePromises = contactsToDelete.Items.map((contact) =>
     deleteContact(contact.id)
