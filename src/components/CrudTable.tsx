@@ -49,16 +49,29 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     }
   };
 
+  const getCognitoToken = () => {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      
+      if (key && key.startsWith('CognitoIdentityServiceProvider')) {
+        const token = localStorage.getItem(key + '.idToken');
+        return token;
+      }
+    }
+    return null;
+  };
+  
   useEffect(() => {
-    const token = localStorage.getItem(
-      'CognitoIdentityServiceProvider.7uhf5j7182rj4t6ufbe35v8iuk.b1e970be-0061-70fb-6342-7cac3f4e53a1.idToken'
-    );
-    const decodedToken = jwtDecode(token!);
-    const companyValue = (decodedToken as any)['custom:company'];
-    if(!companyValue){
+    const token = getCognitoToken();
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const companyValue = (decodedToken as any)['custom:company'];
+      console.log(company);
+      setCompany(companyValue);
+    } else {
       alert('No esta registrado, contacto con el servicio técnico.')
     }
-    setCompany(companyValue);
+
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
     fetchByCompany();
