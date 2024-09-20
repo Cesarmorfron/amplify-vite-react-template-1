@@ -10,12 +10,9 @@ const TABLE_NAME_BLACKLIST = 'BlacklistContact-xlznjcoayzddxlockvuufrw5vi-NONE';
 export const handler: Schema['blacklistLambda']['functionHandler'] = async (
   event
 ) => {
-  console.log(event);
   const email = getEmailFromEvent(event);
 
   const whitelist = await getWhitelistContact(email);
-  console.log('whitelist.Item');
-  console.log(whitelist.Item);
 
   if (!whitelist.Item) return 'no email whitelisted';
 
@@ -28,8 +25,6 @@ export const handler: Schema['blacklistLambda']['functionHandler'] = async (
 
   const contactsToDelete = await queryContactsToDelete(email);
 
-  console.log('contactsToDelete');
-  console.log(contactsToDelete);
   if (!contactsToDelete.Items) return 'no contacts to delete';
 
   const deletePromises = contactsToDelete.Items.map((contact) =>
@@ -44,15 +39,12 @@ function getEmailFromEvent(event: any) {
   const eventObject = event as any;
 
   const record = eventObject.Records[0].ses;
-  console.log(record);
 
   const from = record.mail.commonHeaders.from[0];
-  console.log(`Email received from: ${from}`);
 
   const email = from.match(/<([^>]+)>/)?.[1];
 
   if (!email) {
-    console.log('No se encontró ningún email.');
     throw new Error('no email valid');
   }
   return email;
@@ -72,8 +64,6 @@ async function queryContactsToDelete(email: string) {
 }
 
 async function deleteContact(id: string) {
-  console.log('id');
-  console.log(id);
   await dynamoDb
     .delete({
       TableName: TABLE_NAME_CONTACT,
@@ -85,8 +75,6 @@ async function deleteContact(id: string) {
 }
 
 async function deleteWhitelistContact(email: string) {
-  console.log('email');
-  console.log(email);
   await dynamoDb
     .delete({
       TableName: TABLE_NAME_WHITELIST,

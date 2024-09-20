@@ -6,10 +6,8 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
   // Extraer el idUser desde los argumentos
-  const { idUser, email, name, lastName, vigil, funeral, dateDeceased } =
+  const { idUser, name, lastName, vigil, funeral, dateDeceased } =
     event.arguments;
-  console.log('idUser:', idUser);
-  console.log(idUser, email, name, lastName, vigil, funeral, dateDeceased);
 
   const params = {
     TableName: 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE',
@@ -22,11 +20,8 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
 
   try {
     const data = await dynamoDB.query(params).promise();
-    console.log('Escaneo exitoso:', data);
 
     const emailContacts = data.Items?.map((contact) => contact.emailContact);
-
-    console.log(emailContacts);
 
     if (emailContacts) {
       const paramsSes = {
@@ -59,14 +54,10 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
       };
 
       if (process.env.emailActivated === 'true') {
-        const data = await ses.sendEmail(paramsSes).promise();
-
-        console.log(data);
+        await ses.sendEmail(paramsSes).promise();
       } else {
         console.log('emailActivated false');
       }
-    } else {
-      console.log(`User: ${idUser} no tenia contactos`);
     }
   } catch (err) {
     console.error('Error lambda:', err);

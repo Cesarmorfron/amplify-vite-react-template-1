@@ -34,8 +34,6 @@ export const handler: S3Handler = async (event) => {
     })
     .promise();
 
-  console.log('dataUser');
-  console.log(dataUser);
   if (!dataUser || !dataUser.Item) {
     throw new Error(`user: ${idUser} does not exist`);
   }
@@ -65,8 +63,6 @@ export const handler: S3Handler = async (event) => {
     const csvData = dataS3.Body!.toString('utf-8');
 
     const filteredRecords = await analyseCSV(csvData, emailContacts);
-    console.log('filteredRecords');
-    console.log(filteredRecords);
 
     if (filteredRecords.length <= 0) {
       console.log('no new emails for this contact');
@@ -79,7 +75,6 @@ export const handler: S3Handler = async (event) => {
     let blacklistEmailsSet = new Set<string>();
 
     const chunkSize = 99;
-    console.log(1);
     for (let i = 0; i < emailsToCheck.length; i += chunkSize) {
       const chunk = emailsToCheck.slice(i, i + chunkSize);
 
@@ -108,7 +103,6 @@ export const handler: S3Handler = async (event) => {
           (item) => item.id
         ) || []
       );
-      console.log(3);
       const blacklistEmailsBatch = new Set<string>(
         blacklistData.Responses![TABLE_NAME_BLACKLIST]?.map(
           (item) => item.id
@@ -124,13 +118,6 @@ export const handler: S3Handler = async (event) => {
         ...blacklistEmailsBatch
       );
     }
-
-    console.log(2);
-
-    console.log('whitelistEmails');
-    console.log(whitelistEmailsSet);
-    console.log('blacklistEmails');
-    console.log(blacklistEmailsSet);
 
     const currentDate = new Date();
     const isoDate = currentDate.toISOString();
@@ -149,7 +136,6 @@ export const handler: S3Handler = async (event) => {
       10
     );
 
-    console.log('csv updated');
   } catch (error) {
     console.error('Error processing S3 event', error);
     throw error;

@@ -70,7 +70,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       if (errors) {
         console.error(errors);
       } else {
-        console.log(JSON.stringify(data));
         setItems([...data]);
       }
     } catch (error) {
@@ -119,9 +118,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   // }, []);
 
   const handleNotifyDeleteContactClick = async (id: string) => {
-    console.log('id contact');
-    console.log(id);
-
     if (!user?.deceased) {
       setContactToDelete(id);
       setIsDeleteContactDialogOpen(true);
@@ -135,8 +131,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   // TODO: probar: borrado y como se pone a cero luego el id
   const handleDeleteContactConfirm = async (id: string) => {
     try {
-      console.log('id contact deleted');
-      console.log(id);
       setItems((prevItems) => prevItems.filter((item) => item.id !== id));
       await client.models.Contact.delete({ id });
       setIsDeleteContactDialogOpen(false);
@@ -225,7 +219,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         id: contactFormData.emailContact,
       });
 
-      console.log(dataBlack);
       if (dataBlack) {
         alert(
           'Este email no quiere recibir notificaciones de esquela electronica.'
@@ -276,20 +269,14 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleNotifyClick = () => {
-    console.log('handleNotifyClick user?.deceased');
-    console.log(isInfoDeceasedShowed);
     if (!isInfoDeceasedShowed) setIsDialogDeceasedOpen(true);
   };
 
   const handleEditInfoClick = () => {
-    console.log('handleEditInfoClick user?.deceased');
-    console.log(isInfoDeceasedShowed);
     if (!isInfoDeceasedShowed) setEditInfoFormVisible(true);
   };
 
   const handleFormVisibleClick = () => {
-    console.log('handleFormVisibleClick user?.deceased');
-    console.log(isInfoDeceasedShowed);
     if (!isInfoDeceasedShowed) setIsFormVisible(true);
   };
 
@@ -310,7 +297,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleFormStorageManagerCancel = async () => {
-    console.log('handleFormStorageManagerCancel');
     setLoading(true);
 
     let contatsLoaded = false;
@@ -318,8 +304,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       const { data: dataUser } = await client.models.User.get({
         id: user!.id,
       });
-      console.log('dataUser');
-      console.log(contatsLoaded);
 
       if (dataUser?.flagUploadCsv === 'true') {
         contatsLoaded = true;
@@ -366,9 +350,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       formData.funeral = formEditData.funeral;
       formData.dateDeceased = formEditData.dateDeceased;
 
-      console.log('defuncion notificado');
-
-      const response = await client.queries.sayHello({
+      await client.queries.sayHello({
         idUser: user!.id,
         email: user!.email,
         name: user!.name,
@@ -377,9 +359,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         funeral: formEditData.funeral,
         dateDeceased: formEditData.dateDeceased,
       });
-
-      console.log('response');
-      console.log(response);
 
       setIsDialogDeceasedOpen(false);
       setIsInfoDeceasedShowed(true);

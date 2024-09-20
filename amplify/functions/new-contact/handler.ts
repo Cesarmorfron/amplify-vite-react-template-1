@@ -5,7 +5,6 @@ const ses = new AWS.SES();
 export const handler: Schema['newContact']['functionHandler'] = async (
   event
 ) => {
-  console.log(event);
   const { emailContact, emailUser, nameUser, lastName } = event.arguments;
 
   try {
@@ -40,8 +39,7 @@ export const handler: Schema['newContact']['functionHandler'] = async (
     };
 
     if (process.env.emailActivated === 'true') {
-      const data = await ses.sendEmail(paramsSes).promise();
-      console.log(data);
+      await ses.sendEmail(paramsSes).promise();
     } else {
       console.log('emailActivated false');
     }
