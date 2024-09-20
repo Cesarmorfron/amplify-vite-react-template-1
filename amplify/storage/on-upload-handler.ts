@@ -74,56 +74,71 @@ export const handler: S3Handler = async (event) => {
     }
 
     const emailsToCheck = filteredRecords.map((row) => row.email);
-    console.log(1)
-    const [whitelistData, blacklistData] = await Promise.all([
-      dynamoDb
-        .batchGet({
-          RequestItems: {
-            [TABLE_NAME_WHITELIST]: {
-              Keys: emailsToCheck.map((email) => ({ id: email })),
-            },
-          },
-        })
-        .promise(),
-      dynamoDb
-        .batchGet({
-          RequestItems: {
-            [TABLE_NAME_BLACKLIST]: {
-              Keys: emailsToCheck.map((email) => ({ id: email })),
-            },
-          },
-        })
-        .promise(),
-    ]);
-    console.log(2)
 
-    const whitelistEmails = new Set(
-      whitelistData.Responses![TABLE_NAME_WHITELIST]?.map((item) => item.id) ||
-        []
-    );
-    console.log(3)
-    const blacklistEmails = new Set(
-      blacklistData.Responses![TABLE_NAME_BLACKLIST]?.map((item) => item.id) ||
-        []
-    );
+    let whitelistEmailsSet = new Set<string>();
+    let blacklistEmailsSet = new Set<string>();
+
+    const chunkSize = 99;
+    console.log(1);
+    for (let i = 0; i < emailsToCheck.length; i += chunkSize) {
+      const chunk = emailsToCheck.slice(i, i + chunkSize);
+
+      const [whitelistData, blacklistData] = await Promise.all([
+        dynamoDb
+          .batchGet({
+            RequestItems: {
+              [TABLE_NAME_WHITELIST]: {
+                Keys: chunk.map((email) => ({ id: email })),
+              },
+            },
+          })
+          .promise(),
+        dynamoDb
+          .batchGet({
+            RequestItems: {
+              [TABLE_NAME_BLACKLIST]: {
+                Keys: chunk.map((email) => ({ id: email })),
+              },
+            },
+          })
+          .promise(),
+      ]);
+      const whitelistEmailsBatch = new Set<string>(
+        whitelistData.Responses![TABLE_NAME_WHITELIST]?.map(
+          (item) => item.id
+        ) || []
+      );
+      console.log(3);
+      const blacklistEmailsBatch = new Set<string>(
+        blacklistData.Responses![TABLE_NAME_BLACKLIST]?.map(
+          (item) => item.id
+        ) || []
+      );
+
+      whitelistEmailsSet = new Set(...whitelistEmailsSet,...whitelistEmailsBatch)
+      blacklistEmailsSet = new Set(...blacklistEmailsSet,...blacklistEmailsBatch)
+    }
+
+    console.log(2);
+
     console.log('whitelistEmails');
-    console.log(whitelistEmails);
+    console.log(whitelistEmailsSet);
     console.log('blacklistEmails');
-    console.log(blacklistEmails);
+    console.log(blacklistEmailsSet);
 
     const currentDate = new Date();
     const isoDate = currentDate.toISOString();
 
     await processContacts(
       filteredRecords,
-      blacklistEmails,
-      whitelistEmails,
+      blacklistEmailsSet,
+      whitelistEmailsSet,
       isoDate,
       {
         email: dataUser.Item!.email,
         name: dataUser.Item!.name,
         lastName: dataUser.Item!.lastName,
-        idUser
+        idUser,
       },
       10
     );
@@ -164,7 +179,7 @@ async function processContacts(
         ]);
       }
       // Crear el contacto
-      await createContact(isoDate, email, name, lastName, dataUser.idUser );
+      await createContact(isoDate, email, name, lastName, dataUser.idUser);
     }
   };
 
@@ -252,7 +267,7 @@ async function createContact(
   email: string,
   name: string,
   lastName: string,
-  idUser: string,
+  idUser: string
 ) {
   await dynamoDb
     .put({
