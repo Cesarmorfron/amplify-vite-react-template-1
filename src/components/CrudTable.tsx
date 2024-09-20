@@ -81,7 +81,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     // return () => sub.unsubscribe();
 
     // const sub = client.models.User.observeQuery().subscribe({next: ({ items }) => {        setItems([...items]);      },    });    return () => sub.unsubscribe();
-  }, []);
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
