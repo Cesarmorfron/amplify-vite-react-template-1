@@ -52,10 +52,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   const getCognitoToken = () => {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      
-      if (key && key.startsWith('CognitoIdentityServiceProvider')) {
-        const token = localStorage.getItem(key + '.idToken');
-        return token;
+
+      if (key && key.includes('idToken')) {
+        return localStorage.getItem(key);
       }
     }
     return null;
