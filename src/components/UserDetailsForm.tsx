@@ -205,7 +205,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const handleCreateContactSubmit = async (e: React.FormEvent) => {
     try {
-      console.log(1);
       e.preventDefault();
       setLoading(true);
 
@@ -213,18 +212,15 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         alert('El contacto necesita un email o un movil.');
         return;
       }
-      console.log(2);
 
       const emailExists = items.some(
         (item) => item.emailContact === contactFormData.emailContact
       );
-      console.log(3);
 
       if (emailExists) {
         alert('Este email ya está registrado.');
         return;
       }
-      console.log(4);
 
       const { data: dataBlack } = await client.models.BlacklistContact.get({
         id: contactFormData.emailContact,
@@ -236,16 +232,13 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         );
         return;
       }
-      console.log(5);
 
       if (contactFormData.emailContact) {
         const { data: dataWhite } = await client.models.WhitelistContact.get({
           id: contactFormData.emailContact,
         });
-        console.log(6);
 
         if (!dataWhite) {
-          console.log(7);
           await Promise.all([
             client.models.WhitelistContact.create({
               id: contactFormData.emailContact,
@@ -260,11 +253,10 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         }
       }
 
-      console.log(8);
       await client.models.Contact.create({
         emailContact: contactFormData.emailContact,
         mobile:
-          contactFormData.mobile.charAt(0) !== '+'
+        contactFormData.mobile !== '' && contactFormData.mobile.charAt(0) !== '+'
             ? '+34' + contactFormData.mobile
             : contactFormData.mobile,
         name: contactFormData.name,
@@ -280,15 +272,12 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         mobile: '',
       });
 
-      console.log(9);
       // Hide modal after submission
       setIsFormVisible(false);
     } catch (error) {
-      console.log(11);
       console.error('Error creating contact:', error);
       alert('Hubo un error al crear el contacto.');
     } finally {
-      console.log(22);
       setLoading(false);
     }
   };
@@ -789,6 +778,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Label htmlFor="emailContact">Email de contacto</Label>
                   <Input
                     id="emailContact"
+                    placeholder='email@test.com'
                     type="email"
                     value={contactFormData.emailContact}
                     onChange={contactHandleChange}
@@ -804,6 +794,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Label htmlFor="name">Nombre</Label>
                   <Input
                     id="name"
+                    placeholder='Nombre'
                     type="text"
                     value={contactFormData.name}
                     onChange={contactHandleChange}
@@ -811,6 +802,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Label htmlFor="lastName">Apellidos</Label>
                   <Input
                     id="lastName"
+                    placeholder='Apellidos'
                     type="text"
                     value={contactFormData.lastName}
                     onChange={contactHandleChange}

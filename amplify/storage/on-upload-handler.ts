@@ -279,12 +279,19 @@ async function notifyNewContactLambda(
 
 async function createContact(
   isoDate: string,
-  email: string,
-  mobile: string,
-  name: string,
-  lastName: string,
-  idUser: string
+  idUser: string,
+  email?: string,
+  mobile?: string,
+  name?: string,
+  lastName?: string,
 ) {
+  console.log('createContact')
+  console.log(isoDate,
+    idUser,
+    email,
+    mobile,
+    name,
+    lastName,)
   await dynamoDb
     .put({
       TableName: TABLE_NAME_CONTACT,
