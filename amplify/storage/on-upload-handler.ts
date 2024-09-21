@@ -183,11 +183,11 @@ async function processContacts(
       console.log(mobile);
       await createContact(
         isoDate,
+        dataUser.idUser,
         email,
         mobile,
         name,
         lastName,
-        dataUser.idUser
       );
     }
   };
