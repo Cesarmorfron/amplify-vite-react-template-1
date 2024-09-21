@@ -69,7 +69,7 @@ export const handler: S3Handler = async (event) => {
       return;
     }
 
-    const emailsToCheck = filteredRecords.map((row) => row.email);
+    const emailsToCheck = filteredRecords.filter((row) => row.email).map((row) => row.email);
 
     let whitelistEmailsSet = new Set<string>();
     let blacklistEmailsSet = new Set<string>();

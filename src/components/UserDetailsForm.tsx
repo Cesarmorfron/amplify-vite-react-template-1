@@ -776,15 +776,14 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     type="email"
                     value={contactFormData.emailContact}
                     onChange={contactHandleChange}
-                    isRequired
                   />
-                  <Label htmlFor="emailContact">Numero de telefono</Label>
+                  <Label htmlFor="mobile">Numero de movil</Label>
                   <Input
                     id="mobile"
                     type="tel"
+                    placeholder='Prefijo +34 añadido automaticamente'
                     value={contactFormData.mobile}
                     onChange={contactHandleChange}
-                    isRequired
                   />                  
                   <Label htmlFor="name">Nombre</Label>
                   <Input
