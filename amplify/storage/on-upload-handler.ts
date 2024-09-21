@@ -135,7 +135,6 @@ export const handler: S3Handler = async (event) => {
       },
       10
     );
-
   } catch (error) {
     console.error('Error processing S3 event', error);
     throw error;

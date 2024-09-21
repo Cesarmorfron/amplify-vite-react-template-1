@@ -55,7 +55,7 @@ const App: React.FC = () => {
               <button onClick={signOut}>Cerrar sesión</button>
             </div>
           </header>
-          
+
           <div className="app-container">
             <Router>
               <Routes>

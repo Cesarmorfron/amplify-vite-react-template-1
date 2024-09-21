@@ -59,7 +59,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     }
     return null;
   };
-  
+
   useEffect(() => {
     const token = getCognitoToken();
     if (token) {
@@ -67,7 +67,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       const companyValue = (decodedToken as any)['custom:company'];
       console.log(company);
       setCompany(companyValue);
-    } 
+    }
 
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 

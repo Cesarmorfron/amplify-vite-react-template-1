@@ -14,6 +14,7 @@
   font-weight: bold !important;
 } */
 
+/* Estilo principal para pantallas grandes */
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -47,6 +48,7 @@
   background-color: #74ee64; /* Color de fondo del botón al pasar el ratón sobre él */
 }
 
+/* Estilo para pantallas medianas (ancho menor a 900px) */
 @media (max-width: 900px) {
   .header-title {
     font-size: 22px;
@@ -57,23 +59,27 @@
   }
 }
 
+/* Estilo para pantallas pequeñas (ancho menor a 600px) */
 @media (max-width: 600px) {
   .header-container {
-    flex-direction: column; /* Poner el contenido en una columna */
-    align-items: flex-start; /* Alinear el contenido a la izquierda */
+    flex-direction: column; /* Cambiamos a columna en pantallas pequeñas */
+    align-items: center; /* Centramos los elementos */
+    padding: 10px; /* Reducimos el padding */
   }
 
   .header-title {
-    font-size: 20px;
-    margin-bottom: 10px; /* Añade espacio debajo del título */
+    font-size: 18px; /* Reducimos el tamaño del título */
+    margin-bottom: 8px; /* Añadimos espacio entre el título y el botón */
+    text-align: center; /* Alineamos el título al centro */
   }
 
   .sign-out-button {
-    width: 100%; /* El botón ocupará todo el ancho */
+    width: auto; /* El botón ya no ocupa todo el ancho */
   }
 
   .sign-out-button button {
-    width: 100%; /* El botón ocupará todo el ancho */
-    padding: 12px 0;
+    padding: 8px 16px; /* Reducimos el tamaño del botón */
+    width: 100%; /* Hacemos que el botón ocupe todo el ancho en pantallas pequeñas */
+    max-width: 200px; /* Limite del ancho del botón para evitar que sea demasiado grande */
   }
 }
