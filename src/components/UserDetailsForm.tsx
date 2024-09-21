@@ -213,27 +213,27 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         return;
       }
 
-      const emailExists = items.some(
-        (item) => item.emailContact === contactFormData.emailContact
-      );
-
-      if (emailExists) {
-        alert('Este email ya está registrado.');
-        return;
-      }
-
-      const { data: dataBlack } = await client.models.BlacklistContact.get({
-        id: contactFormData.emailContact,
-      });
-
-      if (dataBlack) {
-        alert(
-          'Este email no quiere recibir notificaciones de esquela electronica.'
-        );
-        return;
-      }
-
       if (contactFormData.emailContact) {
+        const emailExists = items.some(
+          (item) => item.emailContact === contactFormData.emailContact
+        );
+
+        if (emailExists) {
+          alert('Este email ya está registrado.');
+          return;
+        }
+
+        const { data: dataBlack } = await client.models.BlacklistContact.get({
+          id: contactFormData.emailContact,
+        });
+
+        if (dataBlack) {
+          alert(
+            'Este email no quiere recibir notificaciones de esquela electronica.'
+          );
+          return;
+        }
+
         const { data: dataWhite } = await client.models.WhitelistContact.get({
           id: contactFormData.emailContact,
         });
@@ -256,7 +256,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       await client.models.Contact.create({
         emailContact: contactFormData.emailContact,
         mobile:
-        contactFormData.mobile !== '' && contactFormData.mobile.charAt(0) !== '+'
+          contactFormData.mobile !== '' &&
+          contactFormData.mobile.charAt(0) !== '+'
             ? '+34' + contactFormData.mobile
             : contactFormData.mobile,
         name: contactFormData.name,
@@ -278,6 +279,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       console.error('Error creating contact:', error);
       alert('Hubo un error al crear el contacto.');
     } finally {
+      await fetchContacts();
+
       setLoading(false);
     }
   };
@@ -778,7 +781,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Label htmlFor="emailContact">Email de contacto</Label>
                   <Input
                     id="emailContact"
-                    placeholder='email@test.com'
+                    placeholder="email@test.com"
                     type="email"
                     value={contactFormData.emailContact}
                     onChange={contactHandleChange}
@@ -794,7 +797,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Label htmlFor="name">Nombre</Label>
                   <Input
                     id="name"
-                    placeholder='Nombre'
+                    placeholder="Nombre"
                     type="text"
                     value={contactFormData.name}
                     onChange={contactHandleChange}
@@ -802,7 +805,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Label htmlFor="lastName">Apellidos</Label>
                   <Input
                     id="lastName"
-                    placeholder='Apellidos'
+                    placeholder="Apellidos"
                     type="text"
                     value={contactFormData.lastName}
                     onChange={contactHandleChange}

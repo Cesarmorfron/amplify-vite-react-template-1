@@ -166,15 +166,17 @@ async function processContacts(
     if (!blacklistEmails.has(email)) {
       if (!whitelistEmails.has(email)) {
         // Crear en whitelist y enviar notificación
-        await Promise.all([
-          createWhiteContact(isoDate, email),
-          notifyNewContactLambda(
-            email,
-            dataUser.email,
-            dataUser.name,
-            dataUser.lastName
-          ),
-        ]);
+        if (email !== '') {
+          await Promise.all([
+            createWhiteContact(isoDate, email),
+            notifyNewContactLambda(
+              email,
+              dataUser.email,
+              dataUser.name,
+              dataUser.lastName
+            ),
+          ]);
+        }
       }
       // Crear el contacto
       console.log('mobile');
@@ -283,15 +285,10 @@ async function createContact(
   email?: string,
   mobile?: string,
   name?: string,
-  lastName?: string,
+  lastName?: string
 ) {
-  console.log('createContact')
-  console.log(isoDate,
-    idUser,
-    email,
-    mobile,
-    name,
-    lastName,)
+  console.log('createContact');
+  console.log(isoDate, idUser, email, mobile, name, lastName);
   await dynamoDb
     .put({
       TableName: TABLE_NAME_CONTACT,
