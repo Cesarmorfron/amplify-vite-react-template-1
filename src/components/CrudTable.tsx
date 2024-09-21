@@ -67,9 +67,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       const companyValue = (decodedToken as any)['custom:company'];
       console.log(company);
       setCompany(companyValue);
-    } else {
-      alert('No esta registrado, contacto con el servicio técnico.')
-    }
+    } 
 
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 

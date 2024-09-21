@@ -46,7 +46,7 @@ const App: React.FC = () => {
     <Authenticator hideSignUp>
       {({ signOut }) => (
         <div>
-          <header>
+          <header className="header-container">
             <div className="header-title">
               <Header title="Esquela Electrónica" />
             </div>
