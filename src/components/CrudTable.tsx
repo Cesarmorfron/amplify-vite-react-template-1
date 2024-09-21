@@ -62,16 +62,16 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   useEffect(() => {
-    const token = getCognitoToken();
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      const companyValue = (decodedToken as any)['custom:company'];
-      console.log(company);
-      setCompany(companyValue);
-    }
-    fetchByCompany();
+    // const token = getCognitoToken();
+    // if (token) {
+    //   const decodedToken = jwtDecode(token);
+    //   const companyValue = (decodedToken as any)['custom:company'];
+    //   console.log(company);
+    //   setCompany(companyValue);
+    // }
+    // fetchByCompany();
 
-    // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
+    const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
     // const sub = client.models.User.observeQuery().subscribe({
     //   next: ({ items }) => {
@@ -107,7 +107,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const isEmailRegistered = items.filter((x) => (x.email = formData.email));
+    const isEmailRegistered = items.some((x) => (x.email === formData.email));
 
     if (isEmailRegistered) {
       alert('Ese usuario ya esta registrado');
