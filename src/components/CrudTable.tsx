@@ -69,10 +69,11 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       console.log(company);
       setCompany(companyValue);
     }
+    fetchByCompany();
+
 
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
-    fetchByCompany();
 
     // const sub = client.models.User.observeQuery().subscribe({
     //   next: ({ items }) => {
@@ -112,30 +113,30 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
     if (isEmailRegistered) {
       alert('Ese usuario ya esta registrado');
+    } else {
+      await client.models.User.create({
+        name: formData.name,
+        lastName: formData.lastName,
+        city: formData.city,
+        birthDate: formData.birthDate,
+        email: formData.email,
+        deceased: false,
+        company: company,
+      });
+
+      // Clear form data
+      setFormData({
+        name: '',
+        lastName: '',
+        city: '',
+        birthDate: '',
+        email: '',
+      });
+
+      // Hide modal after submission
+      setIsFormVisible(false);
+      fetchByCompany();
     }
-
-    await client.models.User.create({
-      name: formData.name,
-      lastName: formData.lastName,
-      city: formData.city,
-      birthDate: formData.birthDate,
-      email: formData.email,
-      deceased: false,
-      company: company,
-    });
-
-    // Clear form data
-    setFormData({
-      name: '',
-      lastName: '',
-      city: '',
-      birthDate: '',
-      email: '',
-    });
-
-    // Hide modal after submission
-    setIsFormVisible(false);
-    fetchByCompany();
   };
 
   const handleNotifyDeleteUserClick = async (id: string) => {
