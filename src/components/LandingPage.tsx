@@ -16,7 +16,7 @@ const LandingPage: React.FC = () => {
           <a href="mailto:info@esquelainformatica.com" className="cta-button">
             Solicita información
           </a>
-          <a href="/app/crud" className="cta-button">
+          <a href="/app/users" className="cta-button">
             Iniciar sesión
           </a>
         </div>

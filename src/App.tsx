@@ -49,7 +49,6 @@ const App: React.FC = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/legal" element={<LegalNotice />} />
 
-        {/* Rutas protegidas por autenticación */}
         <Route
           path="/app/*"
           element={
