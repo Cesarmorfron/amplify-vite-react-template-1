@@ -30,7 +30,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
   const handleRowClick = (item: Schema['User']['type']) => {
     onRowClick(item);
-    navigate('/edit');
+    navigate('/app/edit');
   };
 
   const fetchByCompany = async () => {
@@ -66,7 +66,6 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     if (token) {
       const decodedToken = jwtDecode(token);
       const companyValue = (decodedToken as any)['custom:company'];
-      console.log(company);
       setCompany(companyValue);
     }
     fetchByCompany();
