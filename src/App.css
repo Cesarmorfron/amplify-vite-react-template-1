@@ -24,16 +24,6 @@
   border-bottom: 1px solid #ddd;
 }
 
-.header-title {
-  font-size: 24px;
-  font-weight: bold;
-  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
-}
-
-.sign-out-button {
-  flex-shrink: 0;
-}
-
 .sign-out-button button {
   padding: 10px 20px;
   background-color: rgb(218, 255, 207);
@@ -48,38 +38,15 @@
   background-color: #74ee64; /* Color de fondo del botón al pasar el ratón sobre él */
 }
 
-/* Estilo para pantallas medianas (ancho menor a 900px) */
-@media (max-width: 900px) {
-  .header-title {
-    font-size: 22px;
-  }
-
-  .sign-out-button button {
-    padding: 8px 16px;
+@media (max-width: 600px) {
+  .responsive-title {
+    display: block; /* Asegura que el span se comporte como un bloque */
+    font-size: 18px; /* Ajustamos el tamaño de la fuente para pantallas pequeñas */
   }
 }
 
-/* Estilo para pantallas pequeñas (ancho menor a 600px) */
-@media (max-width: 600px) {
-  .header-container {
-    flex-direction: column; /* Cambiamos a columna en pantallas pequeñas */
-    align-items: center; /* Centramos los elementos */
-    padding: 10px; /* Reducimos el padding */
-  }
-
-  .header-title {
-    font-size: 18px; /* Reducimos el tamaño del título */
-    margin-bottom: 8px; /* Añadimos espacio entre el título y el botón */
-    text-align: center; /* Alineamos el título al centro */
-  }
-
-  .sign-out-button {
-    width: auto; /* El botón ya no ocupa todo el ancho */
-  }
-
-  .sign-out-button button {
-    padding: 8px 16px; /* Reducimos el tamaño del botón */
-    width: 100%; /* Hacemos que el botón ocupe todo el ancho en pantallas pequeñas */
-    max-width: 200px; /* Limite del ancho del botón para evitar que sea demasiado grande */
+@media (min-width: 601px) {
+  .responsive-title {
+    display: inline; /* Mantiene el texto en una sola línea */
   }
 }

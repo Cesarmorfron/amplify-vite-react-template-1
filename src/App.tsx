@@ -48,7 +48,13 @@ const App: React.FC = () => {
         <div>
           <header className="header-container">
             <div className="header-title">
-              <Header title="Esquela Electrónica" />
+            <Header 
+            title={
+              <span className="responsive-title">
+                Esquela Electrónica
+              </span>
+            } 
+          />
             </div>
             <div className="header-separator"></div>
             <div className="sign-out-button">

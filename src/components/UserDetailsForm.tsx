@@ -60,6 +60,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     name: '',
     lastName: '',
   });
+  const today = new Date().toISOString().split('T')[0];
 
   const fetchContacts = async () => {
     try {
@@ -460,6 +461,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   value={formEditData.dateDeceased}
                   onChange={handleChange}
                   isRequired
+                  max={today}
                 />
 
                 <Flex justifyContent="space-between" marginTop="medium">
@@ -584,6 +586,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   value={formEditData.birthDate}
                   onChange={handleChange}
                   isRequired
+                  max={today}
                 />
                 <Label htmlFor="email">Email</Label>
                 <Input

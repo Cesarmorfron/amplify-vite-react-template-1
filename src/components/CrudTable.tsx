@@ -26,6 +26,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   const [isDeleteUserDialogOpen, setIsDeleteUserDialogOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState('');
   const [company, setCompany] = useState<string>('');
+  const today = new Date().toISOString().split('T')[0];
 
   const handleRowClick = (item: Schema['User']['type']) => {
     onRowClick(item);
@@ -72,6 +73,8 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
     fetchByCompany();
+
+    
     // const sub = client.models.User.observeQuery().subscribe({
     //   next: ({ items }) => {
     //     // Ordena los items por el campo 'email' en orden alfabético
@@ -102,6 +105,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       [id]: value,
     });
   };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -328,6 +332,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   value={formData.birthDate}
                   onChange={handleChange}
                   isRequired
+                  max={today}
                 />
                 <Label htmlFor="email">Email</Label>
                 <Input
