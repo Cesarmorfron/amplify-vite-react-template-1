@@ -4,7 +4,7 @@
   margin: 20px 0; /* Espaciado ajustable arriba y abajo */
 }
 
-.header-title {
+/* .header-title {
   padding: 5px;
   margin: 5px;
 }
@@ -12,15 +12,20 @@
 .header-title .amplify-heading {
   color: rgb(5, 170, 5) !important;
   font-weight: bold !important;
-}
+} */
 
 .header-container {
   display: flex;
-  justify-content: space-between; /* Distribuye el título y botón a ambos extremos */
-  align-items: center; /* Centra verticalmente el contenido */
-  padding: 10px 20px; /* Añade un poco de padding */
-  background-color: #f8f9fa; /* Color de fondo suave */
-  border-bottom: 1px solid #ddd; /* Línea divisoria inferior */
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .sign-out-button {
@@ -28,9 +33,9 @@
 }
 
 .sign-out-button button {
-  padding: 10px 20px; /* Tamaño del botón */
-  background-color: rgb(218, 255, 207); /* Color de fondo del botón */
-  color: #333; /* Color del texto */
+  padding: 10px 20px;
+  background-color: rgb(218, 255, 207);
+  color: #333;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -38,12 +43,23 @@
 }
 
 .sign-out-button button:hover {
-  background-color: rgb(180, 230, 170); /* Color al hacer hover */
+  background-color: #74ee64; /* Color de fondo del botón al pasar el ratón sobre él */
 }
 
-.sign-out-button button.disabled {
-  background-color: #cccccc; /* Color gris cuando está deshabilitado */
-  color: #666666;
-  cursor: not-allowed; /* Cursor no permitido */
-  box-shadow: none; /* Elimina cualquier sombra */
+/* Estilo para pantallas pequeñas (ancho menor a 600px) */
+@media (max-width: 600px) {
+  .header-container {
+    flex-direction: column; /* Poner el contenido en una columna */
+    align-items: flex-start; /* Alinear el contenido a la izquierda */
+  }
+
+  .header-title {
+    font-size: 20px; /* Ajustar el tamaño de la fuente */
+    margin-bottom: 10px; /* Separar el título del botón */
+  }
+
+  .sign-out-button button {
+    width: 100%; /* Hacer que el botón ocupe todo el ancho disponible */
+    padding: 12px 0; /* Aumentar el tamaño vertical del botón */
+  }
 }

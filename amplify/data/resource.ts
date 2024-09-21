@@ -87,6 +87,13 @@ const schema = a.schema({
       id: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
+  DeceasedNotified: a
+    .model({
+      id: a.string(),
+      date: a.string(),
+      company: a.string(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),    
 });
 
 export type Schema = ClientSchema<typeof schema>;

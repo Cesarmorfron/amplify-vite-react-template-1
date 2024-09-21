@@ -326,19 +326,37 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       e.preventDefault();
       setLoading(true);
 
-      await client.models.User.update({
-        id: user!.id,
-        name: formEditData.name,
-        lastName: formEditData.lastName,
-        city: formEditData.city,
-        birthDate: formEditData.birthDate,
-        email: formEditData.email,
-        deceased: true,
-        vigil: formEditData.vigil,
-        funeral: formEditData.funeral,
-        dateDeceased: formEditData.dateDeceased,
-        company: user!.company,
-      });
+      const currentDate = new Date();
+      const isoDate = currentDate.toISOString();
+
+      await Promise.all([
+        client.models.DeceasedNotified.create({
+          date: isoDate,
+          company: user!.company,
+        }),
+        client.models.User.update({
+          id: user!.id,
+          name: formEditData.name,
+          lastName: formEditData.lastName,
+          city: formEditData.city,
+          birthDate: formEditData.birthDate,
+          email: formEditData.email,
+          deceased: true,
+          vigil: formEditData.vigil,
+          funeral: formEditData.funeral,
+          dateDeceased: formEditData.dateDeceased,
+          company: user!.company,
+        }),
+        client.queries.sayHello({
+          idUser: user!.id,
+          email: user!.email,
+          name: user!.name,
+          lastName: user!.lastName,
+          vigil: formEditData.vigil,
+          funeral: formEditData.funeral,
+          dateDeceased: formEditData.dateDeceased,
+        })
+      ]);
 
       formData.name = formEditData.name;
       formData.lastName = formEditData.lastName;
@@ -349,16 +367,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       formData.vigil = formEditData.vigil;
       formData.funeral = formEditData.funeral;
       formData.dateDeceased = formEditData.dateDeceased;
-
-      await client.queries.sayHello({
-        idUser: user!.id,
-        email: user!.email,
-        name: user!.name,
-        lastName: user!.lastName,
-        vigil: formEditData.vigil,
-        funeral: formEditData.funeral,
-        dateDeceased: formEditData.dateDeceased,
-      });
 
       setIsDialogDeceasedOpen(false);
       setIsInfoDeceasedShowed(true);
