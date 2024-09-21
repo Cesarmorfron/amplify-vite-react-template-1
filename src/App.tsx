@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { Schema } from '../amplify/data/resource';
 import UserDetailsForm from './components/UserDetailsForm';
 import './App.css';
+import { I18n } from '@aws-amplify/core';
 // const client = generateClient<Schema>();
 
 // function App() {
@@ -32,13 +33,15 @@ import './App.css';
 //   client.models.Thought.create({ author: window.prompt("author content") , text: window.prompt("text content") });
 // }
 
+I18n.setLanguage('es');
+
 const App: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<
     Schema['User']['type'] | null
   >(null);
 
   return (
-    <Authenticator>
+    <Authenticator hideSignUp>
       <Router>
         <div className="header-title">
           <Header title="Esquela Electrónica" />
