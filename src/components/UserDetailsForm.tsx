@@ -793,6 +793,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     placeholder="Prefijo +34 añadido automaticamente"
                     value={contactFormData.mobile}
                     onChange={contactHandleChange}
+                    pattern="[0-9]*"
+                    inputMode="numeric"
                   />
                   <Label htmlFor="name">Nombre</Label>
                   <Input
