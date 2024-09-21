@@ -10,7 +10,8 @@ export const translations = {
       'Back to Sign In': 'Volver a Iniciar sesión',
       'No account?': '¿No tienes cuenta?',
       'Create account': 'Crear cuenta',
-      // Otros textos que quieras personalizar
+      'Enter your Email': 'Introduzca su Email',
+      'Enter your Password': 'Introduzca su Contraseña'
     },
   };
   

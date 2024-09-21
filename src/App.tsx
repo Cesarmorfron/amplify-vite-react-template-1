@@ -44,24 +44,34 @@ const App: React.FC = () => {
 
   return (
     <Authenticator hideSignUp>
-      <Router>
-        <div className="header-title">
-          <Header title="Esquela Electrónica" />
+      {({ signOut }) => (
+        <div>
+          <header>
+            <div className="header-title">
+              <Header title="Esquela Electrónica" />
+            </div>
+            <div className="header-separator"></div>
+            <div className="sign-out-button">
+              <button onClick={signOut}>Cerrar sesión</button>
+            </div>
+          </header>
+          
+          <div className="app-container">
+            <Router>
+              <Routes>
+                <Route
+                  path="/"
+                  element={<CrudTable onRowClick={setSelectedUser} />}
+                />
+                <Route
+                  path="/edit"
+                  element={<UserDetailsForm user={selectedUser} />}
+                />
+              </Routes>
+            </Router>
+          </div>
         </div>
-        <div className="header-separator"></div>
-        <div className="app-container">
-          <Routes>
-            <Route
-              path="/"
-              element={<CrudTable onRowClick={setSelectedUser} />}
-            />
-            <Route
-              path="/edit"
-              element={<UserDetailsForm user={selectedUser} />}
-            />
-          </Routes>
-        </div>
-      </Router>
+      )}
     </Authenticator>
   );
 };
