@@ -71,7 +71,10 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
 
     if (mobileContacts) {
       const snsMessages = mobileContacts.map((mobile) => {
-        const message = `Lamentamos informar que ${name} ${lastName} falleció el ${dateDeceased}.`;
+        const message = `Lamentamos informar que ${name} ${lastName} falleció el ${dateDeceased}. 
+        ${vigil ? `El velatorio se realizará en: ${vigil}. ` : ''}
+        ${funeral ? `El funeral tendrá lugar en: ${funeral}. ` : ''}
+        esquelaelectronica.com`;
 
         const paramsSns = {
           Message: message,
