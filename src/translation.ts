@@ -12,5 +12,6 @@ export const translations = {
     'Create account': 'Crear cuenta',
     'Enter your Email': 'Introduzca su Email',
     'Enter your Password': 'Introduzca su Contraseña',
+    'Signing in': 'Iniciando sesión',
   },
 };

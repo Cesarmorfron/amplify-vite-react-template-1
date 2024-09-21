@@ -74,7 +74,6 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
 
     fetchByCompany();
 
-    
     // const sub = client.models.User.observeQuery().subscribe({
     //   next: ({ items }) => {
     //     // Ordena los items por el campo 'email' en orden alfabético
@@ -106,9 +105,14 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     });
   };
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const isEmailRegistered = items.filter((x) => (x.email = formData.email));
+
+    if (isEmailRegistered) {
+      alert('Ese usuario ya esta registrado');
+    }
 
     await client.models.User.create({
       name: formData.name,
