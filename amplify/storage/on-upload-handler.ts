@@ -69,11 +69,14 @@ export const handler: S3Handler = async (event) => {
       return;
     }
 
-    const emailsToCheck = filteredRecords.filter((row) => row.email).map((row) => row.email);
+    const emailsToCheck = filteredRecords
+      .filter((row) => row.email)
+      .map((row) => row.email);
 
     let whitelistEmailsSet = new Set<string>();
     let blacklistEmailsSet = new Set<string>();
 
+    // fill black and white list emails
     const chunkSize = 99;
     for (let i = 0; i < emailsToCheck.length; i += chunkSize) {
       const chunk = emailsToCheck.slice(i, i + chunkSize);

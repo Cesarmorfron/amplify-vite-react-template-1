@@ -22,7 +22,9 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
   try {
     const data = await dynamoDB.query(params).promise();
 
-    const emailContacts = data.Items?.filter((contact) => contact.emailContact).map((contact) => contact.emailContact);
+    const emailContacts = data.Items?.filter(
+      (contact) => contact.emailContact
+    ).map((contact) => contact.emailContact);
 
     // send email
     if (emailContacts) {
@@ -63,7 +65,9 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
     }
 
     // send sms
-    const mobileContacts = data.Items?.filter((contact) => contact.mobile).map((contact) => contact.mobile);
+    const mobileContacts = data.Items?.filter((contact) => contact.mobile).map(
+      (contact) => contact.mobile
+    );
 
     if (mobileContacts) {
       const snsMessages = mobileContacts.map((mobile) => {

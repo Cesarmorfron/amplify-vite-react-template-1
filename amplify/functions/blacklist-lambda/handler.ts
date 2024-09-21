@@ -52,10 +52,9 @@ function getEmailFromEvent(event: any) {
 
 async function queryContactsToDelete(email: string) {
   return await dynamoDb
-    .query({
+    .scan({
       TableName: TABLE_NAME_CONTACT,
-      IndexName: 'contactsByEmailContact',
-      KeyConditionExpression: 'emailContact = :emailContact',
+      FilterExpression: 'emailContact = :emailContact',
       ExpressionAttributeValues: {
         ':emailContact': email,
       },

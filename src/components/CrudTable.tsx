@@ -106,7 +106,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const isEmailRegistered = items.some((x) => (x.email === formData.email));
+    const isEmailRegistered = items.some((x) => x.email === formData.email);
 
     if (isEmailRegistered) {
       alert('Ese usuario ya esta registrado');
@@ -119,7 +119,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
         email: formData.email,
         deceased: false,
         company: company,
-        flagUploadCsv: 'true'
+        flagUploadCsv: true,
       });
 
       // Clear form data

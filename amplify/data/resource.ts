@@ -62,7 +62,7 @@ const schema = a.schema({
       vigil: a.string(),
       funeral: a.string(),
       dateDeceased: a.string(),
-      flagUploadCsv: a.string(),
+      flagUploadCsv: a.boolean(),
       company: a.string(),
     })
     .secondaryIndexes((index) => [index('company')])
@@ -76,7 +76,7 @@ const schema = a.schema({
       idUser: a.string(),
       mobile: a.string(),
     })
-    .secondaryIndexes((index) => [index('idUser'), index('emailContact')])
+    .secondaryIndexes((index) => [index('idUser')])
     .authorization((allow) => [allow.publicApiKey()]),
   BlacklistContact: a
     .model({

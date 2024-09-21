@@ -59,7 +59,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     emailContact: '',
     name: '',
     lastName: '',
-    mobile: ''
+    mobile: '',
   });
   const today = new Date().toISOString().split('T')[0];
 
@@ -205,22 +205,26 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
   const handleCreateContactSubmit = async (e: React.FormEvent) => {
     try {
+      console.log(1);
       e.preventDefault();
       setLoading(true);
 
-      if(!contactFormData.emailContact && !contactFormData.mobile){
+      if (!contactFormData.emailContact && !contactFormData.mobile) {
         alert('El contacto necesita un email o un movil.');
         return;
       }
+      console.log(2);
 
       const emailExists = items.some(
         (item) => item.emailContact === contactFormData.emailContact
       );
+      console.log(3);
 
       if (emailExists) {
         alert('Este email ya está registrado.');
         return;
       }
+      console.log(4);
 
       const { data: dataBlack } = await client.models.BlacklistContact.get({
         id: contactFormData.emailContact,
@@ -232,28 +236,37 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         );
         return;
       }
+      console.log(5);
 
-      const { data: dataWhite } = await client.models.WhitelistContact.get({
-        id: contactFormData.emailContact,
-      });
+      if (contactFormData.emailContact) {
+        const { data: dataWhite } = await client.models.WhitelistContact.get({
+          id: contactFormData.emailContact,
+        });
+        console.log(6);
 
-      if (!dataWhite) {
-        await Promise.all([
-          client.models.WhitelistContact.create({
-            id: contactFormData.emailContact,
-          }),
-          client.queries.newContact({
-            emailContact: contactFormData.emailContact,
-            emailUser: user!.email,
-            nameUser: user!.name,
-            lastName: user!.lastName,
-          }),
-        ]);
+        if (!dataWhite) {
+          console.log(7);
+          await Promise.all([
+            client.models.WhitelistContact.create({
+              id: contactFormData.emailContact,
+            }),
+            client.queries.newContact({
+              emailContact: contactFormData.emailContact,
+              emailUser: user!.email,
+              nameUser: user!.name,
+              lastName: user!.lastName,
+            }),
+          ]);
+        }
       }
 
+      console.log(8);
       await client.models.Contact.create({
         emailContact: contactFormData.emailContact,
-        mobile: contactFormData.mobile.charAt(0) !== '+' ? '+34' + contactFormData.mobile: contactFormData.mobile,
+        mobile:
+          contactFormData.mobile.charAt(0) !== '+'
+            ? '+34' + contactFormData.mobile
+            : contactFormData.mobile,
         name: contactFormData.name,
         lastName: contactFormData.lastName,
         idUser: user?.id,
@@ -267,12 +280,15 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         mobile: '',
       });
 
+      console.log(9);
       // Hide modal after submission
       setIsFormVisible(false);
     } catch (error) {
+      console.log(11);
       console.error('Error creating contact:', error);
       alert('Hubo un error al crear el contacto.');
     } finally {
+      console.log(22);
       setLoading(false);
     }
   };
@@ -298,7 +314,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       await client.models.User.update({
         ...user,
         id: user!.id,
-        flagUploadCsv: 'false',
+        flagUploadCsv: false,
       });
     } catch (error) {
       console.error('Error fetching contacts:', error);
@@ -314,7 +330,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         id: user!.id,
       });
 
-      if (dataUser?.flagUploadCsv === 'true') {
+      if (dataUser?.flagUploadCsv) {
         contatsLoaded = true;
       } else {
         await sleep(500);
@@ -781,10 +797,10 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Input
                     id="mobile"
                     type="tel"
-                    placeholder='Prefijo +34 añadido automaticamente'
+                    placeholder="Prefijo +34 añadido automaticamente"
                     value={contactFormData.mobile}
                     onChange={contactHandleChange}
-                  />                  
+                  />
                   <Label htmlFor="name">Nombre</Label>
                   <Input
                     id="name"
