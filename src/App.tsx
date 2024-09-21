@@ -14,6 +14,7 @@ import { Schema } from '../amplify/data/resource';
 import UserDetailsForm from './components/UserDetailsForm';
 import './App.css';
 import { I18n } from '@aws-amplify/core';
+import { translations } from './translation';
 // const client = generateClient<Schema>();
 
 // function App() {
@@ -33,6 +34,7 @@ import { I18n } from '@aws-amplify/core';
 //   client.models.Thought.create({ author: window.prompt("author content") , text: window.prompt("text content") });
 // }
 
+I18n.putVocabularies(translations);
 I18n.setLanguage('es');
 
 const App: React.FC = () => {
