@@ -15,6 +15,8 @@ import UserDetailsForm from './components/UserDetailsForm';
 import './App.css';
 import { I18n } from '@aws-amplify/core';
 import { translations } from './translation';
+import LandingPage from './components/LandingPage';
+import LegalNotice from './components/LegalNotice';
 // const client = generateClient<Schema>();
 
 // function App() {
@@ -33,7 +35,6 @@ import { translations } from './translation';
 // function createTodo() {
 //   client.models.Thought.create({ author: window.prompt("author content") , text: window.prompt("text content") });
 // }
-
 I18n.putVocabularies(translations);
 I18n.setLanguage('es');
 
@@ -43,40 +44,53 @@ const App: React.FC = () => {
   >(null);
 
   return (
-    <Authenticator hideSignUp>
-      {({ signOut }) => (
-        <div>
-          <header className="header-container">
-            <div className="header-title">
-              <Header
-                title={
-                  <span className="responsive-title">Esquela Electrónica</span>
-                }
-              />
-            </div>
-            <div className="header-separator"></div>
-            <div className="sign-out-button">
-              <button onClick={signOut}>Cerrar sesión</button>
-            </div>
-          </header>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/legal" element={<LegalNotice />} />
 
-          <div className="app-container">
-            <Router>
-              <Routes>
-                <Route
-                  path="/"
-                  element={<CrudTable onRowClick={setSelectedUser} />}
-                />
-                <Route
-                  path="/edit"
-                  element={<UserDetailsForm user={selectedUser} />}
-                />
-              </Routes>
-            </Router>
-          </div>
-        </div>
-      )}
-    </Authenticator>
+        {/* Rutas protegidas por autenticación */}
+        <Route
+          path="/app/*"
+          element={
+            <Authenticator hideSignUp>
+              {({ signOut }) => (
+                <div>
+                  <header className="header-container">
+                    <div className="header-title">
+                      <Header
+                        title={
+                          <span className="responsive-title">
+                            Esquela Electrónica
+                          </span>
+                        }
+                      />
+                    </div>
+                    <div className="header-separator"></div>
+                    <div className="sign-out-button">
+                      <button onClick={signOut}>Cerrar sesión</button>
+                    </div>
+                  </header>
+
+                  <div className="app-container">
+                    <Routes>
+                      <Route
+                        path="/users"
+                        element={<CrudTable onRowClick={setSelectedUser} />}
+                      />
+                      <Route
+                        path="/edit"
+                        element={<UserDetailsForm user={selectedUser} />}
+                      />
+                    </Routes>
+                  </div>
+                </div>
+              )}
+            </Authenticator>
+          }
+        />
+      </Routes>
+    </Router>
   );
 };
 

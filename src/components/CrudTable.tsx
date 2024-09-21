@@ -71,9 +71,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     }
     fetchByCompany();
 
-
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
-
 
     // const sub = client.models.User.observeQuery().subscribe({
     //   next: ({ items }) => {
