@@ -59,6 +59,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     emailContact: '',
     name: '',
     lastName: '',
+    mobile: ''
   });
   const today = new Date().toISOString().split('T')[0];
 
@@ -207,6 +208,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       e.preventDefault();
       setLoading(true);
 
+      if(!contactFormData.emailContact && !contactFormData.mobile){
+        alert('El contacto necesita un email o un movil.');
+        return;
+      }
+
       const emailExists = items.some(
         (item) => item.emailContact === contactFormData.emailContact
       );
@@ -247,6 +253,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
 
       await client.models.Contact.create({
         emailContact: contactFormData.emailContact,
+        mobile: contactFormData.mobile.charAt(0) !== '+' ? '+34' + contactFormData.mobile: contactFormData.mobile,
         name: contactFormData.name,
         lastName: contactFormData.lastName,
         idUser: user?.id,
@@ -257,6 +264,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         emailContact: '',
         name: '',
         lastName: '',
+        mobile: '',
       });
 
       // Hide modal after submission
@@ -389,6 +397,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     contactFormData.emailContact = '';
     contactFormData.name = '';
     contactFormData.lastName = '';
+    contactFormData.mobile = '';
     setIsFormVisible(false);
   };
 
@@ -635,6 +644,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
               <thead>
                 <tr>
                   <th>Email</th>
+                  <th>Movil</th>
                   <th>Nombre</th>
                   <th>Apellidos</th>
                   {!isInfoDeceasedShowed && <th>Eliminar</th>}
@@ -644,6 +654,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                 {filteredItems.map((item) => (
                   <tr key={item.id}>
                     <td className="table-ellipsis">{item.emailContact}</td>
+                    <td className="table-ellipsis">{item.mobile}</td>
                     <td className="table-ellipsis">{item.name}</td>
                     <td className="table-ellipsis">{item.lastName}</td>
                     {!isInfoDeceasedShowed && (
@@ -762,11 +773,19 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   <Label htmlFor="emailContact">Email de contacto</Label>
                   <Input
                     id="emailContact"
-                    type="text"
+                    type="email"
                     value={contactFormData.emailContact}
                     onChange={contactHandleChange}
                     isRequired
                   />
+                  <Label htmlFor="emailContact">Numero de telefono</Label>
+                  <Input
+                    id="mobile"
+                    type="tel"
+                    value={contactFormData.mobile}
+                    onChange={contactHandleChange}
+                    isRequired
+                  />                  
                   <Label htmlFor="name">Nombre</Label>
                   <Input
                     id="name"

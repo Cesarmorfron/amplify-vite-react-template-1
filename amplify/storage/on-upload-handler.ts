@@ -155,6 +155,10 @@ async function processContacts(
     const email = row.email;
     const lastName = row.apellidos || '';
     const name = row.nombre || '';
+    let mobile = row.movil || '';
+    if (mobile !== '') {
+      mobile = mobile.charAt(0) !== '+' ? '+34' + mobile : mobile;
+    }
 
     if (!blacklistEmails.has(email)) {
       if (!whitelistEmails.has(email)) {
@@ -170,7 +174,16 @@ async function processContacts(
         ]);
       }
       // Crear el contacto
-      await createContact(isoDate, email, name, lastName, dataUser.idUser);
+      console.log('mobile');
+      console.log(mobile);
+      await createContact(
+        isoDate,
+        email,
+        mobile,
+        name,
+        lastName,
+        dataUser.idUser
+      );
     }
   };
 
@@ -222,9 +235,17 @@ async function analyseCSV(csvData: string, emailContacts: Set<any>) {
   const filteredRecords = csvTransformArray.filter((row) => {
     const email = row.email;
     if (email && !emailContacts.has(email) && !processedEmails.has(email)) {
+      console.log('row email');
+      console.log(row);
       processedEmails.add(email);
       return true;
+    } else if (row.movil) {
+      console.log('row mobile');
+      console.log(row);
+      return true;
     }
+    console.log('row false');
+    console.log(row);
     return false;
   });
   return filteredRecords;
@@ -256,6 +277,7 @@ async function notifyNewContactLambda(
 async function createContact(
   isoDate: string,
   email: string,
+  mobile: string,
   name: string,
   lastName: string,
   idUser: string
@@ -269,6 +291,7 @@ async function createContact(
         updatedAt: isoDate,
         id: uuidv4(),
         emailContact: email,
+        mobile,
         name,
         lastName,
         idUser,

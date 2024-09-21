@@ -74,6 +74,7 @@ const schema = a.schema({
       name: a.string(),
       lastName: a.string(),
       idUser: a.string(),
+      mobile: a.string(),
     })
     .secondaryIndexes((index) => [index('idUser'), index('emailContact')])
     .authorization((allow) => [allow.publicApiKey()]),

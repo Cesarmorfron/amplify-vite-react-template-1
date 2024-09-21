@@ -3,6 +3,7 @@ import AWS from 'aws-sdk';
 
 const ses = new AWS.SES();
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
+const sns = new AWS.SNS();
 
 export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
   // Extraer el idUser desde los argumentos
@@ -21,8 +22,9 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
   try {
     const data = await dynamoDB.query(params).promise();
 
-    const emailContacts = data.Items?.map((contact) => contact.emailContact);
+    const emailContacts = data.Items?.filter((contact) => contact.emailContact).map((contact) => contact.emailContact);
 
+    // send email
     if (emailContacts) {
       const paramsSes = {
         Destination: {
@@ -58,6 +60,24 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
       } else {
         console.log('emailActivated false');
       }
+    }
+
+    // send sms
+    const mobileContacts = data.Items?.filter((contact) => contact.mobile).map((contact) => contact.mobile);
+
+    if (mobileContacts) {
+      const snsMessages = mobileContacts.map((mobile) => {
+        const message = `Lamentamos informar que ${name} ${lastName} falleció el ${dateDeceased}.`;
+
+        const paramsSns = {
+          Message: message,
+          PhoneNumber: mobile,
+        };
+
+        return sns.publish(paramsSns).promise();
+      });
+
+      await Promise.all(snsMessages);
     }
   } catch (err) {
     console.error('Error lambda:', err);
