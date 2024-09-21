@@ -393,7 +393,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   };
 
   const handleBackToTable = () => {
-    navigate('/');
+    navigate('/app/users');
   };
 
   const customFileName = () => {

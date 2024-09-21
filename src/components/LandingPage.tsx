@@ -104,7 +104,7 @@ const LandingPage: React.FC = () => {
         <p>
           Simplifica la comunicación en los momentos más delicados y ofrece un
           servicio respetuoso y eficiente a tus clientes. Da el siguiente paso
-          para modernizar los servicios funerarios. Si tienes preguntas o
+          para modernizar los servicios funerarios. <br />Si tienes preguntas o
           quieres saber más sobre nuestros servicios, no dudes en contactarnos.
         </p>
         <p>

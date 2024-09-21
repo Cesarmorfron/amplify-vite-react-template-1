@@ -119,6 +119,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
         email: formData.email,
         deceased: false,
         company: company,
+        flagUploadCsv: 'true'
       });
 
       // Clear form data
