@@ -86,24 +86,26 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       setIsInfoDeceasedShowed(false);
     }
 
-    const sub = client.models.Contact.observeQuery().subscribe({
-      next: ({ items }) => {
-        const filteredItems = items.filter(
-          (contact) => contact.idUser === user?.id
-        );
+    fetchContacts();
 
-        // const sortedItems = [...filteredItems].sort((a, b) => {
-        //   if (a.emailContact! < b.emailContact!) return -1;
-        //   if (a.emailContact! > b.emailContact!) return 1;
-        //   return 0;
-        // });
+    // const sub = client.models.Contact.observeQuery().subscribe({
+    //   next: ({ items }) => {
+    //     const filteredItems = items.filter(
+    //       (contact) => contact.idUser === user?.id
+    //     );
 
-        setItems(filteredItems);
-      },
-    });
+    //     // const sortedItems = [...filteredItems].sort((a, b) => {
+    //     //   if (a.emailContact! < b.emailContact!) return -1;
+    //     //   if (a.emailContact! > b.emailContact!) return 1;
+    //     //   return 0;
+    //     // });
 
-    // Cleanup para la suscripción
-    return () => sub.unsubscribe();
+    //     setItems(filteredItems);
+    //   },
+    // });
+
+    // // Cleanup para la suscripción
+    // return () => sub.unsubscribe();
   }, [user?.id]);
 
 //   useEffect(() => {
