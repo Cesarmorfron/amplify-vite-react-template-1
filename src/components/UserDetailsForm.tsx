@@ -707,7 +707,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     Suba un archivo csv. Ponga como titulo de la columna nombre,
                     apellidos y email
                   </p>
-                  <a href="../../public/assets/plantilla.csv" download style={{ color: 'blue' }}>
+                  <a href="../../public/assets/plantilla.csv" download="../../public/assets/plantilla.csv" style={{ color: 'blue' }}>
                     Descargar plantilla de ejemplo
                   </a>
                 </div>
