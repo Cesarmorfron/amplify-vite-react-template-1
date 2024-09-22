@@ -106,15 +106,15 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     return () => sub.unsubscribe();
   }, [user?.id]);
 
-  // useEffect(() => {
-  //   const contact = {
-  //     id: 'name',
-  //     emailContact: 'name',
-  //     name: 'name',
-  //     lastName: 'name',
-  //     idUser: 'name',
-  //   };
-  //   setItems([contact, contact, contact, contact, contact]);
+//   useEffect(() => {
+//     const contact = {
+//       id: 'name',
+//       emailContact: 'name',
+//       name: 'name',
+//       lastName: 'name',
+//       idUser: 'name',
+//     };
+//     setItems([contact, contact, contact, contact, contact]);
 
 //   // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
 // }, []);
@@ -203,6 +203,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     setEditInfoFormVisible(false);
   };
 
+  const validateMobileNumber = (mobile: string) => {
+    const isValid = /^\+?[0-9]+$/.test(mobile);
+    return isValid;
+  };
+
   const handleCreateContactSubmit = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
@@ -251,6 +256,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             }),
           ]);
         }
+      }
+
+      if (!validateMobileNumber(contactFormData.mobile)) {
+        alert('El número de móvil no es válido. Puede comenzar con "+" seguido de números o solo ser números.');
+        return;
       }
 
       await client.models.Contact.create({
@@ -796,8 +806,6 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     placeholder="Prefijo +34 añadido automaticamente"
                     value={contactFormData.mobile}
                     onChange={contactHandleChange}
-                    pattern="[0-9]*"
-                    inputMode="numeric"
                   />
                   <Label htmlFor="name">Nombre</Label>
                   <Input
