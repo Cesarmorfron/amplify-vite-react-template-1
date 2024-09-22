@@ -116,8 +116,8 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
   //   };
   //   setItems([contact, contact, contact, contact, contact]);
 
-  //   // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
-  // }, []);
+//   // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
+// }, []);
 
   const handleNotifyDeleteContactClick = async (id: string) => {
     if (!user?.deceased) {
@@ -695,7 +695,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     Suba un archivo csv. Ponga como titulo de la columna nombre,
                     apellidos y email
                   </p>
-                  <a href="../../assets/plantilla.csv" download style={{ color: 'blue' }}>
+                  <a href="../../public/assets/plantilla.csv" download style={{ color: 'blue' }}>
                     Descargar plantilla de ejemplo
                   </a>
                 </div>

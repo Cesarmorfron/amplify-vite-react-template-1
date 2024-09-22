@@ -1,6 +1,6 @@
 import React from 'react';
 import './LandingPage.css';
-import mobileNotification from '../../assets/mobile-notification.jpg';
+import mobileNotification from '../../public/assets/mobile-notification.jpg'
 
 const LandingPage: React.FC = () => {
   return (
@@ -14,10 +14,10 @@ const LandingPage: React.FC = () => {
             queridos del fallecido de manera sencilla, rápida y respetuosa.
           </p>
           <a href="mailto:info@esquelainformatica.com" className="cta-button">
-            Solicita información
+          <strong>Solicita información</strong>
           </a>
           <a href="/app/users" className="cta-button">
-            Iniciar sesión
+            <strong>Iniciar sesión</strong>
           </a>
         </div>
       </header>
@@ -110,7 +110,7 @@ const LandingPage: React.FC = () => {
         </p>
         <p>
           Escríbenos a:{' '}
-          <a href="mailto:info@esquelainformatica.com">
+          <a href="mailto:info@esquelainformatica.com" style={{ color: 'blue' }}>
             info@esquelainformatica.com
           </a>
         </p>
