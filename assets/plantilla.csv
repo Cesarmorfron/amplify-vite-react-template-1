@@ -1,0 +1,7 @@
+nombre;apellidos;email;movil
+testnombre;testapellido;email@test.com;666111222
+testnombre;testapellido;email@test.com;
+testnombre;testapellido;;666222333
+;;email@test.com;
+;;;666333444
+;;;+34666444555
