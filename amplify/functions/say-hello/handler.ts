@@ -69,24 +69,30 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
       (contact) => contact.mobile
     );
 
+    console.log('mobileContacts');
+    console.log(mobileContacts);
     if (mobileContacts) {
+      console.log('if mobile');
       const snsMessages = mobileContacts.map((mobile) => {
         const message = `Lamentamos informar que ${name} ${lastName} falleció el ${dateDeceased}.${vigil ? ` El velatorio se realizará en: ${vigil}.` : ''}${funeral ? ` El funeral tendrá lugar en: ${funeral}.` : ''} esquelaelectronica.com`;
 
         const paramsSns = {
           Message: message,
           PhoneNumber: mobile,
-          Subject: `Fallecimiento de ${name} ${lastName}`
+          Subject: `Fallecimiento de ${name} ${lastName}`,
         };
 
-        return sns.publish(paramsSns).promise();
+        if (process.env.smsActivated === 'true') {
+          return sns.publish(paramsSns).promise();
+        } else {
+          console.log('smsActivated false');
+        }
       });
 
       await Promise.all(snsMessages);
     }
   } catch (err) {
     console.error('Error lambda:', err);
-    throw new Error('Error lambda');
   }
 
   return `Hello, ${idUser}!`;

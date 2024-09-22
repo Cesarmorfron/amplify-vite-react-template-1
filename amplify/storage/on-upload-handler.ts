@@ -160,7 +160,11 @@ async function processContacts(
     const name = row.nombre || '';
     let mobile = row.movil || '';
     if (mobile !== '') {
-      mobile = mobile.charAt(0) !== '+' ? '+34' + mobile : mobile;
+      if (mobile.charAt(0) === '9') {
+        mobile = '';
+      } else {
+        mobile = mobile.charAt(0) !== '+' ? '+34' + mobile : mobile;
+      }
     }
 
     if (!blacklistEmails.has(email)) {
@@ -181,14 +185,16 @@ async function processContacts(
       // Crear el contacto
       console.log('mobile');
       console.log(mobile);
-      await createContact(
-        isoDate,
-        dataUser.idUser,
-        email,
-        mobile,
-        name,
-        lastName,
-      );
+      if (email !== '' && mobile !== '') {
+        await createContact(
+          isoDate,
+          dataUser.idUser,
+          email,
+          mobile,
+          name,
+          lastName
+        );
+      }
     }
   };
 

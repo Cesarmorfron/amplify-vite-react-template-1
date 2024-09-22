@@ -245,9 +245,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
             }),
             client.queries.newContact({
               emailContact: contactFormData.emailContact,
-              emailUser: user!.email,
-              nameUser: user!.name,
-              lastName: user!.lastName,
+              emailUser: formEditData.email,
+              nameUser: formEditData.name,
+              lastName: formEditData.lastName,
             }),
           ]);
         }
@@ -366,9 +366,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
         }),
         client.queries.sayHello({
           idUser: user!.id,
-          email: user!.email,
-          name: user!.name,
-          lastName: user!.lastName,
+          email: formEditData!.email,
+          name: formEditData!.name,
+          lastName: formEditData!.lastName,
           vigil: formEditData.vigil,
           funeral: formEditData.funeral,
           dateDeceased: formEditData.dateDeceased,

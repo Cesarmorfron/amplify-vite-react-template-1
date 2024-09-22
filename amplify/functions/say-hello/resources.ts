@@ -7,5 +7,6 @@ export const sayHello = defineFunction({
   entry: './handler.ts',
   environment: {
     emailActivated: 'false',
+    smsActivated: 'false',
   },
 });
