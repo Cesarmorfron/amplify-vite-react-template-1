@@ -183,8 +183,6 @@ async function processContacts(
         }
       }
       // Crear el contacto
-      console.log('mobile');
-      console.log(mobile);
       if (email !== '' || mobile !== '') {
         await createContact(
           isoDate,
@@ -246,17 +244,11 @@ async function analyseCSV(csvData: string, emailContacts: Set<any>) {
   const filteredRecords = csvTransformArray.filter((row) => {
     const email = row.email;
     if (email && !emailContacts.has(email) && !processedEmails.has(email)) {
-      console.log('row email');
-      console.log(row);
       processedEmails.add(email);
       return true;
     } else if (row.movil) {
-      console.log('row mobile');
-      console.log(row);
       return true;
     }
-    console.log('row false');
-    console.log(row);
     return false;
   });
   return filteredRecords;
@@ -293,8 +285,6 @@ async function createContact(
   name?: string,
   lastName?: string
 ) {
-  console.log('createContact');
-  console.log(isoDate, idUser, email, mobile, name, lastName);
   await dynamoDb
     .put({
       TableName: TABLE_NAME_CONTACT,
