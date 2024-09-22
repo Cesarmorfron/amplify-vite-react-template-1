@@ -185,7 +185,7 @@ async function processContacts(
       // Crear el contacto
       console.log('mobile');
       console.log(mobile);
-      if (email !== '' && mobile !== '') {
+      if (email !== '' || mobile !== '') {
         await createContact(
           isoDate,
           dataUser.idUser,
