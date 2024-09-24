@@ -355,14 +355,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       e.preventDefault();
       setLoading(true);
 
-      const currentDate = new Date();
-      const isoDate = currentDate.toISOString();
-
       await Promise.all([
-        client.models.DeceasedNotified.create({
-          date: isoDate,
-          company: user!.company,
-        }),
         client.models.User.update({
           id: user!.id,
           name: formEditData.name,
