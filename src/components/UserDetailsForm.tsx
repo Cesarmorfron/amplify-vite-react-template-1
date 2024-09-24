@@ -384,6 +384,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
           vigil: formEditData.vigil,
           funeral: formEditData.funeral,
           dateDeceased: formEditData.dateDeceased,
+          company: user!.company,
         }),
       ]);
 

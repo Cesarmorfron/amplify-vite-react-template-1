@@ -1,5 +1,6 @@
 import type { Schema } from '../../data/resource';
 import AWS from 'aws-sdk';
+import { v4 as uuidv4 } from 'uuid';
 
 const ses = new AWS.SES();
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
@@ -7,20 +8,20 @@ const sns = new AWS.SNS();
 
 export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
   // Extraer el idUser desde los argumentos
-  const { idUser, name, lastName, vigil, funeral, dateDeceased } =
+  const { idUser, name, lastName, vigil, funeral, dateDeceased, company } =
     event.arguments;
 
-  const params = {
-    TableName: 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE',
-    IndexName: 'contactsByIdUser',
-    KeyConditionExpression: 'idUser = :idUser',
-    ExpressionAttributeValues: {
-      ':idUser': idUser,
-    },
-  };
-
   try {
-    const data = await dynamoDB.query(params).promise();
+    const data = await dynamoDB
+      .query({
+        TableName: 'Contact-xlznjcoayzddxlockvuufrw5vi-NONE',
+        IndexName: 'contactsByIdUser',
+        KeyConditionExpression: 'idUser = :idUser',
+        ExpressionAttributeValues: {
+          ':idUser': idUser,
+        },
+      })
+      .promise();
 
     const emailContacts = data.Items?.filter(
       (contact) => contact.emailContact
@@ -57,15 +58,15 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
           },
           Source: 'no-reply@esquelaelectronica.com',
         };
-    
+
         if (process.env.emailActivated === 'true') {
           return ses.sendEmail(paramsSes).promise();
         } else {
           console.log('emailActivated false');
-          return Promise.resolve(); 
+          return Promise.resolve();
         }
       });
-    
+
       await Promise.all(emailPromises);
     }
 
@@ -93,9 +94,26 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
 
       await Promise.all(snsMessages);
     }
+
+    const currentDate = new Date();
+    const isoDate = currentDate.toISOString();
+    await dynamoDB
+    .put({
+      TableName: 'DeceasedNotified-xlznjcoayzddxlockvuufrw5vi-NONE',
+      Item: {
+        id: uuidv4(),
+        __typename: 'DeceasedNotified',
+        createdAt: isoDate,
+        updatedAt: isoDate,
+        date: isoDate,
+        company: company,
+        emails: emailContacts?.length ? emailContacts.length : 0,
+        sms: mobileContacts?.length ? mobileContacts.length : 0
+      },
+    })
+    .promise();
   } catch (err) {
     console.error('Error lambda:', err);
   }
-
   return `Hello, ${idUser}!`;
 };

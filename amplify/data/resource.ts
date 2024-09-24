@@ -28,6 +28,7 @@ const schema = a.schema({
       vigil: a.string(),
       funeral: a.string(),
       dateDeceased: a.string(),
+      company: a.string(),
     })
     .returns(a.string())
     .handler(a.handler.function(sayHello))
@@ -93,6 +94,8 @@ const schema = a.schema({
       id: a.string(),
       date: a.string(),
       company: a.string(),
+      emails: a.integer(),
+      sms: a.integer(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });
