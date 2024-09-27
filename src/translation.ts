@@ -13,7 +13,14 @@ export const translations = {
     'Enter your Email': 'Introduzca su Email',
     'Enter your Password': 'Introduzca su Contraseña',
     'Signing in': 'Iniciando sesión',
+    'Submit': 'Enviar',
     'Code': 'Código',
-    'Account recovery requires verified contact information': 'Verifique su cuenta'
+    'Code *': 'Código *',
+    'Account recovery requires verified contact information': 'Verifique su cuenta',
+    'Verify': 'Verificar',
+    'Skip': 'Omitir',
+    'Change Password': 'Cambiar contraseña',
+    'Confirm Password': 'Confirmar cotraseña',
+    'Please confirm your Password': 'Confirme su contraseña'
   },
 };
