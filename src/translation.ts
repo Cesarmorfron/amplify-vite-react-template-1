@@ -21,6 +21,9 @@ export const translations = {
     'Skip': 'Omitir',
     'Change Password': 'Cambiar contraseña',
     'Confirm Password': 'Confirmar cotraseña',
-    'Please confirm your Password': 'Confirme su contraseña'
+    'Please confirm your Password': 'Confirme su contraseña',
+    'Reset Password': 'Restablecer contraseña',
+    'Enter your email': 'Introduce tu email',
+    'Send code': 'Enviar codigo'
   },
 };
