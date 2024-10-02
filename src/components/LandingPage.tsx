@@ -13,7 +13,7 @@ const LandingPage: React.FC = () => {
             El servicio que ayuda a las funerarias a notificar a los seres
             queridos del fallecido de manera sencilla, rápida y respetuosa.
           </p>
-          <a href="mailto:info@esquelainformatica.com" className="cta-button">
+          <a href="mailto:info@esquelaelectronica.com" className="cta-button">
           <strong>Solicita información</strong>
           </a>
           <a href="/app/users" className="cta-button">
@@ -110,8 +110,8 @@ const LandingPage: React.FC = () => {
         </p>
         <p>
           Escríbenos a:{' '}
-          <a href="mailto:info@esquelainformatica.com" style={{ color: 'blue' }}>
-            info@esquelainformatica.com
+          <a href="mailto:info@esquelaelectronica.com" style={{ color: 'blue' }}>
+            info@esquelaelectronica.com
           </a>
         </p>
       </section>
