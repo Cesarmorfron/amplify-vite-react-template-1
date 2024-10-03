@@ -1,6 +1,6 @@
 import React from 'react';
 import './LandingPage.css';
-import mobileNotification from '../../public/assets/mobile-notification.jpg'
+import mobileNotification from '../../public/assets/mobile-notification.jpg';
 
 const LandingPage: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const LandingPage: React.FC = () => {
             queridos del fallecido de manera sencilla, rápida y respetuosa.
           </p>
           <a href="mailto:info@esquelaelectronica.com" className="cta-button">
-          <strong>Solicita información</strong>
+            <strong>Solicita información</strong>
           </a>
           <a href="/app/users" className="cta-button">
             <strong>Iniciar sesión</strong>
@@ -25,7 +25,15 @@ const LandingPage: React.FC = () => {
       <section className="about-section">
         <div className="about-content">
           <div className="about-image">
-            <img src={mobileNotification} alt="Servicio funerario" />
+            <iframe
+              width="660"
+              height="415"
+              src="https://www.youtube.com/embed/huFaLi6BOPY"
+              title="YouTube video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
           </div>
           <div className="about-text">
             <h2>¿Qué es Esquela Electrónica?</h2>
@@ -110,7 +118,10 @@ const LandingPage: React.FC = () => {
         </p>
         <p>
           Escríbenos a:{' '}
-          <a href="mailto:info@esquelaelectronica.com" style={{ color: 'blue' }}>
+          <a
+            href="mailto:info@esquelaelectronica.com"
+            style={{ color: 'blue' }}
+          >
             info@esquelaelectronica.com
           </a>
         </p>

@@ -108,18 +108,18 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
     // return () => sub.unsubscribe();
   }, [user?.id]);
 
-//   useEffect(() => {
-//     const contact = {
-//       id: 'name',
-//       emailContact: 'name',
-//       name: 'name',
-//       lastName: 'name',
-//       idUser: 'name',
-//     };
-//     setItems([contact, contact, contact, contact, contact]);
+  //   useEffect(() => {
+  //     const contact = {
+  //       id: 'name',
+  //       emailContact: 'name',
+  //       name: 'name',
+  //       lastName: 'name',
+  //       idUser: 'name',
+  //     };
+  //     setItems([contact, contact, contact, contact, contact]);
 
-//   // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
-// }, []);
+  //   // const sub = client.models.Contact.observeQuery().subscribe({next: ({ items }) => {  setItems([...items]);},}); return () => sub.unsubscribe();
+  // }, []);
 
   const handleNotifyDeleteContactClick = async (id: string) => {
     if (!user?.deceased) {
@@ -261,7 +261,9 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
       }
 
       if (!validateMobileNumber(contactFormData.mobile)) {
-        alert('El número de móvil no es válido. Puede comenzar con "+" seguido de números o solo ser números.');
+        alert(
+          'El número de móvil no es válido. Puede comenzar con "+" seguido de números o solo ser números.'
+        );
         return;
       }
 
@@ -477,7 +479,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                   value={formEditData.funeral}
                   onChange={handleChange}
                 />
-                <Label htmlFor="dateDeceased">Fecha defuncion</Label>
+                <Label htmlFor="dateDeceased">Fecha defuncion *</Label>
                 <Input
                   id="dateDeceased"
                   type="date"
@@ -701,7 +703,11 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     Suba un archivo csv. Ponga como titulo de la columna nombre,
                     apellidos y email
                   </p>
-                  <a href="https://esquelaelectronica.com/assets/plantilla.csv" download style={{ color: 'blue' }}>
+                  <a
+                    href="https://esquelaelectronica.com/assets/plantilla.csv"
+                    download
+                    style={{ color: 'blue' }}
+                  >
                     Descargar plantilla de ejemplo
                   </a>
                 </div>

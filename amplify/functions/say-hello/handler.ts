@@ -98,20 +98,20 @@ export const handler: Schema['sayHello']['functionHandler'] = async (event) => {
     const currentDate = new Date();
     const isoDate = currentDate.toISOString();
     await dynamoDB
-    .put({
-      TableName: 'DeceasedNotified-xlznjcoayzddxlockvuufrw5vi-NONE',
-      Item: {
-        id: uuidv4(),
-        __typename: 'DeceasedNotified',
-        createdAt: isoDate,
-        updatedAt: isoDate,
-        date: isoDate,
-        company: company,
-        emails: emailContacts?.length ? emailContacts.length : 0,
-        sms: mobileContacts?.length ? mobileContacts.length : 0
-      },
-    })
-    .promise();
+      .put({
+        TableName: 'DeceasedNotified-xlznjcoayzddxlockvuufrw5vi-NONE',
+        Item: {
+          id: uuidv4(),
+          __typename: 'DeceasedNotified',
+          createdAt: isoDate,
+          updatedAt: isoDate,
+          date: isoDate,
+          company: company,
+          emails: emailContacts?.length ? emailContacts.length : 0,
+          sms: mobileContacts?.length ? mobileContacts.length : 0,
+        },
+      })
+      .promise();
   } catch (err) {
     console.error('Error lambda:', err);
   }

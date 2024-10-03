@@ -62,15 +62,15 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
   };
 
   useEffect(() => {
-    const token = getCognitoToken();
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      const companyValue = (decodedToken as any)['custom:company'];
-      setCompany(companyValue);
-    }
-    fetchByCompany();
+    // const token = getCognitoToken();
+    // if (token) {
+    //   const decodedToken = jwtDecode(token);
+    //   const companyValue = (decodedToken as any)['custom:company'];
+    //   setCompany(companyValue);
+    // }
+    // fetchByCompany();
 
-    // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: true, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
+    const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: false, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
     // const sub = client.models.User.observeQuery().subscribe({
     //   next: ({ items }) => {
@@ -304,7 +304,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
             </div>
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
-                <Label htmlFor="name">Nombre</Label>
+                <Label htmlFor="name">Nombre *</Label>
                 <Input
                   id="name"
                   type="text"
@@ -312,7 +312,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   onChange={handleChange}
                   isRequired
                 />
-                <Label htmlFor="lastName">Apellidos</Label>
+                <Label htmlFor="lastName">Apellidos *</Label>
                 <Input
                   id="lastName"
                   type="text"
@@ -320,7 +320,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   onChange={handleChange}
                   isRequired
                 />
-                <Label htmlFor="city">Ciudad</Label>
+                <Label htmlFor="city">Ciudad *</Label>
                 <Input
                   id="city"
                   type="text"
@@ -328,7 +328,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   onChange={handleChange}
                   isRequired
                 />
-                <Label htmlFor="birthDate">Fecha de nacimiento</Label>
+                <Label htmlFor="birthDate">Fecha de nacimiento *</Label>
                 <Input
                   id="birthDate"
                   type="date"
@@ -337,7 +337,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
                   isRequired
                   max={today}
                 />
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Email *</Label>
                 <Input
                   id="email"
                   type="email"
