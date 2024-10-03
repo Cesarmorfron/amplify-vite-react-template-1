@@ -1,6 +1,5 @@
 import React from 'react';
 import './LandingPage.css';
-import mobileNotification from '../../public/assets/mobile-notification.jpg';
 
 const LandingPage: React.FC = () => {
   return (
