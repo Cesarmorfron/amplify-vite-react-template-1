@@ -16,19 +16,19 @@ body {
 .hero-section {
   background-color: rgb(218, 255, 207); /* Verde claro */
   color: #333;
-  padding: 20px 20px; /* Reducimos el padding superior e inferior */
+  padding: 20px 20px;
   background-image: url('hero-background.jpg');
   background-size: cover;
   background-position: center;
-  display: flex; /* Para centrar verticalmente el contenido */
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 250px; /* Limitar la altura mínima para hacerla más compacta */
+  min-height: 250px;
 }
 
 .hero-title {
-  font-size: 40px; /* Tamaño reducido para que sea más compacto */
+  font-size: 40px;
   margin-bottom: 5px;
   margin-top: -2px;
 }
@@ -39,6 +39,7 @@ body {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  text-align: center; /* Centrar el texto */
 }
 
 .cta-button {
@@ -50,12 +51,28 @@ body {
   border-radius: 8px;
   transition: background-color 0.3s;
   margin: 5px;
+  display: inline-block;
 }
 
 .cta-button:hover {
   background-color: rgb(255, 255, 255);
   color: #333;
 }
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+  .hero-content {
+    text-align: center; /* Centra todo el contenido */
+  }
+
+  .cta-button {
+    display: block; /* Hace que cada botón ocupe una línea completa */
+    width: 100%; /* Asegura que los botones ocupen todo el ancho del contenedor */
+    max-width: 300px; /* Limita el ancho máximo de los botones */
+    margin: 10px auto; /* Centra los botones horizontalmente */
+  }
+}
+
 
 /* About Section */
 .about-section {
@@ -74,7 +91,7 @@ body {
 
 .about-text {
   flex: 1;
-  padding-right: 20px; /* Espacio entre texto e imagen */
+  padding-right: 20px;
 }
 
 .about-text h2 {
@@ -90,12 +107,36 @@ body {
 .about-image {
   flex: 1;
   text-align: center;
+  width: 100%; /* Asegura que el contenedor de video ocupe todo el ancho */
 }
 
-.about-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px; /* Bordes redondeados si quieres */
+.responsive-video {
+  position: relative;
+  padding-bottom: 56.25%; /* Proporción 16:9 para el video */
+  height: 0;
+  width: 100%; /* Asegura que el video ocupe todo el ancho disponible */
+  overflow: hidden;
+}
+
+.responsive-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column; /* Cambia el diseño a vertical */
+  }
+
+  .about-text {
+    padding-right: 0;
+    padding-top: 20px;
+  }
 }
 
 /* Features Section */
