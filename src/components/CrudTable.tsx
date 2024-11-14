@@ -67,7 +67,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       const decodedToken = jwtDecode(token);
       const companyValue = (decodedToken as any)['custom:company'];
       setCompany(companyValue);
-    }
+    } 
     fetchByCompany();
 
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: false, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
