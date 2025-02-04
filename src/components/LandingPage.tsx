@@ -9,8 +9,11 @@ const LandingPage: React.FC = () => {
         <div className="hero-content">
           <h1 className="hero-title">Esquela Electrónica</h1>
           <p className="hero-subtitle">
-            El servicio que ayuda a las funerarias a notificar a los seres
-            queridos del fallecido de manera sencilla, rápida y respetuosa.
+            <strong>
+              Olvídate de las esquelas en periódicos que nadie lee.
+            </strong>{' '}
+            Con Esquela Electrónica, los avisos llegan{' '}
+            <strong>directamente</strong> a quienes importan.
           </p>
           <a href="mailto:info@esquelaelectronica.com" className="cta-button">
             <strong>Solicita información</strong>
@@ -37,10 +40,11 @@ const LandingPage: React.FC = () => {
           <div className="about-text">
             <h2>¿Qué es Esquela Electrónica?</h2>
             <p>
-              Esquela Electrónica es una plataforma diseñada para funerarias,
-              que permite gestionar a los usuarios y sus contactos, notificando
-              automáticamente a los seres queridos del fallecido sobre los
-              detalles del funeral, velatorio, y más.
+              Esquela Electrónica es una plataforma diseñada para{' '}
+              <strong>modernizar y agilizar la comunicación funeraria</strong>.
+              Permite a las funerarias gestionar los contactos de los clientes y
+              enviar <strong>avisos automáticos por email y SMS</strong> con los
+              detalles del funeral.
             </p>
           </div>
         </div>
@@ -48,59 +52,43 @@ const LandingPage: React.FC = () => {
 
       {/* Features Section */}
       <section className="features-section">
-        <h2>Características principales</h2>
+        <h2>
+          <strong>💼 Características principales</strong>
+        </h2>
         <div className="features-container">
           <div className="feature">
-            <h3>Gestión de contactos</h3>
+          <h3>✅ Gestión de contactos</h3>
             <p>
               Mantén un registro detallado de los contactos de los usuarios para
               facilitar la comunicación en el momento necesario.
             </p>
           </div>
           <div className="feature">
-            <h3>Notificaciones automatizadas</h3>
-            <p>
-              Envía correos electrónicos automáticos a los contactos del
-              fallecido con detalles importantes, como la fecha y el lugar del
-              funeral.
-            </p>
+          <h3>✅ Notificaciones automatizadas</h3>
+            <p>Envía <strong>correos electrónicos</strong> automáticos con información clave del funeral.</p>
           </div>
           <div className="feature">
-            <h3>Información precisa</h3>
-            <p>
-              Asegúrate de que todos reciban la información correcta y a tiempo
-              sobre el velatorio, funeral, y cualquier otro detalle relevante.
-            </p>
+          <h3>✅ Información precisa</h3>
+            <p>Asegúrate de que todos reciban la <strong>información correcta y a tiempo</strong>.</p>
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
       <section className="benefits-section">
-        <h2>Beneficios para tu funeraria</h2>
+        <h2>🎯 Beneficios para tu funeraria</h2>
         <div className="benefits-container">
           <div className="benefit">
-            <h3>Ahorra tiempo</h3>
-            <p>
-              Automatiza las notificaciones y simplifica los procesos
-              administrativos, permitiendo que tu equipo se enfoque en lo que
-              realmente importa.
-            </p>
+            <h3>⏳ Ahorra tiempo</h3>
+            <p>Automatiza las notificaciones y simplifica procesos administrativos.</p>
           </div>
           <div className="benefit">
-            <h3>Ofrece un servicio premium</h3>
-            <p>
-              Mejora la experiencia de tus clientes brindándoles una solución
-              tecnológica que gestiona la comunicación con los seres queridos
-              del fallecido.
-            </p>
+            <h3>💼 Ofrece un servicio premium</h3>
+            <p>Brinda una solución <strong>tecnológica e innovadora</strong> para la comunicación funeraria.</p>
           </div>
           <div className="benefit">
-            <h3>Fácil de usar</h3>
-            <p>
-              Nuestra plataforma es intuitiva y sencilla, lo que permite a las
-              funerarias gestionar todo de manera rápida y eficiente.
-            </p>
+            <h3>✅ Fácil de usar</h3>
+            <p>Interfaz intuitiva para una gestión rápida y eficiente.</p>
           </div>
         </div>
       </section>
@@ -109,11 +97,7 @@ const LandingPage: React.FC = () => {
       <section className="cta-section">
         <h2>Empieza a usar Esquela Electrónica hoy mismo</h2>
         <p>
-          Simplifica la comunicación en los momentos más delicados y ofrece un
-          servicio respetuoso y eficiente a tus clientes. Da el siguiente paso
-          para modernizar los servicios funerarios. <br />
-          Si tienes preguntas o quieres saber más sobre nuestros servicios, no
-          dudes en contactarnos.
+          Simplifica la comunicación en momentos delicados y moderniza los servicios funerarios. Si tienes preguntas, <strong>contáctanos</strong>.
         </p>
         <p>
           Escríbenos a:{' '}
