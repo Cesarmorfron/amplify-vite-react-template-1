@@ -37,12 +37,9 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
     const { data, errors } = await client.models.User.listUserByCompany({
       company: company,
     });
-    console.log(3);
     if (errors) {
-      console.log(5);
       console.error(errors);
     } else {
-      console.log(4);
       const sortedItems = [...data].sort((a, b) => {
         if (a.email! < b.email!) return -1;
         if (a.email! > b.email!) return 1;
@@ -70,10 +67,8 @@ const CrudTable: React.FC<CrudTableProps> = ({ onRowClick }) => {
       const companyValue = (decodedToken as any)['custom:company'];
       setCompany(companyValue);
     }
-    console.log(1);
 
     fetchByCompany();
-    console.log(2);
 
     // const user = {name: 'name',lastName: 'name',city: 'name',birthDate: 'name',email: 'name', deceased: false, vigil: 'hola', funeral: 'funeral', dateDeceased: 'dateDeceased' };setItems([user, user, user, user, user]);
 
