@@ -57,19 +57,25 @@ const LandingPage: React.FC = () => {
         </h2>
         <div className="features-container">
           <div className="feature">
-          <h3>✅ Gestión de contactos</h3>
+            <h3>✅ Gestión de contactos</h3>
             <p>
               Mantén un registro detallado de los contactos de los usuarios para
               facilitar la comunicación en el momento necesario.
             </p>
           </div>
           <div className="feature">
-          <h3>✅ Notificaciones automatizadas</h3>
-            <p>Envía <strong>correos electrónicos</strong> automáticos con información clave del funeral.</p>
+            <h3>✅ Notificaciones automatizadas</h3>
+            <p>
+              Envía <strong>correos electrónicos</strong> automáticos con
+              información clave del funeral.
+            </p>
           </div>
           <div className="feature">
-          <h3>✅ Información precisa</h3>
-            <p>Asegúrate de que todos reciban la <strong>información correcta y a tiempo</strong>.</p>
+            <h3>✅ Información precisa</h3>
+            <p>
+              Asegúrate de que todos reciban la{' '}
+              <strong>información correcta y a tiempo</strong>.
+            </p>
           </div>
         </div>
       </section>
@@ -80,11 +86,17 @@ const LandingPage: React.FC = () => {
         <div className="benefits-container">
           <div className="benefit">
             <h3>⏳ Ahorra tiempo</h3>
-            <p>Automatiza las notificaciones y simplifica procesos administrativos.</p>
+            <p>
+              Automatiza las notificaciones y simplifica procesos
+              administrativos.
+            </p>
           </div>
           <div className="benefit">
             <h3>💼 Ofrece un servicio premium</h3>
-            <p>Brinda una solución <strong>tecnológica e innovadora</strong> para la comunicación funeraria.</p>
+            <p>
+              Brinda una solución <strong>tecnológica e innovadora</strong> para
+              la comunicación funeraria.
+            </p>
           </div>
           <div className="benefit">
             <h3>✅ Fácil de usar</h3>
@@ -97,15 +109,21 @@ const LandingPage: React.FC = () => {
       <section className="cta-section">
         <h2>Empieza a usar Esquela Electrónica hoy mismo</h2>
         <p>
-          Simplifica la comunicación en momentos delicados y moderniza los servicios funerarios. Si tienes preguntas, <strong>contáctanos</strong>.
+          Simplifica la comunicación en momentos delicados y moderniza los
+          servicios funerarios. Si tienes preguntas,{' '}
+          <strong>contáctanos</strong>.
         </p>
         <p>
-          Escríbenos a:{' '}
+          Escríbenos a{' '}
           <a
             href="mailto:info@esquelaelectronica.com"
             style={{ color: 'blue' }}
           >
             info@esquelaelectronica.com
+          </a>{' '}
+          o llámanos al{' '}
+          <a href="tel:+34686092421" style={{ color: 'blue' }}>
+            686 09 24 21
           </a>
         </p>
       </section>
