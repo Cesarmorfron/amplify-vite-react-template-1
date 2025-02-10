@@ -21,7 +21,7 @@ const LegalNotice: React.FC = () => {
         </p>
         <p>
           Dirección: calle Rafael Vega, 7, Madrid Teléfono de contacto:
-          686092421 Email de contacto: info@esquelaelectronica.com
+          686092421 Email de contacto: informacion@esquelaelectronica.com
         </p>
       </section>
 

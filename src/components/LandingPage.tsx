@@ -15,7 +15,7 @@ const LandingPage: React.FC = () => {
             Con Esquela Electrónica, los avisos llegan{' '}
             <strong>directamente</strong> a quienes importan.
           </p>
-          <a href="mailto:info@esquelaelectronica.com" className="cta-button">
+          <a href="mailto:informacion@esquelaelectronica.com" className="cta-button">
             <strong>Solicita información</strong>
           </a>
           <a href="/app/users" className="cta-button">
@@ -116,10 +116,10 @@ const LandingPage: React.FC = () => {
         <p>
           Escríbenos a{' '}
           <a
-            href="mailto:info@esquelaelectronica.com"
+            href="mailto:informacion@esquelaelectronica.com"
             style={{ color: 'blue' }}
           >
-            info@esquelaelectronica.com
+            informacion@esquelaelectronica.com
           </a>{' '}
           o llámanos al{' '}
           <a href="tel:+34686092421" style={{ color: 'blue' }}>

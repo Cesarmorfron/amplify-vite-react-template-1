@@ -25,7 +25,7 @@ export const handler: Schema['newContact']['functionHandler'] = async (
                 <li><b>Aceptar:</b> Si no haces nada, tu correo será utilizado únicamente para este propósito.</li>
                 <li><b>Rechazar:</b> Si prefieres no recibir notificaciones, puedes rechazar respondiendo a este email con la palabra: Baja</li>
               </ul>
-              <p><b>Protección de datos:</b> Cumplimos con el GDPR y tu información será tratada con la máxima confidencialidad. En cualquier momento, puedes solicitar mas informacion escribiéndonos a <a href="mailto:info@esquelaelectronica.com">info@esquelaelectronica.com</a>.</p>
+              <p><b>Protección de datos:</b> Cumplimos con el GDPR y tu información será tratada con la máxima confidencialidad. En cualquier momento, puedes solicitar mas informacion escribiéndonos a <a href="mailto:informacion@esquelaelectronica.com">informacion@esquelaelectronica.com</a>.</p>
               <p>Gracias por tu atención.</p>
               <p>Un saludo,<br/>El equipo de <a href="https://www.esquelaelectronica.com/">Esquela Electrónica</a></p>
             `,
