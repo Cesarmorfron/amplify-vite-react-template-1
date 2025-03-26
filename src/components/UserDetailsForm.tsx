@@ -728,7 +728,7 @@ const UserDetailsForm: React.FC<UserDetailsFormProps> = ({ user }) => {
                     browseFilesText: 'Selecciona el archivo',
                   }}
                   onUploadSuccess={() => {
-                    uploadContactsFlagUserToFalse();
+                    uploadContactsFlagUserToFalse(); 
                   }}
                 />
               </div>
